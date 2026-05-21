@@ -28,13 +28,11 @@ if ! docker image inspect "$IMAGE" &>/dev/null; then
   docker build -t "$IMAGE" .
 fi
 
-# ── Install deps if node_modules missing ────────────────────────────────────
-if [ ! -d "$PROJECT_DIR/node_modules" ]; then
-  echo "📦 Instalando dependencias..."
-  docker run --rm \
-    -v "$PROJECT_DIR:/app" \
-    "$IMAGE" bash -c 'cd /app && bun install'
-fi
+# ── Install / sync dependencies ─────────────────────────────────────────────
+echo "📦 Sincronizando dependencias..."
+docker run --rm \
+  -v "$PROJECT_DIR:/app" \
+  "$IMAGE" bash -c 'cd /app && bun install'
 
 # ── Start dev server con bind mount directo ──────────────────────────────────
 # El bind mount hace que cualquier cambio en ./app/ se refleje
