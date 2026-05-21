@@ -1,15 +1,16 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import baseDeDatos from '$lib/server/data/db_data_colombia.json';
-import type { FilterOptions, SectorData, CategoryData } from '$lib/features/consultation/searchSection/types';
+import type { FilterOptions } from '$lib/features/consultation/searchSection/types';
+import type { Sector } from '$lib/server/data/dataset.schema';
+import { loadDataset, getUpdatedAt } from '$lib/server/data/loader';
 
-function getFilterOptions(sectors: SectorData[]): FilterOptions {
+function getFilterOptions(sectors: Sector[]): FilterOptions {
 	const sectores = new Set<string>();
 	const categorias = new Set<string>();
 
-	sectors.forEach((sector: SectorData) => {
+	sectors.forEach((sector) => {
 		sectores.add(sector.name);
-		sector.categories.forEach((category: CategoryData) => {
+		sector.categories.forEach((category) => {
 			categorias.add(category.name);
 		});
 	});
@@ -22,8 +23,12 @@ function getFilterOptions(sectors: SectorData[]): FilterOptions {
 
 export const load: PageServerLoad = async () => {
 	try {
+		const [dataset, updatedAt] = await Promise.all([loadDataset(), getUpdatedAt()]);
+		const filterOptions = dataset ? getFilterOptions(dataset.sectors) : { sectores: [], categorias: [] };
+
 		return {
-			filterOptions: getFilterOptions(baseDeDatos.sectors)
+			filterOptions,
+			updatedAt
 		};
 	} catch (err) {
 		console.error('[load /consultar] Error cargando opciones de filtro:', err);
