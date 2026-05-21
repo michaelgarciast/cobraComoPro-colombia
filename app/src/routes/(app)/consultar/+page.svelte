@@ -17,5 +17,5 @@
 </script>
 
 <div class="min-h-screen bg-slate-950">
-	<SearchPage filterOptions={data.filterOptions} />
+	<SearchPage filterOptions={data.filterOptions} updatedAt={data.updatedAt} />
 </div>

@@ -1,18 +1,22 @@
 import { json, error, type RequestEvent } from '@sveltejs/kit';
-import baseDeDatos from '$lib/server/data/db_data_colombia.json';
 import { filterData as sharedFilterData } from '$lib/features/consultation/searchSection/data/search-data';
 import { SearchParamsSchema } from '$lib/features/calculator-freelance/schema';
-import type { SectorData, CategoryData, JobData, SectorSummary } from '$lib/features/consultation/searchSection/types';
+import type { SectorSummary } from '$lib/features/consultation/searchSection/types';
+import type { Dataset } from '$lib/server/data/dataset.schema';
+import { loadDataset } from '$lib/server/data/loader';
+import { checkRateLimit } from '$lib/server/security/rate-limit';
 
-// Cache processed data in memory
-let cachedData: SectorSummary[] | null = null;
+async function getAllData(): Promise<SectorSummary[]> {
+	const dataset = await loadDataset();
+	if (!dataset) return [];
 
-function getAllData(): SectorSummary[] {
-	if (cachedData) return cachedData;
+	return flattenDataset(dataset);
+}
 
-	cachedData = baseDeDatos.sectors.flatMap((sector: SectorData) =>
-		sector.categories.flatMap((category: CategoryData) =>
-			category.jobs.map((job: JobData) => ({
+function flattenDataset(dataset: Dataset): SectorSummary[] {
+	return dataset.sectors.flatMap((sector) =>
+		sector.categories.flatMap((category) =>
+			category.jobs.map((job) => ({
 				sector: sector.name,
 				codigoCiiu: job.ciiu,
 				categoriaLaboral: category.name,
@@ -30,11 +34,20 @@ function getAllData(): SectorSummary[] {
 			}))
 		)
 	);
-
-	return cachedData;
 }
 
-export const GET = async ({ url }: RequestEvent) => {
+export const GET = async ({ request, url }: RequestEvent) => {
+	// Rate limiting by IP
+	const clientIp = request.headers.get('x-forwarded-for') ?? 'unknown';
+	const rateLimit = await checkRateLimit(`consultar:${clientIp}`, {
+		requests: 120,
+		windowSeconds: 60
+	});
+
+	if (!rateLimit.allowed) {
+		throw error(429, { message: 'Demasiadas solicitudes. Intenta más tarde.' });
+	}
+
 	// Validate and parse query parameters with Zod
 	const parsed = SearchParamsSchema.safeParse({
 		sector: url.searchParams.get('sector') ?? undefined,
@@ -51,15 +64,20 @@ export const GET = async ({ url }: RequestEvent) => {
 	const { sector, categoria, q, page, limit } = parsed.data;
 
 	try {
-		// Use shared filterData — single source of truth
-		const allData = getAllData();
-		const filteredData = sharedFilterData(allData, sector, categoria, q);
+		const allData = await getAllData();
+		const filteredData = allData.length
+			? sharedFilterData(allData, sector, categoria, q)
+			: [];
 
 		// Pagination
 		const total = filteredData.length;
-		const totalPages = Math.ceil(total / limit);
+		const totalPages = total === 0 ? 0 : Math.ceil(total / limit);
 		const startIndex = (page - 1) * limit;
 		const paginatedData = filteredData.slice(startIndex, startIndex + limit);
+
+		const headers = allData.length
+			? undefined
+			: { 'x-data-source': 'empty' };
 
 		return json({
 			data: paginatedData,
@@ -71,7 +89,7 @@ export const GET = async ({ url }: RequestEvent) => {
 				hasNext: page < totalPages,
 				hasPrev: page > 1
 			}
-		});
+		}, headers ? { headers } : undefined);
 	} catch (err) {
 		console.error('[GET /consultar] Error procesando datos:', err);
 		throw error(500, { message: 'Error interno al procesar los datos' });
