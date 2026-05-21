@@ -8,9 +8,10 @@
 
 	interface Props {
 		filterOptions: FilterOptions;
+		updatedAt: string | null;
 	}
 
-	let { filterOptions }: Props = $props();
+	let { filterOptions, updatedAt }: Props = $props();
 
 	// filterOptions son datos estáticos del servidor (no reactivos).
 	// Se usa untrack para evitar el warning state_referenced_locally.
@@ -19,7 +20,7 @@
 
 <div class="min-h-screen bg-slate-950">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-		<SearchHeader />
+		<SearchHeader updatedAt={updatedAt} />
 		
 		<SearchFilters
 			searchTerm={store.searchTerm}

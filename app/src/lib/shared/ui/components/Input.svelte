@@ -35,7 +35,7 @@
 <div class="w-full">
 	{#if label}
 		<label for={id} class="block text-sm font-medium text-slate-300 mb-2">
-			{@html label}
+			{label}
 		</label>
 	{/if}
 	<div class="relative">

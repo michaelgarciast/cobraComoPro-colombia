@@ -1,6 +1,3 @@
-export * from './db-types';
-export type { SalaryRange, JobData, CategoryData, SectorData, DbDataColombia } from './db-types';
-
 export interface EmpleoData {
 	SECTOR: string;
 	'CÓDIGO CIIU / DIVISIÓN': string;
