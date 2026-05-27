@@ -8,6 +8,38 @@ if (!env.GOOGLE_AI_API_KEY) {
 	throw new Error('GOOGLE_AI_API_KEY environment variable is not set');
 }
 
+function extractJsonPayload(raw: string | undefined | null): string {
+	if (!raw?.trim()) {
+		throw new Error('AI no devolvió contenido para el dataset');
+	}
+
+	const trimmed = raw.trim();
+	const fencedMatch = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
+	if (fencedMatch) {
+		return fencedMatch[1].trim();
+	}
+
+	const firstBrace = trimmed.indexOf('{');
+	const lastBrace = trimmed.lastIndexOf('}');
+
+	if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
+		throw new Error('No se encontró un objeto JSON válido dentro de la respuesta de la IA');
+	}
+
+	return trimmed.slice(firstBrace, lastBrace + 1);
+}
+
+function parseDatasetJson(raw: string | undefined | null) {
+	const payload = extractJsonPayload(raw);
+
+	try {
+		return JSON.parse(payload);
+	} catch (err) {
+		console.error('[ai] JSON inválido generado por Gemini, primeros 500 caracteres:', payload.slice(0, 500));
+		throw err;
+	}
+}
+
 export async function extractDataset(): Promise<unknown> {
 	const response = await ai.models.generateContent({
 		model: 'gemini-3.5-flash',
@@ -45,5 +77,5 @@ ${JSON.stringify(currentData)}`,
 		}
 	});
 
-	return JSON.parse(response.text ?? '{}');
+	return parseDatasetJson(response.text);
 }
