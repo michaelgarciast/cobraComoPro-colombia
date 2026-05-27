@@ -2,6 +2,7 @@ import { json, error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import { redis, KV_KEYS } from '$lib/server/kv/redis';
 import { DatasetSchema } from '$lib/server/data/dataset.schema';
+import { normalizeDatasetStructure } from '$lib/server/data/normalizer';
 import { extractDataset } from '$lib/server/ai/client';
 import { sanitizeObject } from '$lib/server/security/sanitize';
 import { timingSafeEqual } from 'crypto';
@@ -30,7 +31,8 @@ export const GET = async ({ request }) => {
 	try {
 		const candidate = await extractDataset();
 		const sanitized = sanitizeObject(candidate);
-		const validated = DatasetSchema.parse(sanitized);
+		const normalized = normalizeDatasetStructure(sanitized);
+		const validated = DatasetSchema.parse(normalized);
 
 		await redis.set(KV_KEYS.dataset, validated);
 		await redis.set(KV_KEYS.updatedAt, new Date().toISOString());
