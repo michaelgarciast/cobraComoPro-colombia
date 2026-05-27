@@ -57,7 +57,14 @@ docker run -it \
 
     echo ""
     echo "📤 Copiando artefactos a /output..."
-    cp -r /app/dist/. /output/
+    if [ -d /app/dist ]; then
+      cp -r /app/dist/. /output/
+    elif [ -d /app/.svelte-kit/output ]; then
+      cp -r /app/.svelte-kit/output/. /output/
+    else
+      echo "❌ No se encontraron artefactos de build en /app/dist ni /app/.svelte-kit/output"
+      exit 1
+    fi
     echo "✅ Build finalizado."
   '
 

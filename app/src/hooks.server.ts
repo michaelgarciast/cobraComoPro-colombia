@@ -31,9 +31,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const cspDirectives = [
 		"default-src 'self'",
 		"script-src 'self' 'unsafe-inline'",
-		"style-src 'self' 'unsafe-inline'",
+		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 		"img-src 'self' data: https:",
-		"font-src 'self'",
+		"font-src 'self' https://fonts.gstatic.com",
 		"connect-src 'self'",
 		"frame-ancestors 'none'",
 		"base-uri 'self'",
