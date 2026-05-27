@@ -1,4 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
+import { jsonrepair } from 'jsonrepair';
 import { env } from '$env/dynamic/private';
 import currentData from '$lib/server/data/db_data_colombia.json';
 
@@ -35,8 +36,15 @@ function parseDatasetJson(raw: string | undefined | null) {
 	try {
 		return JSON.parse(payload);
 	} catch (err) {
-		console.error('[ai] JSON inválido generado por Gemini, primeros 500 caracteres:', payload.slice(0, 500));
-		throw err;
+		try {
+			const repaired = jsonrepair(payload);
+			console.warn('[ai] JSON reparado automáticamente tras error de parseo');
+			return JSON.parse(repaired);
+		} catch (repairErr) {
+			console.error('[ai] JSON inválido generado por Gemini, primeros 500 caracteres:', payload.slice(0, 500));
+			console.error('[ai] Reparación automática fallida:', repairErr);
+			throw err;
+		}
 	}
 }
 
