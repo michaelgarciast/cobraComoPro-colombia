@@ -14,14 +14,14 @@
 </script>
 
 <div class="mb-8">
-	<h1 class="text-3xl font-bold text-slate-100 mb-3">Consulta de Salarios por Sector</h1>
-	<p class="text-slate-400 max-w-2xl">
+	<h1 class="text-3xl font-bold text-white mb-3 font-[Montserrat]">Consulta de Salarios por Sector</h1>
+	<p class="text-[#e0e3e5]/70 max-w-2xl">
 		Explora los rangos salariales por sector económico, categoría laboral y especialidad.
-		Información basada en datos del DANE, SENA y Ministerio de Trabajo 2025.
+		Información basada en datos del DANE, SENA y Ministerio de Trabajo 2025 / 2026.
 	</p>
-	<p class="text-sm text-slate-400 mt-2">
+	<p class="text-sm text-[#e0e3e5]/70 mt-2">
 		Datos actualizados:
-		<span class="font-semibold text-emerald-400">
+		<span class="font-semibold text-[#22C55E]">
 			{lastUpdateLabel ?? 'pendiente de sincronización'}
 		</span>
 	</p>

@@ -18,7 +18,7 @@
 	const store = createSearchStore(untrack(() => filterOptions));
 </script>
 
-<div class="min-h-screen bg-slate-950">
+<div class="min-h-screen bg-[#101415]">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 		<SearchHeader updatedAt={updatedAt} />
 		
