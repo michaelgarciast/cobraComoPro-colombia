@@ -22,8 +22,8 @@
 
 <div class="space-y-7">
 	<div>
-		<h2 class="text-lg font-semibold text-white">Detalles del proyecto</h2>
-		<p class="text-sm text-slate-400 mt-1">Define el alcance y ajustes de tu cotización</p>
+		<h2 class="text-lg font-semibold text-white font-[Montserrat]">Detalles del proyecto</h2>
+		<p class="text-sm text-[#e0e3e5]/70 mt-1">Define el alcance y ajustes de tu cotización</p>
 	</div>
 
 	<!-- Resumen paso 1 -->
@@ -31,17 +31,17 @@
 		<Card variant="outline" padding="sm">
 			<div class="flex flex-wrap gap-x-4 gap-y-1.5 text-xs">
 				{#if $formData.monthlySalary > 0}
-					<span class="text-slate-500">Sueldo: <span class="text-slate-300 font-medium">{formatCOP($formData.monthlySalary)}</span></span>
+					<span class="text-[#999077]">Sueldo: <span class="text-[#e0e3e5]/80 font-medium">{formatCOP($formData.monthlySalary)}</span></span>
 				{/if}
 				{#if selectedLevel}
-					<span class="text-slate-500">Nivel: <span class="text-indigo-400 font-medium">{selectedLevel.label}</span></span>
+					<span class="text-[#999077]">Nivel: <span class="text-[#ffd200] font-medium">{selectedLevel.label}</span></span>
 				{/if}
 				{#if $formData.serviceType}
-					<span class="text-slate-500">Servicio: <span class="text-slate-300 font-medium">{$formData.serviceType}</span></span>
+					<span class="text-[#999077]">Servicio: <span class="text-[#e0e3e5]/80 font-medium">{$formData.serviceType}</span></span>
 				{/if}
 				<button
 					onclick={() => activeStep.set(1)}
-					class="ml-auto text-slate-600 hover:text-indigo-400 transition-colors"
+					class="ml-auto text-[#999077]/60 hover:text-[#ffd200] transition-colors"
 				>
 					Editar ↗
 				</button>
@@ -51,19 +51,19 @@
 
 	<!-- Duración -->
 	<div>
-		<label for="duration" class="block text-sm font-medium text-slate-300 mb-3">
-			Duración del proyecto <span class="text-red-400">*</span>
+		<label for="duration" class="block text-sm font-medium text-[#e0e3e5]/80 mb-3">
+			Duración del proyecto <span class="text-[#ffb4aa]">*</span>
 		</label>
 		<!-- Selector de unidad -->
-		<div class="flex rounded-xl border border-slate-700 bg-slate-800 p-1 mb-3">
+		<div class="flex rounded-lg border border-white/10 bg-[#191c1e] p-1 mb-3">
 			{#each [{ id: 'hours', label: 'Horas' }, { id: 'days', label: 'Días' }, { id: 'weeks', label: 'Semanas' }] as unit (unit.id)}
 				<button
 					type="button"
 					onclick={() => formData.setField('durationUnit', unit.id as 'hours' | 'days' | 'weeks')}
 					class="flex-1 rounded-lg py-2.5 text-sm font-medium transition-all duration-150
 						{$formData.durationUnit === unit.id
-							? 'bg-indigo-600 text-white shadow-sm'
-							: 'text-slate-400 hover:text-white'}"
+							? 'bg-[#ffd200] text-[#3b2f00] shadow-sm'
+							: 'text-[#999077] hover:text-white'}"
 				>
 					{unit.label}
 				</button>
@@ -81,14 +81,14 @@
 				formData.setField('durationValue', Math.max(1, v));
 			}}
 		/>
-		<p class="mt-2 text-xs text-slate-500">= {durationHint()}</p>
+		<p class="mt-2 text-xs text-[#999077]">= {durationHint()}</p>
 	</div>
 
 	<!-- Porcentaje extra -->
 	<div>
 		<div class="flex items-center justify-between mb-3">
-			<label for="extra" class="text-sm font-medium text-slate-300">Porcentaje extra</label>
-			<span class="text-xs text-slate-500">imprevistos · gastos · margen</span>
+			<label for="extra" class="text-sm font-medium text-[#e0e3e5]/80">Porcentaje extra</label>
+			<span class="text-xs text-[#999077]">imprevistos · gastos · margen</span>
 		</div>
 
 		<div class="flex gap-2 mb-3">
@@ -98,7 +98,7 @@
 					hint={preset.hint}
 					active={$formData.extraPercentage === preset.value}
 					onclick={() => formData.setField('extraPercentage', preset.value)}
-					colorScheme="indigo"
+					colorScheme="primary"
 				/>
 			{/each}
 		</div>
@@ -123,9 +123,9 @@
 			max="100"
 			value={Math.min($formData.extraPercentage, 100)}
 			oninput={(e) => formData.setField('extraPercentage', parseInt((e.target as HTMLInputElement).value))}
-			class="mt-3 w-full accent-indigo-500 cursor-pointer"
+			class="mt-3 w-full accent-[#ffd200] cursor-pointer"
 		/>
-		<div class="flex justify-between text-[10px] text-slate-600 mt-1 px-0.5">
+		<div class="flex justify-between text-[10px] text-[#999077]/60 mt-1 px-0.5">
 			<span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
 		</div>
 	</div>
@@ -134,7 +134,7 @@
 		as="button"
 		variant="ghost"
 		size="md"
-		class="w-full border border-slate-700"
+		class="w-full border border-white/10"
 		onclick={() => activeStep.set(1)}
 	>
 		← Volver al perfil

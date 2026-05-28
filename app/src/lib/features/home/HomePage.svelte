@@ -3,9 +3,8 @@
 	import { offerings } from '$lib/features/home';
 </script>
 
-<div class="bg-slate-950">
+<div class="bg-[#101415]">
 	<HeroSection />
 	<LaborInfoSection />
 	<OfferingsSection {offerings} />
-
 </div>

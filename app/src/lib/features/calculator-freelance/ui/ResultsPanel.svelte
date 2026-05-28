@@ -59,22 +59,22 @@
 	<!-- Header -->
 	<div class="flex items-center justify-between mb-6">
 		<div>
-			<h2 class="text-lg font-semibold text-white">Resultado estimado</h2>
-			<p class="text-xs text-slate-500 mt-0.5">Se actualiza en tiempo real</p>
+			<h2 class="text-lg font-semibold text-white font-[Montserrat]">Resultado estimado</h2>
+			<p class="text-xs text-[#999077] mt-0.5">Se actualiza en tiempo real</p>
 		</div>
 		{#if result}
 			<Button
 				as="button"
 				variant="ghost"
 				size="sm"
-				class="border border-slate-700"
+				class="border border-white/10"
 				onclick={copyResult}
 			>
 				{#if copied}
-					<svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+					<svg class="w-3.5 h-3.5 text-[#22C55E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 						<path d="M20 6L9 17l-5-5"/>
 					</svg>
-					<span class="text-emerald-400">Copiado</span>
+					<span class="text-[#22C55E]">Copiado</span>
 				{:else}
 					<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
@@ -89,40 +89,40 @@
 		<!-- Skeleton / estado vacío -->
 		<div class="flex-1 space-y-4">
 			<Card variant="default" padding="sm" class="text-center">
-				<p class="text-xs text-slate-600 mb-2">Tarifa por hora</p>
-				<div class="h-10 w-36 mx-auto rounded-lg bg-slate-800 animate-pulse"></div>
-				<p class="text-xs text-slate-700 mt-2">COP / hora</p>
+				<p class="text-xs text-[#999077]/60 mb-2">Tarifa por hora</p>
+				<div class="h-10 w-36 mx-auto rounded-lg bg-[#191c1e] animate-pulse"></div>
+				<p class="text-xs text-[#999077]/50 mt-2">COP / hora</p>
 			</Card>
 			<Card variant="default" padding="sm" class="space-y-3">
-				<div class="h-3 w-24 rounded bg-slate-800 animate-pulse"></div>
+				<div class="h-3 w-24 rounded bg-[#191c1e] animate-pulse"></div>
 				{#each [1,2,3,4] as i (i)}
 					<div class="flex justify-between">
-						<div class="h-3 w-28 rounded bg-slate-800 animate-pulse" style="animation-delay: {i * 80}ms"></div>
-						<div class="h-3 w-20 rounded bg-slate-800 animate-pulse" style="animation-delay: {i * 80 + 40}ms"></div>
+						<div class="h-3 w-28 rounded bg-[#191c1e] animate-pulse" style="animation-delay: {i * 80}ms"></div>
+						<div class="h-3 w-20 rounded bg-[#191c1e] animate-pulse" style="animation-delay: {i * 80 + 40}ms"></div>
 					</div>
 				{/each}
 			</Card>
 			<Card variant="default" padding="sm" class="space-y-3">
-				<div class="h-3 w-20 rounded bg-slate-800 animate-pulse"></div>
+				<div class="h-3 w-20 rounded bg-[#191c1e] animate-pulse"></div>
 				{#each [1,2,3] as i (i)}
 					<div class="flex justify-between">
-						<div class="h-3 w-24 rounded bg-slate-800 animate-pulse"></div>
-						<div class="h-3 w-16 rounded bg-slate-800 animate-pulse"></div>
+						<div class="h-3 w-24 rounded bg-[#191c1e] animate-pulse"></div>
+						<div class="h-3 w-16 rounded bg-[#191c1e] animate-pulse"></div>
 					</div>
 				{/each}
 			</Card>
-			<p class="text-center text-xs text-slate-700 pt-2">Completa el formulario para ver tu tarifa</p>
+			<p class="text-center text-xs text-[#999077]/50 pt-2">Completa el formulario para ver tu tarifa</p>
 		</div>
 	{:else}
 		<div class="space-y-4 flex-1">
 
 			<!-- 1. Tarifa por hora — protagonista -->
-			<div class="rounded-xl bg-linear-to-br from-indigo-600/15 to-indigo-500/5 border border-indigo-500/25 p-5 text-center">
-				<p class="text-xs font-medium text-indigo-400/80 uppercase tracking-widest mb-2">Tarifa por hora</p>
-				<p class="text-5xl font-bold text-white tracking-tight">{formatCOP(result.hourlyRate)}</p>
-				<p class="text-xs text-indigo-300/50 mt-1.5">COP / hora estimado</p>
+			<div class="rounded-xl bg-linear-to-br from-[#ffd200]/15 to-[#ffd200]/5 border border-[#ffd200]/25 p-5 text-center">
+				<p class="text-xs font-medium text-[#ffd200]/80 uppercase tracking-widest mb-2">Tarifa por hora</p>
+				<p class="text-5xl font-bold text-white tracking-tight font-[Montserrat]">{formatCOP(result.hourlyRate)}</p>
+				<p class="text-xs text-[#ffd200]/50 mt-1.5">COP / hora estimado</p>
 				{#if $formData.serviceType}
-					<p class="mt-2 text-xs text-slate-400 bg-slate-800/60 rounded-full px-3 py-1 inline-block">
+					<p class="mt-2 text-xs text-[#e0e3e5]/70 bg-[#191c1e]/60 rounded-full px-3 py-1 inline-block">
 						{$formData.serviceType} · {level?.label}
 					</p>
 				{/if}
@@ -130,67 +130,67 @@
 
 			<!-- 2. Total sugerido a cobrar — lo más accionable -->
 			{#if $formData.durationValue > 0}
-				<div class="rounded-xl bg-emerald-500/5 border border-emerald-500/20 p-4">
-					<p class="text-xs font-medium text-emerald-400/80 uppercase tracking-wider mb-3">Total del proyecto</p>
+				<div class="rounded-xl bg-[#22C55E]/5 border border-[#22C55E]/20 p-4">
+					<p class="text-xs font-medium text-[#22C55E]/80 uppercase tracking-wider mb-3">Total del proyecto</p>
 					<div class="space-y-2 text-sm">
-						<div class="flex justify-between text-slate-400">
+						<div class="flex justify-between text-[#e0e3e5]/70">
 							<span>Duración</span>
-							<span class="text-slate-300">{durationLabel()}</span>
+							<span class="text-[#e0e3e5]/80">{durationLabel()}</span>
 						</div>
-						<div class="flex justify-between text-slate-400">
+						<div class="flex justify-between text-[#e0e3e5]/70">
 							<span>Subtotal</span>
-							<span class="text-slate-300">{formatCOP(result.subtotal)}</span>
+							<span class="text-[#e0e3e5]/80">{formatCOP(result.subtotal)}</span>
 						</div>
 						{#if result.extraAmount > 0}
-							<div class="flex justify-between text-slate-400">
+							<div class="flex justify-between text-[#e0e3e5]/70">
 								<span>Extra ({$formData.extraPercentage}%)</span>
-								<span class="text-emerald-400">+{formatCOP(result.extraAmount)}</span>
+								<span class="text-[#22C55E]">+{formatCOP(result.extraAmount)}</span>
 							</div>
 						{/if}
 					</div>
-					<div class="mt-3 pt-3 border-t border-emerald-500/15 flex justify-between items-baseline">
+					<div class="mt-3 pt-3 border-t border-[#22C55E]/15 flex justify-between items-baseline">
 						<span class="text-sm font-semibold text-white">Total a cobrar</span>
-						<span class="text-2xl font-bold text-emerald-400">{formatCOP(result.total)}</span>
+						<span class="text-2xl font-bold text-[#22C55E]">{formatCOP(result.total)}</span>
 					</div>
 				</div>
 			{/if}
 
 			<!-- 3. Ajuste para no verse afectado — accionable antes que el desglose -->
-			<div class="rounded-xl bg-amber-500/5 border border-amber-500/20 p-4 space-y-3">
+			<div class="rounded-xl bg-[#ffd200]/5 border border-[#ffd200]/20 p-4 space-y-3">
 				<div class="flex items-center gap-2">
-					<svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<svg class="w-4 h-4 text-[#ffd200] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
 					</svg>
-					<p class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Para no verte afectado por retenciones</p>
+					<p class="text-xs font-semibold text-[#ffd200] uppercase tracking-wider">Para no verte afectado por retenciones</p>
 				</div>
-				<p class="text-sm text-slate-400">
+				<p class="text-sm text-[#e0e3e5]/70">
 					Cobra este valor para recibir <span class="text-white font-semibold">{formatCOP(result.total)}</span> neto en tu cuenta:
 				</p>
-				<div class="flex items-center justify-between rounded-lg bg-amber-500/10 border border-amber-500/25 px-4 py-3">
-					<span class="text-sm text-amber-300/80">Cobrar al cliente</span>
-					<span class="text-2xl font-bold text-amber-400">{formatCOP(result.totalSugerido)}</span>
+				<div class="flex items-center justify-between rounded-lg bg-[#ffd200]/10 border border-[#ffd200]/25 px-4 py-3">
+					<span class="text-sm text-[#fff2d1]/80">Cobrar al cliente</span>
+					<span class="text-2xl font-bold text-[#ffd200]">{formatCOP(result.totalSugerido)}</span>
 				</div>
-				<div class="flex justify-between text-xs text-slate-600">
+				<div class="flex justify-between text-xs text-[#999077]">
 					<span>Diferencia a subir</span>
-					<span class="text-amber-500">+{formatCOP(result.diferenciaSugerida)}</span>
+					<span class="text-[#ffd200]">+{formatCOP(result.diferenciaSugerida)}</span>
 				</div>
 			</div>
 
 			<!-- 4. Retenciones — colapsable -->
-			<div class="rounded-xl border border-slate-700/60 overflow-hidden">
+			<div class="rounded-xl border border-white/10 overflow-hidden">
 				<button
 					type="button"
 					onclick={() => (retencionesOpen = !retencionesOpen)}
-					class="w-full flex items-center justify-between px-4 py-3 bg-slate-800/60 hover:bg-slate-800 transition-colors text-left"
+					class="w-full flex items-center justify-between px-4 py-3 bg-[#191c1e]/60 hover:bg-[#191c1e] transition-colors text-left"
 				>
 					<div class="flex items-center gap-2">
-						<span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Desglose de retenciones</span>
-						<span class="rounded-full bg-red-500/15 px-2 py-0.5 text-xs font-semibold text-red-400">
+						<span class="text-xs font-medium text-[#e0e3e5]/70 uppercase tracking-wider">Desglose de retenciones</span>
+						<span class="rounded-full bg-[#ffb4aa]/15 px-2 py-0.5 text-xs font-semibold text-[#ffb4aa]">
 							−{formatCOP(result.retenciones.totalRetenido)}
 						</span>
 					</div>
 					<svg
-						class="w-4 h-4 text-slate-500 transition-transform duration-200 {retencionesOpen ? 'rotate-180' : ''}"
+						class="w-4 h-4 text-[#999077] transition-transform duration-200 {retencionesOpen ? 'rotate-180' : ''}"
 						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
 					>
 						<path d="M6 9l6 6 6-6"/>
@@ -198,20 +198,20 @@
 				</button>
 
 				{#if retencionesOpen}
-					<div class="px-4 py-3 bg-slate-900/40 space-y-2.5 border-t border-slate-700/40">
+					<div class="px-4 py-3 bg-[#101415]/40 space-y-2.5 border-t border-white/10">
 						<div class="flex justify-between text-sm">
-							<span class="text-slate-400">Retención en la fuente <span class="text-slate-600 text-xs">(11% · Art. 392 ET)</span></span>
-							<span class="text-red-400 font-medium">−{formatCOP(result.retenciones.retencionFuente)}</span>
+							<span class="text-[#e0e3e5]/70">Retención en la fuente <span class="text-[#999077]/60 text-xs">(11% · Art. 392 ET)</span></span>
+							<span class="text-[#ffb4aa] font-medium">−{formatCOP(result.retenciones.retencionFuente)}</span>
 						</div>
 						<div class="flex justify-between text-sm">
-							<span class="text-slate-400">ICA <span class="text-slate-600 text-xs">(0.966% · Bogotá)</span></span>
-							<span class="text-red-400 font-medium">−{formatCOP(result.retenciones.ica)}</span>
+							<span class="text-[#e0e3e5]/70">ICA <span class="text-[#999077]/60 text-xs">(0.966% · Bogotá)</span></span>
+							<span class="text-[#ffb4aa] font-medium">−{formatCOP(result.retenciones.ica)}</span>
 						</div>
-						<div class="border-t border-slate-700/60 pt-2.5 flex justify-between text-sm">
-							<span class="text-slate-300 font-medium">Tú recibes neto</span>
+						<div class="border-t border-white/10 pt-2.5 flex justify-between text-sm">
+							<span class="text-[#e0e3e5]/80 font-medium">Tú recibes neto</span>
 							<span class="font-bold text-white">{formatCOP(result.netoRecibir)}</span>
 						</div>
-						<p class="text-xs text-slate-600 pt-1 leading-relaxed">
+						<p class="text-xs text-[#999077]/60 pt-1 leading-relaxed">
 							El cliente retiene estos valores y los paga a la DIAN en tu nombre. Puedes descontarlos en tu declaración de renta anual.
 						</p>
 					</div>
@@ -219,26 +219,26 @@
 			</div>
 
 			<!-- 5. Fórmula — colapsable / educativa -->
-			<details class="rounded-xl border border-slate-700/40 overflow-hidden group">
-				<summary class="flex items-center justify-between px-4 py-3 bg-slate-800/40 hover:bg-slate-800/70 transition-colors cursor-pointer list-none">
-					<span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Cómo se calculó la tarifa</span>
-					<svg class="w-4 h-4 text-slate-600 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<details class="rounded-xl border border-white/10 overflow-hidden group">
+				<summary class="flex items-center justify-between px-4 py-3 bg-[#191c1e]/40 hover:bg-[#191c1e]/70 transition-colors cursor-pointer list-none">
+					<span class="text-xs font-medium text-[#999077] uppercase tracking-wider">Cómo se calculó la tarifa</span>
+					<svg class="w-4 h-4 text-[#999077]/60 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M6 9l6 6 6-6"/>
 					</svg>
 				</summary>
-				<div class="px-4 py-3 bg-slate-900/30 border-t border-slate-700/40 space-y-2">
+				<div class="px-4 py-3 bg-[#101415]/30 border-t border-white/10 space-y-2">
 					{#each formulaSteps as step, i (i)}
 						<div class="flex items-center justify-between text-sm">
 							<div class="flex items-center gap-2">
-								<span class="font-mono text-indigo-400/70 w-10 text-right text-xs">{step.op}</span>
-								<span class="text-slate-500">{step.label}</span>
+								<span class="font-mono text-[#ffd200]/70 w-10 text-right text-xs">{step.op}</span>
+								<span class="text-[#999077]">{step.label}</span>
 							</div>
-							<span class="font-medium text-slate-300 font-mono text-xs">{formatCOP(step.value)}</span>
+							<span class="font-medium text-[#e0e3e5]/80 font-mono text-xs">{formatCOP(step.value)}</span>
 						</div>
 					{/each}
-					<div class="border-t border-slate-700/60 pt-2 flex justify-between text-sm">
-						<span class="text-slate-400 font-medium">= Tarifa/hora</span>
-						<span class="font-bold text-indigo-400 font-mono">{formatCOP(result.hourlyRate)}</span>
+					<div class="border-t border-white/10 pt-2 flex justify-between text-sm">
+						<span class="text-[#e0e3e5]/70 font-medium">= Tarifa/hora</span>
+						<span class="font-bold text-[#ffd200] font-mono">{formatCOP(result.hourlyRate)}</span>
 					</div>
 				</div>
 			</details>
@@ -250,7 +250,7 @@
 			as="button"
 			variant="ghost"
 			size="md"
-			class="mt-5 w-full border border-slate-700/60"
+			class="mt-5 w-full border border-white/10"
 			onclick={resetCalculator}
 		>
 			↺ Nueva cotización
