@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { formData, activeStep } from '$lib/features/calculator-freelance/stores/calculator-store';
-	import { EXPERIENCE_LEVELS, formatCOP } from '$lib/features/calculator-freelance/utils/calculation';
-	import { Input, Chip, Button, Card } from '$lib/shared/ui/components';
+	import { Input, Chip, Button } from '$lib/shared/ui/components';
 
 	const EXTRA_PRESETS = [
 		{ label: '10%', value: 10, hint: 'Mínimo' },
@@ -10,14 +9,13 @@
 		{ label: '50%', value: 50, hint: 'Con margen' }
 	];
 
-	let selectedLevel = $derived(EXPERIENCE_LEVELS.find(l => l.id === $formData.experienceLevel));
-
 	let durationHint = $derived(() => {
 		const v = $formData.durationValue;
 		if ($formData.durationUnit === 'hours') return `${v} hora${v !== 1 ? 's' : ''} totales`;
 		if ($formData.durationUnit === 'days') return `${v * 8} horas (${Math.ceil(v / 5)} sem. aprox.)`;
 		return `${v * 40} horas · ${v * 5} días laborales`;
 	});
+
 </script>
 
 <div class="space-y-7">
@@ -25,29 +23,6 @@
 		<h2 class="text-lg font-semibold text-white font-[Montserrat]">Detalles del proyecto</h2>
 		<p class="text-sm text-[#e0e3e5]/70 mt-1">Define el alcance y ajustes de tu cotización</p>
 	</div>
-
-	<!-- Resumen paso 1 -->
-	{#if $formData.monthlySalary > 0 || $formData.serviceType}
-		<Card variant="outline" padding="sm">
-			<div class="flex flex-wrap gap-x-4 gap-y-1.5 text-xs">
-				{#if $formData.monthlySalary > 0}
-					<span class="text-[#999077]">Sueldo: <span class="text-[#e0e3e5]/80 font-medium">{formatCOP($formData.monthlySalary)}</span></span>
-				{/if}
-				{#if selectedLevel}
-					<span class="text-[#999077]">Nivel: <span class="text-[#ffd200] font-medium">{selectedLevel.label}</span></span>
-				{/if}
-				{#if $formData.serviceType}
-					<span class="text-[#999077]">Servicio: <span class="text-[#e0e3e5]/80 font-medium">{$formData.serviceType}</span></span>
-				{/if}
-				<button
-					onclick={() => activeStep.set(1)}
-					class="ml-auto text-[#999077]/60 hover:text-[#ffd200] transition-colors"
-				>
-					Editar ↗
-				</button>
-			</div>
-		</Card>
-	{/if}
 
 	<!-- Duración -->
 	<div>
