@@ -7,3 +7,4 @@ export { default as ListItem } from './ListItem.svelte';
 export { default as Pagination } from './Pagination.svelte';
 export { default as SectionHeader } from './SectionHeader.svelte';
 export { default as StatCard } from './StatCard.svelte';
+export { default as Modal } from './Modal.svelte';

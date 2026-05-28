@@ -1,259 +1,185 @@
 <script lang="ts">
-	import { formData, calculationResult, resetCalculator } from '$lib/features/calculator-freelance/stores/calculator-store';
+	import {
+		formData,
+		calculationResult,
+		resetCalculator,
+		activeStep
+	} from '$lib/features/calculator-freelance/stores/calculator-store';
 	import { EXPERIENCE_LEVELS, formatCOP } from '$lib/features/calculator-freelance/utils/calculation';
-	import { Button, Card } from '$lib/shared/ui/components';
+	import { Button, Modal } from '$lib/shared/ui/components';
+	import ProfileSummary from './ProfileSummary.svelte';
+	import ProjectSummary from './ProjectSummary.svelte';
+	import { copyResult } from './copyResult';
 
 	let result = $derived($calculationResult);
-	let level = $derived(EXPERIENCE_LEVELS.find(l => l.id === $formData.experienceLevel));
+	let level = $derived(EXPERIENCE_LEVELS.find((l) => l.id === $formData.experienceLevel));
+	let currentStep = $derived($activeStep);
 
-	// Estado UI
-	let retencionesOpen = $state(false);
-	let copied = $state(false);
+	let profileReady = $derived(
+		$formData.monthlySalary > 0 || !!$formData.experienceLevel || $formData.serviceType.trim().length > 0
+	);
+	let projectReady = $derived($formData.durationValue > 0);
+
+	let totalHours = $derived(
+		$formData.durationUnit === 'hours'
+			? $formData.durationValue
+			: $formData.durationUnit === 'days'
+				? $formData.durationValue * 8
+				: $formData.durationValue * 40
+	);
 
 	let formulaSteps = $derived(
 		result
 			? [
 					{ op: `÷ 192`, label: 'Base/hora', value: result.hourlyBase },
 					{ op: `× 1.7`, label: 'Factor freelance', value: result.withFreelanceFactor },
+					{ op: `× ${level?.multiplier ?? '—'}`, label: 'Nivel elegido', value: result.withExperienceFactor },
 					{ op: `× 1.2`, label: 'Factor riesgo', value: result.withRiskFactor }
 			  ]
 			: []
 	);
 
-	let durationLabel = $derived(() => {
-		const v = $formData.durationValue;
-		const u = $formData.durationUnit;
-		if (!result) return '';
-		if (u === 'hours') return `${v} hora${v !== 1 ? 's' : ''}`;
-		if (u === 'days') return `${v} día${v !== 1 ? 's' : ''} · ${result.totalHours} hrs`;
-		return `${v} semana${v !== 1 ? 's' : ''} · ${result.totalHours} hrs`;
-	});
+	let durationLabel = $derived(
+		(() => {
+			const v = $formData.durationValue;
+			const u = $formData.durationUnit;
+			if (!projectReady) return '';
+			if (u === 'hours') return `${v} hora${v !== 1 ? 's' : ''}`;
+			if (u === 'days') return `${v} día${v !== 1 ? 's' : ''} · ${totalHours} hrs`;
+			return `${v} semana${v !== 1 ? 's' : ''} · ${totalHours} hrs`;
+		})()
+	);
 
-	async function copyResult() {
+	let copied = $state(false);
+	let modalOpen = $state(false);
+	let modalView = $state<'totales' | 'retenciones'>('totales');
+
+	function openModal(view: 'totales' | 'retenciones') {
+		modalView = view;
+		modalOpen = true;
+	}
+
+	function closeModal() {
+		modalOpen = false;
+	}
+
+	async function handleCopy() {
 		if (!result) return;
-		const lines = [
-			`📊 Cotización Freelance`,
-			``,
-			`Servicio: ${$formData.serviceType || '—'}`,
-			`Nivel: ${level?.label} (${level?.years})`,
-			``,
-			`Tarifa/hora: ${formatCOP(result.hourlyRate)}`,
-			`Duración: ${durationLabel()}`,
-			`Subtotal: ${formatCOP(result.subtotal)}`,
-			$formData.extraPercentage > 0 ? `Extra (${$formData.extraPercentage}%): +${formatCOP(result.extraAmount)}` : '',
-			`Total a cobrar: ${formatCOP(result.total)}`,
-			``,
-			`⚠️ Retenciones estimadas: -${formatCOP(result.retenciones.totalRetenido)} (${result.retenciones.porcentajeTotal}%)`,
-			`Neto a recibir: ${formatCOP(result.netoRecibir)}`,
-			``,
-			`💡 Para recibir ${formatCOP(result.total)} neto, cobrar: ${formatCOP(result.totalSugerido)}`
-		].filter(Boolean).join('\n');
-
-		await navigator.clipboard.writeText(lines);
+		await copyResult({
+			result,
+			level,
+			serviceType: $formData.serviceType,
+			extraPercentage: $formData.extraPercentage,
+			durationLabel
+		});
 		copied = true;
 		setTimeout(() => (copied = false), 2000);
 	}
 </script>
 
 <div class="flex flex-col h-full">
-	<!-- Header -->
-	<div class="flex items-center justify-between mb-6">
-		<div>
-			<h2 class="text-lg font-semibold text-white font-[Montserrat]">Resultado estimado</h2>
-			<p class="text-xs text-[#999077] mt-0.5">Se actualiza en tiempo real</p>
-		</div>
-		{#if result}
-			<Button
-				as="button"
-				variant="ghost"
-				size="sm"
-				class="border border-white/10"
-				onclick={copyResult}
-			>
-				{#if copied}
-					<svg class="w-3.5 h-3.5 text-[#22C55E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-						<path d="M20 6L9 17l-5-5"/>
-					</svg>
-					<span class="text-[#22C55E]">Copiado</span>
-				{:else}
-					<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-					</svg>
-					Copiar
-				{/if}
-			</Button>
+	<div class="space-y-5 flex-1">
+		<ProfileSummary {currentStep} {profileReady} {level} {result} {formulaSteps} {copied} onCopy={handleCopy} />
+
+		{#if currentStep === 2}
+			<ProjectSummary {projectReady} {result} {durationLabel} {totalHours} />
+
+			{#if result}
+				<section class="rounded-2xl border border-white/10 bg-[#14181a]/80 p-5 sm:p-6">
+					<div class="mb-4">
+						<p class="text-[11px] tracking-[0.2em] uppercase text-[#999077]/60">Totales y retenciones</p>
+						<h3 class="text-lg font-semibold text-white font-[Montserrat]">Lo que cobras vs. lo que recibes</h3>
+					</div>
+					<div class="grid grid-cols-2 gap-3">
+						<Button as="button" variant="outline" size="md" class="w-full" onclick={() => openModal('totales')}>
+							Ver totales
+						</Button>
+						<Button as="button" variant="secondary" size="md" class="w-full" onclick={() => openModal('retenciones')}>
+							Ver retenciones legales
+						</Button>
+					</div>
+				</section>
+			{/if}
 		{/if}
 	</div>
 
-	{#if !result}
-		<!-- Skeleton / estado vacío -->
-		<div class="flex-1 space-y-4">
-			<Card variant="default" padding="sm" class="text-center">
-				<p class="text-xs text-[#999077]/60 mb-2">Tarifa por hora</p>
-				<div class="h-10 w-36 mx-auto rounded-lg bg-[#191c1e] animate-pulse"></div>
-				<p class="text-xs text-[#999077]/50 mt-2">COP / hora</p>
-			</Card>
-			<Card variant="default" padding="sm" class="space-y-3">
-				<div class="h-3 w-24 rounded bg-[#191c1e] animate-pulse"></div>
-				{#each [1,2,3,4] as i (i)}
-					<div class="flex justify-between">
-						<div class="h-3 w-28 rounded bg-[#191c1e] animate-pulse" style="animation-delay: {i * 80}ms"></div>
-						<div class="h-3 w-20 rounded bg-[#191c1e] animate-pulse" style="animation-delay: {i * 80 + 40}ms"></div>
-					</div>
-				{/each}
-			</Card>
-			<Card variant="default" padding="sm" class="space-y-3">
-				<div class="h-3 w-20 rounded bg-[#191c1e] animate-pulse"></div>
-				{#each [1,2,3] as i (i)}
-					<div class="flex justify-between">
-						<div class="h-3 w-24 rounded bg-[#191c1e] animate-pulse"></div>
-						<div class="h-3 w-16 rounded bg-[#191c1e] animate-pulse"></div>
-					</div>
-				{/each}
-			</Card>
-			<p class="text-center text-xs text-[#999077]/50 pt-2">Completa el formulario para ver tu tarifa</p>
+	<Button
+		as="button"
+		variant="ghost"
+		size="md"
+		class="mt-5 w-full border border-white/10"
+		onclick={resetCalculator}
+	>
+		↺ Nueva cotización
+	</Button>
+</div>
+
+<Modal
+	open={modalOpen}
+	onclose={closeModal}
+	title={modalView === 'totales' ? 'Desglose de totales' : 'Retenciones legales'}
+>
+	{#if modalView === 'totales'}
+		<div class="space-y-4">
+			<div class="flex justify-between text-sm">
+				<span class="text-[#e0e3e5]/70">Subtotal</span>
+				<span class="text-white font-medium">{formatCOP(result?.subtotal ?? 0)}</span>
+			</div>
+			<div class="flex justify-between text-sm">
+				<span class="text-[#e0e3e5]/70">Extra ({$formData.extraPercentage}%)</span>
+				<span class="text-white font-medium">+{formatCOP(result?.extraAmount ?? 0)}</span>
+			</div>
+			<div class="border-t border-white/10 pt-3 flex justify-between text-base">
+				<span class="text-[#22C55E] font-medium">Total a cobrar</span>
+				<span class="text-[#22C55E] font-bold">{formatCOP(result?.total ?? 0)}</span>
+			</div>
+			<div class="border-t border-white/10 pt-3 flex justify-between text-sm">
+				<span class="text-[#ffb4aa]/80">Retenciones estimadas</span>
+				<span class="text-[#ffb4aa] font-medium">−{formatCOP(result?.retenciones.totalRetenido ?? 0)}</span>
+			</div>
+			<div class="flex justify-between text-base">
+				<span class="text-white font-medium">Neto que recibes</span>
+				<span class="text-white font-bold">{formatCOP(result?.netoRecibir ?? 0)}</span>
+			</div>
+			<div class="rounded-xl border border-green-400/20 bg-green-900/20 p-3 mt-2">
+				<div class="flex justify-between text-sm">
+					<span class="text-[#fff2d1]">Para no verte afectado, cobra</span>
+					<span class="text-green-400 font-semibold">{formatCOP(result?.totalSugerido ?? 0)}</span>
+				</div>
+			</div>
+			<p class="text-xs text-white /60 pt-1 leading-relaxed">
+				El cliente retiene aproximadamente el {result?.retenciones.porcentajeTotal ?? 0}% del valor total
+				(retención en la fuente + ICA). Si cobras este monto, después de las retenciones recibirás
+				el neto que esperas. De lo contrario, el dinero retenido sale de tu bolsillo.
+			</p>
 		</div>
 	{:else}
-		<div class="space-y-4 flex-1">
-
-			<!-- 1. Tarifa por hora — protagonista -->
-			<div class="rounded-xl bg-linear-to-br from-[#ffd200]/15 to-[#ffd200]/5 border border-[#ffd200]/25 p-5 text-center">
-				<p class="text-xs font-medium text-[#ffd200]/80 uppercase tracking-widest mb-2">Tarifa por hora</p>
-				<p class="text-5xl font-bold text-white tracking-tight font-[Montserrat]">{formatCOP(result.hourlyRate)}</p>
-				<p class="text-xs text-[#ffd200]/50 mt-1.5">COP / hora estimado</p>
-				{#if $formData.serviceType}
-					<p class="mt-2 text-xs text-[#e0e3e5]/70 bg-[#191c1e]/60 rounded-full px-3 py-1 inline-block">
-						{$formData.serviceType} · {level?.label}
-					</p>
-				{/if}
+		<div class="space-y-4">
+			<div class="flex justify-between text-sm">
+				<span class="text-[#e0e3e5]/70">
+					Retención en la fuente
+					<span class="text-[#999077]/60 text-xs">(11% · Art. 392 ET)</span>
+				</span>
+				<span class="text-[#ffb4aa] font-medium">−{formatCOP(result?.retenciones.retencionFuente ?? 0)}</span>
 			</div>
-
-			<!-- 2. Total sugerido a cobrar — lo más accionable -->
-			{#if $formData.durationValue > 0}
-				<div class="rounded-xl bg-[#22C55E]/5 border border-[#22C55E]/20 p-4">
-					<p class="text-xs font-medium text-[#22C55E]/80 uppercase tracking-wider mb-3">Total del proyecto</p>
-					<div class="space-y-2 text-sm">
-						<div class="flex justify-between text-[#e0e3e5]/70">
-							<span>Duración</span>
-							<span class="text-[#e0e3e5]/80">{durationLabel()}</span>
-						</div>
-						<div class="flex justify-between text-[#e0e3e5]/70">
-							<span>Subtotal</span>
-							<span class="text-[#e0e3e5]/80">{formatCOP(result.subtotal)}</span>
-						</div>
-						{#if result.extraAmount > 0}
-							<div class="flex justify-between text-[#e0e3e5]/70">
-								<span>Extra ({$formData.extraPercentage}%)</span>
-								<span class="text-[#22C55E]">+{formatCOP(result.extraAmount)}</span>
-							</div>
-						{/if}
-					</div>
-					<div class="mt-3 pt-3 border-t border-[#22C55E]/15 flex justify-between items-baseline">
-						<span class="text-sm font-semibold text-white">Total a cobrar</span>
-						<span class="text-2xl font-bold text-[#22C55E]">{formatCOP(result.total)}</span>
-					</div>
-				</div>
-			{/if}
-
-			<!-- 3. Ajuste para no verse afectado — accionable antes que el desglose -->
-			<div class="rounded-xl bg-[#ffd200]/5 border border-[#ffd200]/20 p-4 space-y-3">
-				<div class="flex items-center gap-2">
-					<svg class="w-4 h-4 text-[#ffd200] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-					</svg>
-					<p class="text-xs font-semibold text-[#ffd200] uppercase tracking-wider">Para no verte afectado por retenciones</p>
-				</div>
-				<p class="text-sm text-[#e0e3e5]/70">
-					Cobra este valor para recibir <span class="text-white font-semibold">{formatCOP(result.total)}</span> neto en tu cuenta:
-				</p>
-				<div class="flex items-center justify-between rounded-lg bg-[#ffd200]/10 border border-[#ffd200]/25 px-4 py-3">
-					<span class="text-sm text-[#fff2d1]/80">Cobrar al cliente</span>
-					<span class="text-2xl font-bold text-[#ffd200]">{formatCOP(result.totalSugerido)}</span>
-				</div>
-				<div class="flex justify-between text-xs text-[#999077]">
-					<span>Diferencia a subir</span>
-					<span class="text-[#ffd200]">+{formatCOP(result.diferenciaSugerida)}</span>
-				</div>
+			<div class="flex justify-between text-sm">
+				<span class="text-[#e0e3e5]/70">
+					ICA <span class="text-[#999077]/60 text-xs">(0.966% · Bogotá)</span>
+				</span>
+				<span class="text-[#ffb4aa] font-medium">−{formatCOP(result?.retenciones.ica ?? 0)}</span>
 			</div>
-
-			<!-- 4. Retenciones — colapsable -->
-			<div class="rounded-xl border border-white/10 overflow-hidden">
-				<button
-					type="button"
-					onclick={() => (retencionesOpen = !retencionesOpen)}
-					class="w-full flex items-center justify-between px-4 py-3 bg-[#191c1e]/60 hover:bg-[#191c1e] transition-colors text-left"
-				>
-					<div class="flex items-center gap-2">
-						<span class="text-xs font-medium text-[#e0e3e5]/70 uppercase tracking-wider">Desglose de retenciones</span>
-						<span class="rounded-full bg-[#ffb4aa]/15 px-2 py-0.5 text-xs font-semibold text-[#ffb4aa]">
-							−{formatCOP(result.retenciones.totalRetenido)}
-						</span>
-					</div>
-					<svg
-						class="w-4 h-4 text-[#999077] transition-transform duration-200 {retencionesOpen ? 'rotate-180' : ''}"
-						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-					>
-						<path d="M6 9l6 6 6-6"/>
-					</svg>
-				</button>
-
-				{#if retencionesOpen}
-					<div class="px-4 py-3 bg-[#101415]/40 space-y-2.5 border-t border-white/10">
-						<div class="flex justify-between text-sm">
-							<span class="text-[#e0e3e5]/70">Retención en la fuente <span class="text-[#999077]/60 text-xs">(11% · Art. 392 ET)</span></span>
-							<span class="text-[#ffb4aa] font-medium">−{formatCOP(result.retenciones.retencionFuente)}</span>
-						</div>
-						<div class="flex justify-between text-sm">
-							<span class="text-[#e0e3e5]/70">ICA <span class="text-[#999077]/60 text-xs">(0.966% · Bogotá)</span></span>
-							<span class="text-[#ffb4aa] font-medium">−{formatCOP(result.retenciones.ica)}</span>
-						</div>
-						<div class="border-t border-white/10 pt-2.5 flex justify-between text-sm">
-							<span class="text-[#e0e3e5]/80 font-medium">Tú recibes neto</span>
-							<span class="font-bold text-white">{formatCOP(result.netoRecibir)}</span>
-						</div>
-						<p class="text-xs text-[#999077]/60 pt-1 leading-relaxed">
-							El cliente retiene estos valores y los paga a la DIAN en tu nombre. Puedes descontarlos en tu declaración de renta anual.
-						</p>
-					</div>
-				{/if}
+			<div class="border-t border-white/10 pt-3 flex justify-between text-base">
+				<span class="text-[#ffb4aa] font-medium">Total retenido</span>
+				<span class="text-[#ffb4aa] font-bold">−{formatCOP(result?.retenciones.totalRetenido ?? 0)}</span>
 			</div>
-
-			<!-- 5. Fórmula — colapsable / educativa -->
-			<details class="rounded-xl border border-white/10 overflow-hidden group">
-				<summary class="flex items-center justify-between px-4 py-3 bg-[#191c1e]/40 hover:bg-[#191c1e]/70 transition-colors cursor-pointer list-none">
-					<span class="text-xs font-medium text-[#999077] uppercase tracking-wider">Cómo se calculó la tarifa</span>
-					<svg class="w-4 h-4 text-[#999077]/60 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M6 9l6 6 6-6"/>
-					</svg>
-				</summary>
-				<div class="px-4 py-3 bg-[#101415]/30 border-t border-white/10 space-y-2">
-					{#each formulaSteps as step, i (i)}
-						<div class="flex items-center justify-between text-sm">
-							<div class="flex items-center gap-2">
-								<span class="font-mono text-[#ffd200]/70 w-10 text-right text-xs">{step.op}</span>
-								<span class="text-[#999077]">{step.label}</span>
-							</div>
-							<span class="font-medium text-[#e0e3e5]/80 font-mono text-xs">{formatCOP(step.value)}</span>
-						</div>
-					{/each}
-					<div class="border-t border-white/10 pt-2 flex justify-between text-sm">
-						<span class="text-[#e0e3e5]/70 font-medium">= Tarifa/hora</span>
-						<span class="font-bold text-[#ffd200] font-mono">{formatCOP(result.hourlyRate)}</span>
-					</div>
-				</div>
-			</details>
-
+			<div class="border-t border-white/10 pt-3 flex justify-between text-base">
+				<span class="text-white font-medium">Tú recibes neto</span>
+				<span class="text-white font-bold">{formatCOP(result?.netoRecibir ?? 0)}</span>
+			</div>
+			<p class="text-xs text-white /60 pt-1 leading-relaxed">
+				El cliente retiene estos valores y los paga a la DIAN en tu nombre. Puedes descontarlos en tu
+				declaración de renta anual.
+			</p>
 		</div>
-
-		<!-- Reset -->
-		<Button
-			as="button"
-			variant="ghost"
-			size="md"
-			class="mt-5 w-full border border-white/10"
-			onclick={resetCalculator}
-		>
-			↺ Nueva cotización
-		</Button>
 	{/if}
-</div>
+</Modal>

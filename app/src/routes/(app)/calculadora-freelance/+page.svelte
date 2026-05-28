@@ -29,7 +29,8 @@
 		<div class="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
 
 			<!-- Columna izquierda -->
-			<div class="rounded-xl border border-white/10 bg-[#1d2022] backdrop-blur-sm p-6 sm:p-8">
+			<div class="lg:sticky lg:top-12 lg:pr-2">
+				<div class="rounded-xl border border-white/10 bg-[#1d2022] backdrop-blur-sm p-6 sm:p-8">
 
 				<!-- Tabs con indicador de completado -->
 				<div class="flex gap-1 mb-8 rounded-lg bg-[#272a2c] p-1">
@@ -70,6 +71,7 @@
 				{:else}
 					<FormStep2 />
 				{/if}
+			</div>
 			</div>
 
 			<!-- Columna derecha: sticky en desktop -->
