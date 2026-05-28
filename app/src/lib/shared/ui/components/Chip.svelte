@@ -3,7 +3,7 @@
 		label: string;
 		active?: boolean;
 		hint?: string;
-		colorScheme?: 'indigo' | 'emerald';
+		colorScheme?: 'primary' | 'secondary';
 		onclick?: () => void;
 	}
 
@@ -11,16 +11,16 @@
 		label,
 		active = false,
 		hint,
-		colorScheme = 'indigo',
+		colorScheme = 'primary',
 		onclick
 	}: Props = $props();
 
 	const activeClasses = {
-		indigo: 'border-indigo-500 bg-indigo-500/15 text-indigo-300',
-		emerald: 'border-emerald-500 bg-emerald-500/15 text-emerald-300'
+		primary: 'border-[#ffd200] bg-[#ffd200]/15 text-[#ffd200]',
+		secondary: 'border-[#ffb4aa] bg-[#ffb4aa]/15 text-[#ffb4aa]'
 	};
 
-	const inactiveClasses = 'border-slate-700 bg-slate-800 text-slate-400 hover:border-slate-500 hover:text-slate-300';
+	const inactiveClasses = 'border-white/10 bg-[#191c1e] text-[#999077] hover:border-white/20 hover:text-[#e0e3e5]';
 </script>
 
 <button
@@ -31,7 +31,7 @@
 >
 	{#if hint}
 		<p class="text-sm font-semibold">{label}</p>
-		<p class="text-[10px] mt-0.5 {active ? (colorScheme === 'indigo' ? 'text-indigo-400/70' : 'text-emerald-400/70') : 'text-slate-600'}">{hint}</p>
+		<p class="text-[10px] mt-0.5 {active ? (colorScheme === 'primary' ? 'text-[#ffd200]/70' : 'text-[#ffb4aa]/70') : 'text-[#999077]/60'}">{hint}</p>
 	{:else}
 		{label}
 	{/if}

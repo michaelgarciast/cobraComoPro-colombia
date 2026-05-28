@@ -19,18 +19,18 @@
 	};
 </script>
 
-<header class={`mx-auto space-y-4 ${align === 'center' ? 'max-w-3xl' : 'max-w-4xl'} ${alignClasses[align]}`}>
+<header class={`mx-auto space-y-3 sm:space-y-4 ${align === 'center' ? 'max-w-3xl' : 'max-w-4xl'} ${alignClasses[align]}`}>
   {#if eyebrow}
-    <p class="inline-flex items-center gap-2 rounded-full border border-yellow-400/30 bg-yellow-400/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-yellow-300">
-      <span class="h-1.5 w-1.5 rounded-full bg-yellow-300"></span>
+    <p class="inline-flex items-center gap-2 rounded-full border border-[#ffd200]/30 bg-[#ffd200]/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#ffd200] sm:px-4 sm:text-xs sm:tracking-[0.3em]">
+      <span class="h-1.5 w-1.5 rounded-full bg-[#ffd200]"></span>
       {eyebrow}
     </p>
   {/if}
-  <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+  <h2 class="text-balance text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl font-[Montserrat]">
     {title}
   </h2>
   {#if description}
-    <p class="text-lg leading-relaxed text-slate-400">
+    <p class="text-pretty text-sm leading-relaxed text-[#e0e3e5]/70 sm:text-base lg:text-lg">
       {description}
     </p>
   {/if}

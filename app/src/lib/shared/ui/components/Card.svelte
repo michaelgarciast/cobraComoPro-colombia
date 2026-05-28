@@ -16,11 +16,11 @@
 	}: Props = $props();
 
 	const variantClasses = {
-		default: 'rounded-xl border border-slate-800 bg-slate-900 shadow-dark-sm',
-		elevated: 'rounded-xl border border-slate-800 bg-slate-900 shadow-dark-lg',
-		outline: 'rounded-xl border-2 border-slate-700 bg-slate-900/50',
-		gradient: 'group relative overflow-hidden rounded-xl bg-slate-900/50 border border-slate-800 hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:shadow-slate-900/50',
-		skeleton: 'bg-slate-900/50 border border-slate-800 rounded-xl animate-pulse'
+		default: 'rounded-lg border border-white/10 bg-[#1d2022] shadow-[0_10px_30px_rgba(0,0,0,0.3)]',
+		elevated: 'rounded-lg border border-white/10 bg-[#1d2022] shadow-[0_25px_60px_-35px_rgba(15,23,42,0.8)]',
+		outline: 'rounded-lg border border-[#999077]/30 bg-[#1d2022]/50',
+		gradient: 'group relative overflow-hidden rounded-lg bg-[#1d2022]/50 border border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-xl hover:shadow-black/30',
+		skeleton: 'bg-[#1d2022]/50 border border-white/10 rounded-lg animate-pulse'
 	};
 
 	const paddingClasses = {

@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center">
-	<div class="mb-8 text-9xl font-bold text-yellow-400">
+	<div class="mb-8 text-9xl font-bold text-[#ffd200] font-[Montserrat]">
 		{page.status}
 	</div>
 
@@ -12,7 +12,7 @@
 		{page.error?.message || 'Algo salió mal'}
 	</h1>
 
-	<p class="mb-8 max-w-md text-lg text-slate-400">
+	<p class="mb-8 max-w-md text-lg text-[#e0e3e5]/70">
 		{page.status === 404
 			? 'La página que buscas no existe.'
 			: 'Lo sentimos, ha ocurrido un error inesperado.'}

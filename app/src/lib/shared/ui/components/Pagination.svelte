@@ -51,10 +51,10 @@
 {#if totalPages > 1}
 	<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
 		<!-- Info de resultados -->
-		<p class="text-sm text-slate-400">
-			Mostrando <span class="font-medium text-slate-200">{startItem}</span> –
-			<span class="font-medium text-slate-200">{endItem}</span>
-			de <span class="font-medium text-slate-200">{totalItems}</span> resultados
+		<p class="text-sm text-[#e0e3e5]/70">
+			Mostrando <span class="font-medium text-white">{startItem}</span> –
+			<span class="font-medium text-white">{endItem}</span>
+			de <span class="font-medium text-white">{totalItems}</span> resultados
 		</p>
 
 		<!-- Controles de paginación -->
@@ -63,9 +63,9 @@
 			<button
 				onclick={() => goToPage(currentPage - 1)}
 				disabled={currentPage === 1}
-				class="p-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300
-				       hover:bg-slate-700 hover:text-white transition-all
-				       disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-800 disabled:hover:text-slate-300"
+				class="p-2 rounded-lg border border-white/10 bg-[#191c1e] text-[#e0e3e5]/80
+				       hover:bg-[#272a2c] hover:text-white transition-all
+				       disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#191c1e] disabled:hover:text-[#e0e3e5]/80"
 				aria-label="Página anterior"
 			>
 				<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,13 +77,13 @@
 			{#if showFirstEllipsis}
 				<button
 					onclick={() => goToPage(1)}
-					class="min-w-[40px] h-10 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-300
-					       hover:bg-slate-700 hover:text-white transition-all"
+					class="min-w-[40px] h-10 px-3 rounded-lg border border-white/10 bg-[#191c1e] text-[#e0e3e5]/80
+					       hover:bg-[#272a2c] hover:text-white transition-all"
 				>
 					1
 				</button>
 				{#if visiblePages[0] > 2}
-					<span class="px-2 text-slate-500">…</span>
+					<span class="px-2 text-[#999077]">…</span>
 				{/if}
 			{/if}
 
@@ -93,8 +93,8 @@
 					onclick={() => goToPage(page)}
 					class="min-w-[40px] h-10 px-3 rounded-lg border transition-all font-medium
 					       {page === currentPage
-							   ? 'border-emerald-500 bg-emerald-500/20 text-emerald-400'
-							   : 'border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'}"
+							   ? 'border-[#ffd200] bg-[#ffd200]/15 text-[#ffd200]'
+							   : 'border-white/10 bg-[#191c1e] text-[#e0e3e5]/80 hover:bg-[#272a2c] hover:text-white'}"
 					aria-current={page === currentPage ? 'page' : undefined}
 				>
 					{page}
@@ -104,12 +104,12 @@
 			<!-- Última página + ellipsis -->
 			{#if showLastEllipsis}
 				{#if visiblePages[visiblePages.length - 1] < totalPages - 1}
-					<span class="px-2 text-slate-500">…</span>
+					<span class="px-2 text-[#999077]">…</span>
 				{/if}
 				<button
 					onclick={() => goToPage(totalPages)}
-					class="min-w-[40px] h-10 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-300
-					       hover:bg-slate-700 hover:text-white transition-all"
+					class="min-w-[40px] h-10 px-3 rounded-lg border border-white/10 bg-[#191c1e] text-[#e0e3e5]/80
+					       hover:bg-[#272a2c] hover:text-white transition-all"
 				>
 					{totalPages}
 				</button>
@@ -119,9 +119,9 @@
 			<button
 				onclick={() => goToPage(currentPage + 1)}
 				disabled={currentPage === totalPages}
-				class="p-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300
-				       hover:bg-slate-700 hover:text-white transition-all
-				       disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-800 disabled:hover:text-slate-300"
+				class="p-2 rounded-lg border border-white/10 bg-[#191c1e] text-[#e0e3e5]/80
+				       hover:bg-[#272a2c] hover:text-white transition-all
+				       disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#191c1e] disabled:hover:text-[#e0e3e5]/80"
 				aria-label="Página siguiente"
 			>
 				<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,8 +132,8 @@
 	</div>
 {:else if totalItems > 0}
 	<div class="mt-8 text-center">
-		<p class="text-sm text-slate-400">
-			Mostrando <span class="font-medium text-slate-200">{totalItems}</span> resultados
+		<p class="text-sm text-[#e0e3e5]/70">
+			Mostrando <span class="font-medium text-white">{totalItems}</span> resultados
 		</p>
 	</div>
 {/if}
