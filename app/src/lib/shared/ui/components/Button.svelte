@@ -19,23 +19,23 @@
 	}: Props = $props();
 
 	const baseClasses =
-		'group inline-flex items-center justify-center gap-2 rounded-xl font-semibold tracking-tight transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:pointer-events-none disabled:opacity-50';
+		'group inline-flex items-center justify-center gap-2 font-semibold tracking-tight transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#101415] disabled:pointer-events-none disabled:opacity-50';
 
 	const variantClasses = {
 		primary:
-			'bg-linear-to-tr from-yellow-400 via-yellow-300 to-amber-200 text-slate-950 shadow-[0_35px_65px_-35px_rgba(250,204,21,0.8)] hover:-translate-y-0.5 hover:shadow-[0_45px_75px_-35px_rgba(250,204,21,0.95)]',
+			'rounded-xl bg-[#ffd200] text-[#3b2f00] shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:bg-[#ffe07c] hover:shadow-[0_15px_40px_rgba(0,0,0,0.4)]',
 		secondary:
-			'border border-white/15 bg-white/5 text-white shadow-[0_20px_45px_-30px_rgba(15,23,42,0.8)] hover:border-white/25 hover:bg-white/10',
+			'rounded-xl border border-[#ffb4aa]/60 bg-transparent text-[#ffb4aa] hover:bg-[#ffb4aa]/10 hover:border-[#ffb4aa]',
 		outline:
-			'border border-yellow-300/60 text-yellow-200 hover:bg-yellow-200/10',
+			'rounded-xl border border-[#ffd200]/60 text-[#fff2d1] hover:bg-[#fff2d1]/10',
 		ghost:
-			'bg-transparent text-slate-300 hover:bg-white/5 hover:text-white'
+			'rounded-xl bg-transparent text-[#e0e3e5]/80 hover:bg-white/5 hover:text-white'
 	};
 
 	const sizeClasses = {
-		sm: 'px-3.5 py-1.5 text-sm',
-		md: 'px-5 py-2.5 text-sm',
-		lg: 'px-6 py-3 text-base'
+		sm: 'px-3.5 py-1.5 text-sm rounded-lg',
+		md: 'px-5 py-2.5 text-sm rounded-xl',
+		lg: 'px-6 py-3 text-base rounded-xl'
 	};
 
 	const classes = $derived(`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`);
