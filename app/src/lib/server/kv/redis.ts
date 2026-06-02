@@ -15,5 +15,6 @@ export const redis = new Redis({
 
 export const KV_KEYS = {
   dataset: 'cobracomopro:dataset:v1',
-  updatedAt: 'cobracomopro:dataset:v1:updatedAt'
+  updatedAt: 'cobracomopro:dataset:v1:updatedAt',
+  cursor: 'cobracomopro:cron:cursor:v1'
 } as const;
