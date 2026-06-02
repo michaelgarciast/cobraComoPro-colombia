@@ -1,7 +1,9 @@
 import { GoogleGenAI } from '@google/genai';
 import { jsonrepair } from 'jsonrepair';
 import { env } from '$env/dynamic/private';
-import currentData from '$lib/server/data/db_data_colombia.json';
+import type { Sector } from '$lib/server/data/dataset.schema';
+
+const MODEL = 'gemini-2.5-flash';
 
 const ai = new GoogleGenAI({ apiKey: env.GOOGLE_AI_API_KEY });
 
@@ -48,38 +50,52 @@ function parseDatasetJson(raw: string | undefined | null) {
 	}
 }
 
-export async function extractDataset(): Promise<unknown> {
-	const response = await ai.models.generateContent({
-		model: 'gemini-3.5-flash',
-		contents: `Eres analista laboral colombiano experto en mercado salarial y clasificación ocupacional.
-
-Tienes el siguiente dataset de salarios y tarifas freelance para Colombia con 244 registros. Tu tarea es:
-
-1. ACTUALIZAR los valores numéricos de todos los registros existentes para reflejar el mercado colombiano real 2025/2026.
-2. AGREGAR nuevas especialidades, categorías y cargos que faltan en el mercado colombiano. El dataset resultante debe tener al menos 400 registros.
-
-EXPANSIÓN REQUERIDA por sector:
-- Primario: agregar acuicultura, floricultura, minería artesanal, gestión ambiental rural, apicultura, piscicultura.
-- Secundario: agregar manufactura textil avanzada, industria farmacéutica, energías renovables (técnico/profesional/especialista), industria alimentaria especializada, metalmecánica avanzada.
-- Terciario: agregar e-commerce, logística última milla, turismo sostenible, salud (enfermería especializada, fisioterapia, fonoaudiología, optometría, bacteriología), educación (docente preescolar/primaria/secundaria/universitaria), servicios financieros especializados, seguros, bienes raíces.
-- Cuaternario: agregar ciberseguridad, inteligencia artificial/ML, ciencia de datos, DevOps/SRE, UX/UI design, blockchain, cloud architecture, product management, QA automation, mobile development (iOS/Android).
-- Quinario: agregar categorías Profesional y Especialista; incluir investigación científica, política pública, diplomacia, alta gerencia ONG, rectoría universitaria, dirección hospitalaria.
-
-REFERENCIAS SALARIALES:
-- SMMLV 2026 = $1.423.500 COP/mes
-- Fuentes: DANE, SENA, Min. Trabajo, Banco de la República, Función Pública, decretos salariales vigentes
-
-REGLAS ESTRICTAS:
-1. Mantén EXACTAMENTE la misma estructura JSON para todos los registros (sectores, categorías, jobs con id, title, ciiu, salary, source, freelance).
-2. Los IDs deben ser únicos, en kebab-case, descriptivos (ej: "especialista-ciberseguridad").
+const SECTOR_RULES = `REGLAS ESTRICTAS:
+1. Mantén EXACTAMENTE la misma estructura JSON del sector (id, name, categories[] con id/name/jobs[]; cada job con id, title, ciiu, salary {month,day,hour con min/max/avg}, source, freelance {services, rate_unit, rates {min,max,avg}, source_freelance}).
+2. No cambies el id ni el name del sector.
 3. Los valores de day y hour deben ser matemáticamente consistentes: day = month/30, hour = month/240.
 4. Las tarifas freelance deben ser superiores al salario equivalente por día/hora.
-5. Actualiza "source" y "source_freelance" con el año correcto (2025/2026).
-6. Devuelve el JSON COMPLETO con TODOS los registros (existentes actualizados + nuevos), sin omitir ninguno.
-7. El campo meta.records debe reflejar el total real de jobs en el dataset resultante.
+5. Referencia: SMMLV 2026 = $1.423.500 COP/mes. Fuentes: DANE, SENA, Min. Trabajo, Banco de la República, Función Pública.
+6. Actualiza "source" y "source_freelance" con el año vigente (2025/2026).
+7. Devuelve ÚNICAMENTE el objeto JSON del sector, sin texto adicional.`;
 
-Dataset actual a expandir y actualizar:
-${JSON.stringify(currentData)}`,
+export async function expandSector(sector: Sector, recordsToAdd: number): Promise<unknown> {
+	const response = await ai.models.generateContent({
+		model: MODEL,
+		contents: `Eres analista laboral colombiano experto en mercado salarial y clasificación ocupacional.
+
+Tienes UN sector del dataset salarial colombiano. Tu tarea es:
+
+1. AGREGAR exactamente ${recordsToAdd} cargos NUEVOS (no dupliques IDs existentes) basados en especialidades reales del mercado colombiano 2025/2026, ubicándolos en las categorías más adecuadas (o crea una categoría nueva coherente si aplica).
+2. ACTUALIZAR los valores numéricos de los registros existentes del sector para reflejar el mercado actual.
+
+Los IDs nuevos deben ser únicos, en kebab-case y descriptivos (ej: "especialista-ciberseguridad").
+
+${SECTOR_RULES}
+
+Sector a expandir y actualizar:
+${JSON.stringify(sector)}`,
+		config: {
+			responseMimeType: 'application/json'
+		}
+	});
+
+	return parseDatasetJson(response.text);
+}
+
+export async function refreshSectorValues(sector: Sector): Promise<unknown> {
+	const response = await ai.models.generateContent({
+		model: MODEL,
+		contents: `Eres analista laboral colombiano experto en mercado salarial.
+
+Tienes UN sector del dataset salarial colombiano. NO agregues ni elimines registros: mantén EXACTAMENTE la misma cantidad de jobs, los mismos ids, títulos, ciiu y textos.
+
+Actualiza ÚNICAMENTE los valores numéricos que tienden a cambiar según el mercado colombiano actual: salary.month/day/hour (min/max/avg) y freelance.rates (min/max/avg).
+
+${SECTOR_RULES}
+
+Sector a refrescar:
+${JSON.stringify(sector)}`,
 		config: {
 			responseMimeType: 'application/json'
 		}
