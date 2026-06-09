@@ -13,10 +13,6 @@ Esta plataforma responde una sola pregunta con muchas variables: **¿cuánto deb
 
 Pruébala aquí: `https://cobracomopro.vercel.app` *(reemplaza con tu dominio real)*
 
-## Capturas
-
-*(Agrega aquí 2-3 screenshots de la calculadora y la consulta de salarios)*
-
 ## Stack técnico
 
 | Capa | Tecnología |
