@@ -35,15 +35,19 @@
 	];
 </script>
 
-<section class="relative overflow-hidden border-t border-white/5 px-5 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:pb-24 lg:pt-24">
+<!-- Section divider top -->
+<div class="h-px bg-linear-to-r from-transparent via-[#ced6f0]/15 to-transparent"></div>
+
+<section class="relative overflow-hidden bg-[#0b0f10] px-5 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:pb-24 lg:pt-24">
 	<!-- Background effects -->
 	<div aria-hidden="true" class="pointer-events-none absolute inset-0">
 		<div class="absolute -top-24 right-0 h-48 w-48 rounded-full bg-[#ced6f0]/10 blur-[140px] sm:h-64 sm:w-64 sm:blur-[160px]"></div>
 		<div class="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-[#ffb4aa]/10 blur-[140px] sm:h-96 sm:w-96 sm:blur-[160px]"></div>
 	</div>
 
-	<div class="mx-auto flex max-w-7xl flex-col items-center text-center">
+	<div class="relative mx-auto flex max-w-7xl flex-col items-center text-center">
 		<SectionHeader
+			eyebrow="Datos oficiales 2026"
 			title="Mercado laboral Colombia"
 			description="Cifras oficiales actualizadas del DANE, SNIES y el Observatorio Laboral. La base que necesitas para sustentar cada propuesta."
 			align="center"
@@ -51,9 +55,14 @@
 
 		<!-- Stats Grid -->
 		<div class="mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 gap-3 sm:gap-4 lg:mt-12 lg:grid-cols-4">
-			{#each stats as stat (stat.label)}
-				<StatCard value={stat.value} label={stat.label} iconPath={stat.icon} tag={stat.tag} />
+			{#each stats as stat, i (stat.label)}
+				<div class="reveal-up" style="animation-delay: {0.1 + i * 0.1}s">
+					<StatCard value={stat.value} label={stat.label} iconPath={stat.icon} tag={stat.tag} />
+				</div>
 			{/each}
 		</div>
 	</div>
 </section>
+
+<!-- Section divider bottom -->
+<div class="h-px bg-linear-to-r from-transparent via-[#ffb4aa]/15 to-transparent"></div>

@@ -31,13 +31,8 @@
 		</div>
 
 		<!-- Bottom Section -->
-		<div class="mt-8 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">
-			<p class="text-[#999077]"> {currentYear} CobraComoPro. Todos los derechos reservados.</p>
-			<div class="flex flex-wrap items-center gap-4">
-				<button type="button" class="text-[#e0e3e5]/70 transition-colors hover:text-white">Términos</button>
-				<span class="text-[#4d4632]">|</span>
-				<button type="button" class="text-[#e0e3e5]/70 transition-colors hover:text-white">Privacidad</button>
-			</div>
+		<div class="mt-8 border-t border-white/10 pt-8 text-center text-sm">
+			<p class="text-[#999077]">{currentYear} CobraComoPro. Todos los derechos reservados.</p>
 		</div>
 	</div>
 </footer>
