@@ -29,7 +29,7 @@
 	}
 </script>
 
-<section class="relative overflow-hidden px-5 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:pb-28 lg:pt-28">
+<section class="relative overflow-hidden bg-[#101415] px-5 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:pb-28 lg:pt-28">
 	<div aria-hidden="true" class="pointer-events-none absolute inset-0">
 		<div class="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-linear-to-b from-[#ffd200]/20 via-white/5 to-transparent lg:block"></div>
 		<div class="absolute -top-24 right-0 h-48 w-48 rounded-full bg-[#ffd200]/10 blur-[140px] sm:h-64 sm:w-64 sm:blur-[160px]"></div>
@@ -40,7 +40,7 @@
 		<div class="grid items-center gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:gap-16">
 			<!-- Content -->
 			<div class="space-y-7 sm:space-y-9 lg:space-y-10">
-				<div class="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/70 sm:gap-3 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.3em]">
+				<div class="reveal-up inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/70 sm:gap-3 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.3em]">
 					<svg class="h-3.5 w-3.5 text-[#ffd200] sm:h-4 sm:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M12 2 2 7l10 5 10-5-10-5Z" />
 						<path d="M2 12l10 5 10-5" />
@@ -50,24 +50,24 @@
 				</div>
 
 				<div class="space-y-5 sm:space-y-6">
-					<h1 class="text-balance text-[2rem] font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl font-[Montserrat]">
+					<h1 class="reveal-up text-balance text-[2rem] font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl font-[Montserrat]" style="animation-delay:0.1s">
 						Cobra como un pro,
 						<span class="block text-[#ffd200]">con confianza absoluta</span>
 					</h1>
-					<p class="max-w-xl text-pretty text-base leading-relaxed text-[#e0e3e5]/75 sm:text-lg">
+					<p class="reveal-up max-w-xl text-pretty text-base leading-relaxed text-[#e0e3e5]/75 sm:text-lg" style="animation-delay:0.2s">
 						Simula tus cobros, respalda tus tarifas con datos oficiales y arma propuestas que hablan el idioma del mercado colombiano.
 					</p>
 				</div>
 
 				<div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-					<Button href={resolve('/consultar')} variant="primary" size="lg" class="reveal-up w-full justify-center sm:w-auto" style="animation-delay:0.1s">
+					<Button href={resolve('/consultar')} variant="primary" size="lg" class="reveal-up w-full justify-center sm:w-auto" style="animation-delay:0.3s">
 						Consultar tarifa
 						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M5 12h14" />
 							<path d="M13 5l7 7-7 7" />
 						</svg>
 					</Button>
-					<Button href={resolve('/calculadora-freelance')} variant="secondary" size="lg" class="reveal-up w-full justify-center sm:w-auto" style="animation-delay:0.2s">
+					<Button href={resolve('/calculadora-freelance')} variant="secondary" size="lg" class="reveal-up w-full justify-center sm:w-auto" style="animation-delay:0.4s">
 						Calcular mi tarifa
 						<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M7 17 17 7" />
@@ -131,6 +131,9 @@
 		</div>
 	</div>
 </section>
+
+<!-- Section divider -->
+<div class="h-px bg-linear-to-r from-transparent via-[#ffd200]/20 to-transparent"></div>
 
 <style>
 	@keyframes card-float {
