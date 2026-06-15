@@ -1,3 +1,4 @@
+export * from '$lib/shared/sentry';
 export * from '$lib/shared/ui/layout';
 export * from '$lib/shared/ui/components';
 export * from '$lib/shared/utils/filter';

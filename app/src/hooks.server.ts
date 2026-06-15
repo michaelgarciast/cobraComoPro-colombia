@@ -1,5 +1,10 @@
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { dev } from '$app/environment';
+import { handleErrorWithSentry, initSentryServer } from '$lib/server/sentry';
+
+initSentryServer();
+
+export const handleError: HandleServerError = handleErrorWithSentry();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
@@ -34,7 +39,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 		"img-src 'self' data: https:",
 		"font-src 'self' https://fonts.gstatic.com",
-		"connect-src 'self'",
+		"connect-src 'self' https://o4511567236825088.ingest.us.sentry.io",
 		"frame-ancestors 'none'",
 		"base-uri 'self'",
 		"form-action 'self'",
