@@ -55,7 +55,7 @@ const SECTOR_RULES = `REGLAS ESTRICTAS:
 2. No cambies el id ni el name del sector.
 3. Los valores de day y hour deben ser matemáticamente consistentes: day = month/30, hour = month/240.
 4. Las tarifas freelance deben ser superiores al salario equivalente por día/hora.
-5. Referencia: SMMLV 2026 = $1.423.500 COP/mes. Fuentes: DANE, SENA, Min. Trabajo, Banco de la República, Función Pública.
+5. Referencia: SMMLV 2026 = $1.750.905 COP/mes. Fuentes: DANE, SENA, Min. Trabajo, Banco de la República, Función Pública.
 6. Actualiza "source" y "source_freelance" con el año vigente (2025/2026).
 7. Devuelve ÚNICAMENTE el objeto JSON del sector, sin texto adicional.`;
 
