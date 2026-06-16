@@ -70,44 +70,90 @@ export function getSectorById(dataset: Dataset, id: string): Sector | undefined 
 }
 
 export function mergeSector(dataset: Dataset, updatedSector: Sector): Dataset {
+  const existingSector = dataset.sectors.find((s) => s.id === updatedSector.id);
+
+  if (!existingSector) {
+    return {
+      ...dataset,
+      sectors: dataset.sectors.map((sector) => (sector.id === updatedSector.id ? updatedSector : sector))
+    };
+  }
+
+  const existingCategories = new Map(existingSector.categories.map((c) => [c.id, c]));
+  const updatedCategoryIds = new Set(updatedSector.categories.map((c) => c.id));
+
+  // Merge categories from updated sector
+  const mergedCategories = updatedSector.categories.map((updatedCat) => {
+    const existingCat = existingCategories.get(updatedCat.id);
+    if (!existingCat) {
+      return updatedCat;
+    }
+
+    // Merge jobs: replace existing jobs with updated ones, preserve any omitted by AI
+    const updatedJobIds = new Set(updatedCat.jobs.map((j) => j.id));
+    const preservedJobs = existingCat.jobs.filter((j) => !updatedJobIds.has(j.id));
+
+    return {
+      ...updatedCat,
+      jobs: [...updatedCat.jobs, ...preservedJobs]
+    };
+  });
+
+  // Preserve categories that the AI might have omitted
+  const preservedCategories = existingSector.categories.filter((c) => !updatedCategoryIds.has(c.id));
+
+  const finalSector: Sector = {
+    ...updatedSector,
+    categories: [...mergedCategories, ...preservedCategories]
+  };
+
   return {
     ...dataset,
-    sectors: dataset.sectors.map((sector) => (sector.id === updatedSector.id ? updatedSector : sector))
+    sectors: dataset.sectors.map((sector) => (sector.id === updatedSector.id ? finalSector : sector))
   };
 }
 
 async function seedDatasetWithAI(): Promise<Dataset> {
   try {
-    console.log('[loader] Redis vacío. Consultando IA para dataset inicial...');
-    const dataset = getBaseDataset();
+    console.log('[loader] Redis vacío. Guardando dataset base inicial...');
+    const base = getBaseDataset();
+    const baseRecords = countRecords(base);
+    console.log(`[loader] Dataset base tiene ${baseRecords} registros.`);
 
-    const refreshedSectors = await Promise.all(
-      dataset.sectors.map(async (sector) => {
-        try {
-          const candidate = await refreshSectorValues(sector);
-          const normalized = normalizeDatasetStructure({ sectors: [candidate] }) as { sectors: unknown[] };
-          return SectorSchema.parse(normalized.sectors[0]);
-        } catch (err) {
-          console.error(`[loader] Error refrescando sector ${sector.id}:`, err);
-          return sector;
-        }
-      })
-    );
+    // Guardamos el dataset base primero para asegurar que nunca perdemos los registros originales
+    try {
+      await redis.set(KV_KEYS.dataset, base);
+      await redis.set(KV_KEYS.updatedAt, new Date().toISOString());
+      console.log(`[loader] Dataset base guardado en Redis con ${baseRecords} registros.`);
+    } catch (err) {
+      console.error('[loader] Error guardando dataset base en Redis:', err);
+    }
 
-    const updatedDataset: Dataset = {
-      ...dataset,
-      sectors: refreshedSectors,
-      meta: { ...dataset.meta, records: countRecords({ ...dataset, sectors: refreshedSectors }) }
-    };
+    let dataset = base;
 
-    const validated = DatasetSchema.parse(updatedDataset);
+    // Refrescamos sector por sector con merge para no perder registros si la IA omite alguno
+    for (const sector of base.sectors) {
+      try {
+        console.log(`[loader] Refrescando sector: ${sector.id} (${countSectorRecords(sector)} jobs)...`);
+        const candidate = await refreshSectorValues(sector);
+        const normalized = normalizeDatasetStructure({ sectors: [candidate] }) as { sectors: unknown[] };
+        const updatedSector = SectorSchema.parse(normalized.sectors[0]);
+        dataset = mergeSector(dataset, updatedSector);
+        console.log(`[loader] Sector ${sector.id} refrescado. Total dataset: ${countRecords(dataset)} registros.`);
+      } catch (err) {
+        console.error(`[loader] Error refrescando sector ${sector.id}:`, err);
+      }
+    }
+
+    dataset.meta = { ...dataset.meta, records: countRecords(dataset) };
+    const validated = DatasetSchema.parse(dataset);
 
     try {
       await redis.set(KV_KEYS.dataset, validated);
       await redis.set(KV_KEYS.updatedAt, new Date().toISOString());
-      console.log('[loader] Dataset inicial guardado en Redis.');
+      console.log(`[loader] Dataset refrescado guardado en Redis con ${validated.meta.records} registros.`);
     } catch (err) {
-      console.error('[loader] Error guardando dataset en Redis:', err);
+      console.error('[loader] Error guardando dataset refrescado en Redis:', err);
     }
 
     memoryCache = { data: validated, ts: Date.now() };
