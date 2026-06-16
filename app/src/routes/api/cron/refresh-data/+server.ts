@@ -7,6 +7,7 @@ import { expandSector, refreshSectorValues } from '$lib/server/ai/client';
 import { sanitizeObject } from '$lib/server/security/sanitize';
 import {
 	countRecords,
+	countSectorRecords,
 	getBaseDataset,
 	getSectorById,
 	mergeSector,
@@ -48,15 +49,19 @@ export const GET = async ({ request }) => {
 		const total = countRecords(dataset);
 		const mode = total < MAX_RECORDS ? 'growth' : 'values-only';
 
+		console.log(`[cron] Inicio ejecución. Modo: ${mode}. Registros actuales: ${total}/${MAX_RECORDS}.`);
+
 		let targetSector: Sector;
 		let cursor = 0;
 
 		if (mode === 'growth') {
 			targetSector = pickRichestSector(dataset);
+			console.log(`[cron] Modo GROWTH. Sector objetivo: ${targetSector.id} (${countSectorRecords(targetSector)} jobs).`);
 		} else {
 			cursor = (await redis.get<number>(KV_KEYS.cursor)) ?? 0;
 			const sectorId = SECTOR_ORDER[cursor % SECTOR_ORDER.length];
 			targetSector = getSectorById(dataset, sectorId) ?? pickRichestSector(dataset);
+			console.log(`[cron] Modo VALUES-ONLY. Cursor: ${cursor}. Sector objetivo: ${targetSector.id} (${countSectorRecords(targetSector)} jobs).`);
 		}
 
 		const candidate =
@@ -65,8 +70,11 @@ export const GET = async ({ request }) => {
 				: await refreshSectorValues(targetSector);
 
 		const updatedSector = normalizeSector(sanitizeObject(candidate));
+		const beforeMerge = countRecords(dataset);
 		const merged = mergeSector(dataset, updatedSector);
 		merged.meta = { ...merged.meta, records: countRecords(merged) };
+
+		console.log(`[cron] Merge completado. Registros antes: ${beforeMerge}, después: ${merged.meta.records}. Diferencia: ${merged.meta.records - beforeMerge}`);
 
 		const validated = DatasetSchema.parse(merged);
 
@@ -76,6 +84,8 @@ export const GET = async ({ request }) => {
 		if (mode === 'values-only') {
 			await redis.set(KV_KEYS.cursor, (cursor + 1) % SECTOR_ORDER.length);
 		}
+
+		console.log(`[cron] Dataset guardado en Redis. Total registros: ${validated.meta.records}.`);
 
 		return json({ ok: true, sector: updatedSector.id, mode, records: validated.meta.records });
 	} catch (err) {

@@ -1,8 +1,9 @@
 import type { Dataset, Job } from './dataset.schema';
 import baseDataset from './db_data_colombia.json';
 
-const FALLBACK_SOURCE = 'Fuentes oficiales laborales Colombia 2026';
-const FALLBACK_FREELANCE_SOURCE = 'Mercado freelance Colombia 2026';
+const CURRENT_YEAR = new Date().getFullYear();
+const FALLBACK_SOURCE = `Fuentes oficiales laborales Colombia ${CURRENT_YEAR}`;
+const FALLBACK_FREELANCE_SOURCE = `Mercado freelance Colombia ${CURRENT_YEAR}`;
 const FALLBACK_RATE_UNIT = 'día';
 
 const baseJobMap = buildBaseJobMap(baseDataset);
