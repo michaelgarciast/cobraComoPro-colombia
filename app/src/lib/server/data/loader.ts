@@ -1,6 +1,5 @@
 import { redis, KV_KEYS } from '../kv/redis';
 import { DatasetSchema, SectorSchema, type Dataset, type Sector } from './dataset.schema';
-import { sanitizeObject } from '../security/sanitize';
 import { refreshSectorValues } from '$lib/server/ai/client';
 import { normalizeDatasetStructure } from './normalizer';
 import baseDataset from './db_data_colombia.json';
@@ -17,8 +16,7 @@ export async function loadDataset(): Promise<Dataset> {
   try {
     const fromKv = await redis.get<Dataset>(KV_KEYS.dataset);
     if (fromKv) {
-      const sanitized = sanitizeObject(fromKv);
-      const parsed = DatasetSchema.parse(sanitized);
+      const parsed = DatasetSchema.parse(fromKv);
       memoryCache = { data: parsed, ts: Date.now() };
       return parsed;
     }

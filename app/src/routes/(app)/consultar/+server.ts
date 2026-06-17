@@ -1,16 +1,22 @@
 import { json, error, type RequestEvent } from '@sveltejs/kit';
 import { filterData as sharedFilterData } from '$lib/features/consultation/searchSection/data/search-data';
-import { SearchParamsSchema } from '$lib/features/calculator-freelance/schema';
+import { SearchParamsSchema } from '$lib/shared/schemas/search';
 import type { SectorSummary } from '$lib/features/consultation/searchSection/types';
 import type { Dataset } from '$lib/server/data/dataset.schema';
 import { loadDataset } from '$lib/server/data/loader';
 import { checkRateLimit } from '$lib/server/security/rate-limit';
 
+let cachedDatasetRef: Dataset | null = null;
+let cachedFlattened: SectorSummary[] | null = null;
+
 async function getAllData(): Promise<SectorSummary[]> {
 	const dataset = await loadDataset();
-	if (!dataset) return [];
-
-	return flattenDataset(dataset);
+	if (dataset === cachedDatasetRef && cachedFlattened) {
+		return cachedFlattened;
+	}
+	cachedDatasetRef = dataset;
+	cachedFlattened = flattenDataset(dataset);
+	return cachedFlattened;
 }
 
 function flattenDataset(dataset: Dataset): SectorSummary[] {
@@ -36,9 +42,9 @@ function flattenDataset(dataset: Dataset): SectorSummary[] {
 	);
 }
 
-export const GET = async ({ request, url }: RequestEvent) => {
+export const GET = async ({ url, getClientAddress }: RequestEvent) => {
 	// Rate limiting by IP
-	const clientIp = request.headers.get('x-forwarded-for') ?? 'unknown';
+	const clientIp = getClientAddress();
 	const rateLimit = await checkRateLimit(`consultar:${clientIp}`, {
 		requests: 120,
 		windowSeconds: 60
@@ -65,19 +71,13 @@ export const GET = async ({ request, url }: RequestEvent) => {
 
 	try {
 		const allData = await getAllData();
-		const filteredData = allData.length
-			? sharedFilterData(allData, sector, categoria, q)
-			: [];
+		const filteredData = sharedFilterData(allData, sector, categoria, q);
 
 		// Pagination
 		const total = filteredData.length;
 		const totalPages = total === 0 ? 0 : Math.ceil(total / limit);
 		const startIndex = (page - 1) * limit;
 		const paginatedData = filteredData.slice(startIndex, startIndex + limit);
-
-		const headers = allData.length
-			? undefined
-			: { 'x-data-source': 'empty' };
 
 		return json({
 			data: paginatedData,
@@ -89,7 +89,7 @@ export const GET = async ({ request, url }: RequestEvent) => {
 				hasNext: page < totalPages,
 				hasPrev: page > 1
 			}
-		}, headers ? { headers } : undefined);
+		});
 	} catch (err) {
 		console.error('[GET /consultar] Error procesando datos:', err);
 		throw error(500, { message: 'Error interno al procesar los datos' });
