@@ -4,11 +4,13 @@
 	let {
 		open = false,
 		title = '',
+		className = '',
 		onclose,
 		children
 	}: {
 		open?: boolean;
 		title?: string;
+		className?: string;
 		onclose: () => void;
 		children: Snippet;
 	} = $props();
@@ -37,7 +39,7 @@
 
 <dialog
 	bind:this={dialogRef}
-	class="w-full max-w-lg rounded-2xl border border-white/10 bg-[#1d2022] shadow-2xl p-0"
+	class="w-full rounded-2xl border border-white/10 bg-[#1d2022] shadow-2xl p-0 {className || 'max-w-lg'}"
 	onclose={handleClose}
 	onclick={handleBackdropClick}
 >
