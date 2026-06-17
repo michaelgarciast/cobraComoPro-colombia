@@ -90,7 +90,7 @@
 		<div class="reveal-up mx-auto max-w-4xl rounded-xl border border-[#ffd200]/20 bg-[#ffd200]/5 p-5 sm:p-6" style="animation-delay: 0.4s">
 			<div class="flex flex-col items-center justify-between gap-3 sm:flex-row">
 				<div class="text-center sm:text-left">
-					<p class="text-sm font-semibold text-[#e0e3e5]">Pago mínimo mensual obligatorio <span class="text-[#999077] text-xs font-normal">(sin ARL)</span></p>
+					<p class="text-sm font-semibold text-[#e0e3e5]">Pago mínimo mensual obligatorio <span class="text-[#999077] text-xs font-normal">(Sin ARL)</span></p>
 					<p class="text-xs text-[#999077]/80 mt-0.5">IBC mínimo: {formatCOP(ibcMin)} (1 SMMLV)</p>
 				</div>
 				<span class="text-2xl font-bold text-[#ffd200] font-[Montserrat]">{formatCOP(totalMinSinArl)}</span>
