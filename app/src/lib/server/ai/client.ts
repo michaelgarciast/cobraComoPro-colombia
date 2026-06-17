@@ -1,15 +1,17 @@
 import { GoogleGenAI } from '@google/genai';
 import { jsonrepair } from 'jsonrepair';
+import { z } from 'zod';
 import { env } from '$env/dynamic/private';
-import type { Sector } from '$lib/server/data/dataset.schema';
+import { SectorSchema, type Sector } from '$lib/server/data/dataset.schema';
+import { buildExpandPrompt, buildRefreshPrompt } from './prompts';
 
 const MODEL = 'gemini-2.5-flash';
-
-const ai = new GoogleGenAI({ apiKey: env.GOOGLE_AI_API_KEY });
 
 if (!env.GOOGLE_AI_API_KEY) {
 	throw new Error('GOOGLE_AI_API_KEY environment variable is not set');
 }
+
+const ai = new GoogleGenAI({ apiKey: env.GOOGLE_AI_API_KEY });
 
 function extractJsonPayload(raw: string | undefined | null): string {
 	if (!raw?.trim()) {
@@ -38,9 +40,10 @@ function parseDatasetJson(raw: string | undefined | null) {
 	try {
 		return JSON.parse(payload);
 	} catch (err) {
+		const parseErr = err instanceof Error ? err.message : String(err);
 		try {
 			const repaired = jsonrepair(payload);
-			console.warn('[ai] JSON reparado automáticamente tras error de parseo');
+			console.warn('[ai] JSON reparado automáticamente tras error de parseo:', parseErr);
 			return JSON.parse(repaired);
 		} catch (repairErr) {
 			console.error('[ai] JSON inválido generado por Gemini, primeros 500 caracteres:', payload.slice(0, 500));
@@ -50,37 +53,13 @@ function parseDatasetJson(raw: string | undefined | null) {
 	}
 }
 
-const CURRENT_YEAR = new Date().getFullYear();
-const PREV_YEAR = CURRENT_YEAR - 1;
-
-const SECTOR_RULES = `REGLAS ESTRICTAS:
-1. Mantén EXACTAMENTE la misma estructura JSON del sector (id, name, categories[] con id/name/jobs[]; cada job con id, title, ciiu, salary {month,day,hour con min/max/avg}, source, freelance {services, rate_unit, rates {min,max,avg}, source_freelance}).
-2. No cambies el id ni el name del sector.
-3. Los valores de day y hour deben ser matemáticamente consistentes: day = month/30, hour = month/240.
-4. Las tarifas freelance deben ser superiores al salario equivalente por día/hora.
-5. Referencia: SMMLV ${CURRENT_YEAR} = $1.750.905 COP/mes. Fuentes: DANE, SENA, Min. Trabajo, Banco de la República, Función Pública.
-6. Actualiza OBLIGATORIAMENTE los campos "source" y "source_freelance" con el año vigente (${PREV_YEAR}/${CURRENT_YEAR}). No dejes valores de años anteriores.
-7. Devuelve ÚNICAMENTE el objeto JSON del sector, sin texto adicional.`;
-
 export async function expandSector(sector: Sector, recordsToAdd: number): Promise<unknown> {
 	const response = await ai.models.generateContent({
 		model: MODEL,
-		contents: `Eres analista laboral colombiano experto en mercado salarial y clasificación ocupacional.
-
-Tienes UN sector del dataset salarial colombiano. Tu tarea es:
-
-1. AGREGAR exactamente ${recordsToAdd} cargos NUEVOS (no dupliques IDs existentes) basados en especialidades reales del mercado colombiano ${PREV_YEAR}/${CURRENT_YEAR}, ubicándolos en las categorías más adecuadas (o crea una categoría nueva coherente si aplica).
-2. ACTUALIZAR los valores numéricos de TODOS los registros existentes del sector para reflejar el mercado actual.
-3. CONSERVAR ABSOLUTAMENTE TODOS los jobs existentes del sector. No elimines ni omitas ningún job previo. El sector resultante debe contener todos los jobs originales más los ${recordsToAdd} nuevos.
-
-Los IDs nuevos deben ser únicos, en kebab-case y descriptivos (ej: "especialista-ciberseguridad").
-
-${SECTOR_RULES}
-
-Sector a expandir y actualizar:
-${JSON.stringify(sector)}`,
+		contents: buildExpandPrompt(sector, recordsToAdd),
 		config: {
-			responseMimeType: 'application/json'
+			responseMimeType: 'application/json',
+			responseSchema: z.toJSONSchema(SectorSchema)
 		}
 	});
 
@@ -90,18 +69,10 @@ ${JSON.stringify(sector)}`,
 export async function refreshSectorValues(sector: Sector): Promise<unknown> {
 	const response = await ai.models.generateContent({
 		model: MODEL,
-		contents: `Eres analista laboral colombiano experto en mercado salarial.
-
-Tienes UN sector del dataset salarial colombiano. NO agregues ni elimines registros: mantén EXACTAMENTE la misma cantidad de jobs, los mismos ids, títulos, ciiu y textos. NO omitas ningún job del sector original.
-
-Actualiza ÚNICAMENTE los valores numéricos que tienden a cambiar según el mercado colombiano actual: salary.month/day/hour (min/max/avg) y freelance.rates (min/max/avg).
-
-${SECTOR_RULES}
-
-Sector a refrescar:
-${JSON.stringify(sector)}`,
+		contents: buildRefreshPrompt(sector),
 		config: {
-			responseMimeType: 'application/json'
+			responseMimeType: 'application/json',
+			responseSchema: z.toJSONSchema(SectorSchema)
 		}
 	});
 

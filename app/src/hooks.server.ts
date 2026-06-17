@@ -34,22 +34,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 		);
 	}
 
-	// Content Security Policy
-	const cspDirectives = [
-		"default-src 'self'",
-		"script-src 'self' 'unsafe-inline'",
-		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-		"img-src 'self' data: https:",
-		"font-src 'self' https://fonts.gstatic.com",
-		"connect-src 'self'",
-		"worker-src 'self' blob:",
-		"frame-ancestors 'none'",
-		"base-uri 'self'",
-		"form-action 'self'",
-		"upgrade-insecure-requests"
-	];
-
-	response.headers.set('Content-Security-Policy', cspDirectives.join('; '));
-
 	return response;
 };

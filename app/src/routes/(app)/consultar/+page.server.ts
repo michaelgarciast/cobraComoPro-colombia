@@ -24,7 +24,7 @@ function getFilterOptions(sectors: Sector[]): FilterOptions {
 export const load: PageServerLoad = async () => {
 	try {
 		const [dataset, updatedAt] = await Promise.all([loadDataset(), getUpdatedAt()]);
-		const filterOptions = dataset ? getFilterOptions(dataset.sectors) : { sectores: [], categorias: [] };
+		const filterOptions = getFilterOptions(dataset.sectors);
 
 		return {
 			filterOptions,

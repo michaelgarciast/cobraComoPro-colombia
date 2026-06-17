@@ -1,10 +1,11 @@
 import type { Dataset, Job } from './dataset.schema';
 import baseDataset from './db_data_colombia.json';
 
-const CURRENT_YEAR = new Date().getFullYear();
-const FALLBACK_SOURCE = `Fuentes oficiales laborales Colombia ${CURRENT_YEAR}`;
-const FALLBACK_FREELANCE_SOURCE = `Mercado freelance Colombia ${CURRENT_YEAR}`;
 const FALLBACK_RATE_UNIT = 'día';
+
+function getCurrentYear() {
+	return new Date().getFullYear();
+}
 
 const baseJobMap = buildBaseJobMap(baseDataset);
 
@@ -36,7 +37,7 @@ type JobLike = Partial<Job> & Record<string, unknown>;
 function ensureJobIntegrity(jobLike: JobLike): JobLike {
 	const fallback = typeof jobLike.id === 'string' ? baseJobMap.get(jobLike.id) : undefined;
 
-	jobLike.source = pickString(jobLike.source as string, fallback?.source, FALLBACK_SOURCE);
+	jobLike.source = pickString(jobLike.source as string, fallback?.source, `Fuentes oficiales laborales Colombia ${getCurrentYear()}`);
 	jobLike.freelance = ensureFreelance(jobLike, fallback);
 
 	return jobLike;
@@ -56,7 +57,7 @@ function ensureFreelance(job: JobLike, fallback?: Job): Job['freelance'] {
 	const source_freelance = pickString(
 		current?.source_freelance as string,
 		baseFreelance?.source_freelance,
-		FALLBACK_FREELANCE_SOURCE
+		`Mercado freelance Colombia ${getCurrentYear()}`
 	);
 
 	return {
