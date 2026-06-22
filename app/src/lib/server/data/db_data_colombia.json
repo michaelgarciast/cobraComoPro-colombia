@@ -1,10 +1,10 @@
 {
   "meta": {
-    "version": "2.0.0",
+    "version": "3.0.0",
     "currency": "COP",
     "country": "CO",
     "source": "DANE/Min.Trabajo/Min.TIC/Min.Salud – Cifras 2026 (Decreto SMLMV 1469-1470/2025, Michael Page, WageIndicator, SaludJobs, Computrabajo)",
-    "records": 275
+    "records": 293
   },
   "sectors": [
     {
@@ -761,6 +761,44 @@
                 },
                 "source_freelance": "ANM/DANE 2026"
               }
+            },
+            {
+              "id": "tecnico-agricultura-precision",
+              "title": "Técnico en Agricultura de Precisión",
+              "ciiu": "A – Agricultura, ganadería, caza, silvicultura",
+              "salary": {
+                "month": {
+                  "min": 3000000,
+                  "max": 5500000,
+                  "avg": 4250000
+                },
+                "day": {
+                  "min": 100000.0,
+                  "max": 183333.33,
+                  "avg": 141666.67
+                },
+                "hour": {
+                  "min": 13043.48,
+                  "max": 23913.04,
+                  "avg": 18478.26
+                }
+              },
+              "source": "SENA/DANE/Min.Agricultura 2026",
+              "freelance": {
+                "services": [
+                  "Operación de drones para monitoreo de cultivos",
+                  "Calibración y uso de sensores agrícolas IoT",
+                  "Procesamiento de imágenes satelitales NDVI",
+                  "Soporte técnico en sistemas de riego inteligente"
+                ],
+                "rate_unit": "jornada",
+                "rates": {
+                  "min": 120000,
+                  "max": 220000,
+                  "avg": 170000
+                },
+                "source_freelance": "SENA/Min.Agricultura 2026"
+              }
             }
           ]
         },
@@ -1331,6 +1369,44 @@
                 },
                 "source_freelance": "SCI/INVIAS 2026"
               }
+            },
+            {
+              "id": "especialista-carbono-forestal",
+              "title": "Especialista en Carbono Forestal (REDD+)",
+              "ciiu": "A – Silvicultura y extracción de madera",
+              "salary": {
+                "month": {
+                  "min": 8000000,
+                  "max": 18000000,
+                  "avg": 13000000
+                },
+                "day": {
+                  "min": 266666.67,
+                  "max": 600000.0,
+                  "avg": 433333.33
+                },
+                "hour": {
+                  "min": 34782.61,
+                  "max": 78260.87,
+                  "avg": 56521.74
+                }
+              },
+              "source": "IDEAM/Min.Ambiente 2026",
+              "freelance": {
+                "services": [
+                  "Diseño de proyectos REDD+ y mercados voluntarios de carbono",
+                  "Medición, reporte y verificación (MRV) forestal",
+                  "Consultoría ante IDEAM y certificadoras (Verra, Gold Standard)",
+                  "Estructuración de proyectos de bonos de carbono"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 3500000,
+                  "max": 12000000,
+                  "avg": 7750000
+                },
+                "source_freelance": "IDEAM/Workana 2026"
+              }
             }
           ]
         },
@@ -1564,6 +1640,44 @@
                   "avg": 15990000
                 },
                 "source_freelance": "ACP/DANE 2026"
+              }
+            },
+            {
+              "id": "gerente-proyecto-offshore",
+              "title": "Gerente de Proyecto de Explotación Offshore",
+              "ciiu": "B – Explotación de minas y canteras",
+              "salary": {
+                "month": {
+                  "min": 30000000,
+                  "max": 65000000,
+                  "avg": 47500000
+                },
+                "day": {
+                  "min": 1000000.0,
+                  "max": 2166666.67,
+                  "avg": 1583333.33
+                },
+                "hour": {
+                  "min": 130434.78,
+                  "max": 282608.7,
+                  "avg": 206521.74
+                }
+              },
+              "source": "ANH/ACP 2026",
+              "freelance": {
+                "services": [
+                  "Gerencia de contratos offshore en el Caribe colombiano",
+                  "Coordinación con ANH y operadoras internacionales",
+                  "Gestión de riesgos en operaciones marítimas",
+                  "Due diligence técnico en bloques exploratorios"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 12000000,
+                  "max": 30000000,
+                  "avg": 21000000
+                },
+                "source_freelance": "ANH/ACP 2026"
               }
             }
           ]
@@ -2620,6 +2734,82 @@
                 },
                 "source_freelance": "Min.Trabajo/ARL 2026"
               }
+            },
+            {
+              "id": "tecnico-impresion-3d",
+              "title": "Técnico en Impresión 3D / Manufactura Aditiva",
+              "ciiu": "C – Industrias manufactureras",
+              "salary": {
+                "month": {
+                  "min": 3500000,
+                  "max": 6500000,
+                  "avg": 5000000
+                },
+                "day": {
+                  "min": 116666.67,
+                  "max": 216666.67,
+                  "avg": 166666.67
+                },
+                "hour": {
+                  "min": 15217.39,
+                  "max": 28260.87,
+                  "avg": 21739.13
+                }
+              },
+              "source": "SENA/ANDI 2026",
+              "freelance": {
+                "services": [
+                  "Operación de impresoras FDM, SLA y SLS industriales",
+                  "Diseño CAD para prototipado rápido",
+                  "Post-procesamiento y control de calidad de piezas aditivas",
+                  "Mantenimiento preventivo de equipos de manufactura aditiva"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 150000,
+                  "max": 400000,
+                  "avg": 275000
+                },
+                "source_freelance": "SENA/Workana 2026"
+              }
+            },
+            {
+              "id": "inspector-calidad-bpm",
+              "title": "Inspector de Calidad BPM / FDA",
+              "ciiu": "C – Industrias manufactureras",
+              "salary": {
+                "month": {
+                  "min": 3500000,
+                  "max": 7000000,
+                  "avg": 5250000
+                },
+                "day": {
+                  "min": 116666.67,
+                  "max": 233333.33,
+                  "avg": 175000.0
+                },
+                "hour": {
+                  "min": 15217.39,
+                  "max": 30434.78,
+                  "avg": 22826.09
+                }
+              },
+              "source": "INVIMA/ANDI 2026",
+              "freelance": {
+                "services": [
+                  "Auditorías internas BPM y BPA en plantas farmacéuticas",
+                  "Preparación de documentación para inspecciones INVIMA/FDA",
+                  "Control de proceso y liberación de lotes",
+                  "Validación de procesos y equipos GMP"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 200000,
+                  "max": 500000,
+                  "avg": 350000
+                },
+                "source_freelance": "INVIMA/Workana 2026"
+              }
             }
           ]
         },
@@ -3420,6 +3610,82 @@
                   "avg": 8610000
                 },
                 "source_freelance": "SCI/CREG 2026"
+              }
+            },
+            {
+              "id": "gerente-sostenibilidad-esg-manufactura",
+              "title": "Gerente de Sostenibilidad / ESG Manufactura",
+              "ciiu": "C – Industrias manufactureras",
+              "salary": {
+                "month": {
+                  "min": 12000000,
+                  "max": 25000000,
+                  "avg": 18500000
+                },
+                "day": {
+                  "min": 400000.0,
+                  "max": 833333.33,
+                  "avg": 616666.67
+                },
+                "hour": {
+                  "min": 52173.91,
+                  "max": 108695.65,
+                  "avg": 80434.78
+                }
+              },
+              "source": "ANDI/Min.Ambiente 2026",
+              "freelance": {
+                "services": [
+                  "Diseño e implementación de estrategia ESG corporativa",
+                  "Reporte de sostenibilidad GRI/SASB para plantas industriales",
+                  "Gestión de huella de carbono y planes de descarbonización",
+                  "Relaciones con inversionistas en temas ESG"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 5000000,
+                  "max": 15000000,
+                  "avg": 10000000
+                },
+                "source_freelance": "ANDI/Workana 2026"
+              }
+            },
+            {
+              "id": "qa-automation-engineer",
+              "title": "QA Automation Engineer",
+              "ciiu": "C – Industrias manufactureras",
+              "salary": {
+                "month": {
+                  "min": 7000000,
+                  "max": 16000000,
+                  "avg": 11500000
+                },
+                "day": {
+                  "min": 233333.33,
+                  "max": 533333.33,
+                  "avg": 383333.33
+                },
+                "hour": {
+                  "min": 30434.78,
+                  "max": 69565.22,
+                  "avg": 50000.0
+                }
+              },
+              "source": "Computrabajo/Min.TIC 2026",
+              "freelance": {
+                "services": [
+                  "Diseño de suites de pruebas automatizadas (Selenium, Cypress, Playwright)",
+                  "Integración de pruebas en pipelines CI/CD",
+                  "Pruebas de rendimiento y carga (JMeter, k6)",
+                  "Consultoría en estrategias de calidad de software"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 2500000,
+                  "max": 9000000,
+                  "avg": 5750000
+                },
+                "source_freelance": "Workana/Glassdoor CO 2026"
               }
             }
           ]
@@ -4291,44 +4557,6 @@
                 },
                 "source_freelance": "CCCE/DANE 2026"
               }
-            },
-            {
-              "id": "fotografo-profesional",
-              "title": "Fotógrafo Profesional",
-              "ciiu": "R – Actividades artísticas, entretenimiento",
-              "salary": {
-                "month": {
-                  "min": 2460000,
-                  "max": 7380000,
-                  "avg": 4920000
-                },
-                "day": {
-                  "min": 82000.0,
-                  "max": 246000.0,
-                  "avg": 164000.0
-                },
-                "hour": {
-                  "min": 10695.65,
-                  "max": 32086.96,
-                  "avg": 21391.3
-                }
-              },
-              "source": "DANE 2026",
-              "freelance": {
-                "services": [
-                  "Fotografía de eventos sociales y corporativos",
-                  "Sesiones de retratos y headshots",
-                  "Fotografía de producto para ecommerce",
-                  "Fotoperiodismo para medios digitales"
-                ],
-                "rate_unit": "proyecto",
-                "rates": {
-                  "min": 369000,
-                  "max": 3075000,
-                  "avg": 1353000
-                },
-                "source_freelance": "Workana/Upwork Colombia 2026"
-              }
             }
           ]
         },
@@ -4667,43 +4895,6 @@
                   "avg": 108240
                 },
                 "source_freelance": "Min.Salud/DANE 2026"
-              }
-            },
-            {
-              "id": "bacteriologo",
-              "title": "Bacteriólogo",
-              "ciiu": "Q – Actividades de atención de la salud",
-              "salary": {
-                "month": {
-                  "min": 3690000,
-                  "max": 6765000,
-                  "avg": 5227500
-                },
-                "day": {
-                  "min": 123000.0,
-                  "max": 225500.0,
-                  "avg": 174250.0
-                },
-                "hour": {
-                  "min": 16043.48,
-                  "max": 29413.04,
-                  "avg": 22728.26
-                }
-              },
-              "source": "DANE 2026",
-              "freelance": {
-                "services": [
-                  "Análisis microbiológicos en laboratorio externo",
-                  "Consultoría en control de calidad microbiológica",
-                  "Asesoría INVIMA en laboratorios clínicos"
-                ],
-                "rate_unit": "hora",
-                "rates": {
-                  "min": 61500,
-                  "max": 135300,
-                  "avg": 92250
-                },
-                "source_freelance": "ACBCC/Min.Salud 2026"
               }
             },
             {
@@ -5073,6 +5264,44 @@
                   "min": 1230000,
                   "max": 7380000,
                   "avg": 3690000
+                },
+                "source_freelance": "Workana/Upwork Colombia 2026"
+              }
+            },
+            {
+              "id": "fotografo-profesional",
+              "title": "Fotógrafo Profesional",
+              "ciiu": "R – Actividades artísticas, entretenimiento",
+              "salary": {
+                "month": {
+                  "min": 2460000,
+                  "max": 7380000,
+                  "avg": 4920000
+                },
+                "day": {
+                  "min": 82000.0,
+                  "max": 246000.0,
+                  "avg": 164000.0
+                },
+                "hour": {
+                  "min": 10695.65,
+                  "max": 32086.96,
+                  "avg": 21391.3
+                }
+              },
+              "source": "DANE 2026",
+              "freelance": {
+                "services": [
+                  "Fotografía de eventos sociales y corporativos",
+                  "Sesiones de retratos y headshots",
+                  "Fotografía de producto para ecommerce",
+                  "Fotoperiodismo para medios digitales"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 369000,
+                  "max": 3075000,
+                  "avg": 1353000
                 },
                 "source_freelance": "Workana/Upwork Colombia 2026"
               }
@@ -6366,43 +6595,6 @@
               }
             },
             {
-              "id": "rector-colegio-publico",
-              "title": "Rector de Colegio Público",
-              "ciiu": "P – Educación",
-              "salary": {
-                "month": {
-                  "min": 7380000,
-                  "max": 17220000,
-                  "avg": 12300000
-                },
-                "day": {
-                  "min": 246000.0,
-                  "max": 574000.0,
-                  "avg": 410000.0
-                },
-                "hour": {
-                  "min": 32086.96,
-                  "max": 74869.57,
-                  "avg": 53478.26
-                }
-              },
-              "source": "MEN/DAFP 2026",
-              "freelance": {
-                "services": [
-                  "Consultoría en gestión escolar",
-                  "Asesoría en acreditación institucional",
-                  "Conferencias sobre liderazgo educativo"
-                ],
-                "rate_unit": "hora",
-                "rates": {
-                  "min": 98400,
-                  "max": 246000,
-                  "avg": 159900
-                },
-                "source_freelance": "MEN/DAFP 2026"
-              }
-            },
-            {
               "id": "analista-supply-chain",
               "title": "Analista Supply Chain",
               "ciiu": "H – Transporte y almacenamiento",
@@ -6887,6 +7079,309 @@
                   "avg": 3000000
                 },
                 "source_freelance": "Workana/IAB Colombia 2026"
+              }
+            },
+            {
+              "id": "bacteriologo",
+              "title": "Bacteriólogo",
+              "ciiu": "Q – Actividades de atención de la salud",
+              "salary": {
+                "month": {
+                  "min": 3690000,
+                  "max": 6765000,
+                  "avg": 5227500
+                },
+                "day": {
+                  "min": 123000.0,
+                  "max": 225500.0,
+                  "avg": 174250.0
+                },
+                "hour": {
+                  "min": 16043.48,
+                  "max": 29413.04,
+                  "avg": 22728.26
+                }
+              },
+              "source": "DANE 2026",
+              "freelance": {
+                "services": [
+                  "Análisis microbiológicos en laboratorio externo",
+                  "Consultoría en control de calidad microbiológica",
+                  "Asesoría INVIMA en laboratorios clínicos"
+                ],
+                "rate_unit": "hora",
+                "rates": {
+                  "min": 61500,
+                  "max": 135300,
+                  "avg": 92250
+                },
+                "source_freelance": "ACBCC/Min.Salud 2026"
+              }
+            },
+            {
+              "id": "fonoaudiologo",
+              "title": "Fonoaudiólogo",
+              "ciiu": "Q – Actividades de atención de la salud",
+              "salary": {
+                "month": {
+                  "min": 3500000,
+                  "max": 8000000,
+                  "avg": 5750000
+                },
+                "day": {
+                  "min": 116666.67,
+                  "max": 266666.67,
+                  "avg": 191666.67
+                },
+                "hour": {
+                  "min": 15217.39,
+                  "max": 34782.61,
+                  "avg": 25000.0
+                }
+              },
+              "source": "Min.Salud/WageIndicator 2026",
+              "freelance": {
+                "services": [
+                  "Terapia del lenguaje y comunicación a domicilio",
+                  "Evaluación de trastornos de deglución",
+                  "Intervención temprana en niños",
+                  "Consultoría en salud vocal para profesionales"
+                ],
+                "rate_unit": "sesión",
+                "rates": {
+                  "min": 80000,
+                  "max": 200000,
+                  "avg": 140000
+                },
+                "source_freelance": "Min.Salud/SaludJobs 2026"
+              }
+            },
+            {
+              "id": "terapia-ocupacional",
+              "title": "Terapeuta Ocupacional",
+              "ciiu": "Q – Actividades de atención de la salud",
+              "salary": {
+                "month": {
+                  "min": 3500000,
+                  "max": 8000000,
+                  "avg": 5750000
+                },
+                "day": {
+                  "min": 116666.67,
+                  "max": 266666.67,
+                  "avg": 191666.67
+                },
+                "hour": {
+                  "min": 15217.39,
+                  "max": 34782.61,
+                  "avg": 25000.0
+                }
+              },
+              "source": "Min.Salud/WageIndicator 2026",
+              "freelance": {
+                "services": [
+                  "Rehabilitación funcional a domicilio",
+                  "Evaluación de capacidad laboral",
+                  "Intervención en población con discapacidad",
+                  "Programas de ergonomía empresarial"
+                ],
+                "rate_unit": "sesión",
+                "rates": {
+                  "min": 80000,
+                  "max": 200000,
+                  "avg": 140000
+                },
+                "source_freelance": "Min.Salud/SaludJobs 2026"
+              }
+            },
+            {
+              "id": "abogado-corporativo",
+              "title": "Abogado Corporativo (M&A / Contratos Internacionales)",
+              "ciiu": "M – Actividades jurídicas y de contabilidad",
+              "salary": {
+                "month": {
+                  "min": 8000000,
+                  "max": 22000000,
+                  "avg": 15000000
+                },
+                "day": {
+                  "min": 266666.67,
+                  "max": 733333.33,
+                  "avg": 500000.0
+                },
+                "hour": {
+                  "min": 34782.61,
+                  "max": 95652.17,
+                  "avg": 65217.39
+                }
+              },
+              "source": "Min.Justicia/CCCE 2026",
+              "freelance": {
+                "services": [
+                  "Estructuración de contratos M&A y joint ventures",
+                  "Due diligence jurídico para transacciones corporativas",
+                  "Arbitraje internacional y litigios comerciales",
+                  "Asesoría en regulación de inversión extranjera directa"
+                ],
+                "rate_unit": "hora",
+                "rates": {
+                  "min": 250000,
+                  "max": 700000,
+                  "avg": 475000
+                },
+                "source_freelance": "Min.Justicia/Workana 2026"
+              }
+            },
+            {
+              "id": "gerente-talento-humano",
+              "title": "Gerente de Talento Humano / CHRO",
+              "ciiu": "N – Actividades de servicios administrativos",
+              "salary": {
+                "month": {
+                  "min": 12000000,
+                  "max": 28000000,
+                  "avg": 20000000
+                },
+                "day": {
+                  "min": 400000.0,
+                  "max": 933333.33,
+                  "avg": 666666.67
+                },
+                "hour": {
+                  "min": 52173.91,
+                  "max": 121739.13,
+                  "avg": 86956.52
+                }
+              },
+              "source": "ACRIP/DANE 2026",
+              "freelance": {
+                "services": [
+                  "Diseño de estrategia de gestión del talento",
+                  "Implementación de sistemas de compensación y beneficios",
+                  "Consultoría en transformación cultural organizacional",
+                  "Diseño de programas de desarrollo de liderazgo"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 5000000,
+                  "max": 15000000,
+                  "avg": 10000000
+                },
+                "source_freelance": "ACRIP/Workana 2026"
+              }
+            },
+            {
+              "id": "piloto-comercial",
+              "title": "Piloto Comercial",
+              "ciiu": "H – Transporte aéreo",
+              "salary": {
+                "month": {
+                  "min": 12000000,
+                  "max": 30000000,
+                  "avg": 21000000
+                },
+                "day": {
+                  "min": 400000.0,
+                  "max": 1000000.0,
+                  "avg": 700000.0
+                },
+                "hour": {
+                  "min": 52173.91,
+                  "max": 130434.78,
+                  "avg": 91304.35
+                }
+              },
+              "source": "Aerocivil/ATAC 2026",
+              "freelance": {
+                "services": [
+                  "Vuelos charter y aviación ejecutiva",
+                  "Instrucción de vuelo en aeroclubes certificados",
+                  "Piloto de aeronave privada por contrato",
+                  "Operaciones de fumigación aérea agrícola"
+                ],
+                "rate_unit": "hora-vuelo",
+                "rates": {
+                  "min": 200000,
+                  "max": 600000,
+                  "avg": 400000
+                },
+                "source_freelance": "Aerocivil/ATAC 2026"
+              }
+            },
+            {
+              "id": "wealth-manager",
+              "title": "Gestor de Patrimonio (Wealth Manager)",
+              "ciiu": "K – Actividades financieras y de seguros",
+              "salary": {
+                "month": {
+                  "min": 10000000,
+                  "max": 25000000,
+                  "avg": 17500000
+                },
+                "day": {
+                  "min": 333333.33,
+                  "max": 833333.33,
+                  "avg": 583333.33
+                },
+                "hour": {
+                  "min": 43478.26,
+                  "max": 108695.65,
+                  "avg": 76086.96
+                }
+              },
+              "source": "Asobancaria/SFC 2026",
+              "freelance": {
+                "services": [
+                  "Estructuración de portafolios de inversión para personas de alto patrimonio",
+                  "Asesoría en planeación tributaria patrimonial",
+                  "Consultoría en activos alternativos (PE, real estate, cripto)",
+                  "Gestión de fideicomisos y vehículos de inversión"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 3000000,
+                  "max": 12000000,
+                  "avg": 7500000
+                },
+                "source_freelance": "Asobancaria/Glassdoor CO 2026"
+              }
+            },
+            {
+              "id": "nutricionista-clinica",
+              "title": "Nutricionista Clínica Especializada",
+              "ciiu": "Q – Actividades de atención de la salud",
+              "salary": {
+                "month": {
+                  "min": 4500000,
+                  "max": 11000000,
+                  "avg": 7750000
+                },
+                "day": {
+                  "min": 150000.0,
+                  "max": 366666.67,
+                  "avg": 258333.33
+                },
+                "hour": {
+                  "min": 19565.22,
+                  "max": 47826.09,
+                  "avg": 33695.65
+                }
+              },
+              "source": "Min.Salud/ACOFANUD 2026",
+              "freelance": {
+                "services": [
+                  "Consulta nutricional clínica presencial y teleconsulta",
+                  "Diseño de planes nutricionales para patologías crónicas",
+                  "Soporte nutricional en UCI y hospitalización",
+                  "Programas corporativos de bienestar y nutrición"
+                ],
+                "rate_unit": "sesión",
+                "rates": {
+                  "min": 100000,
+                  "max": 280000,
+                  "avg": 190000
+                },
+                "source_freelance": "Min.Salud/SaludJobs 2026"
               }
             }
           ]
@@ -7422,82 +7917,6 @@
               }
             },
             {
-              "id": "fonoaudiologo",
-              "title": "Fonoaudiólogo",
-              "ciiu": "Q – Actividades de atención de la salud",
-              "salary": {
-                "month": {
-                  "min": 3500000,
-                  "max": 8000000,
-                  "avg": 5750000
-                },
-                "day": {
-                  "min": 116666.67,
-                  "max": 266666.67,
-                  "avg": 191666.67
-                },
-                "hour": {
-                  "min": 15217.39,
-                  "max": 34782.61,
-                  "avg": 25000.0
-                }
-              },
-              "source": "Min.Salud/WageIndicator 2026",
-              "freelance": {
-                "services": [
-                  "Terapia del lenguaje y comunicación a domicilio",
-                  "Evaluación de trastornos de deglución",
-                  "Intervención temprana en niños",
-                  "Consultoría en salud vocal para profesionales"
-                ],
-                "rate_unit": "sesión",
-                "rates": {
-                  "min": 80000,
-                  "max": 200000,
-                  "avg": 140000
-                },
-                "source_freelance": "Min.Salud/SaludJobs 2026"
-              }
-            },
-            {
-              "id": "terapia-ocupacional",
-              "title": "Terapeuta Ocupacional",
-              "ciiu": "Q – Actividades de atención de la salud",
-              "salary": {
-                "month": {
-                  "min": 3500000,
-                  "max": 8000000,
-                  "avg": 5750000
-                },
-                "day": {
-                  "min": 116666.67,
-                  "max": 266666.67,
-                  "avg": 191666.67
-                },
-                "hour": {
-                  "min": 15217.39,
-                  "max": 34782.61,
-                  "avg": 25000.0
-                }
-              },
-              "source": "Min.Salud/WageIndicator 2026",
-              "freelance": {
-                "services": [
-                  "Rehabilitación funcional a domicilio",
-                  "Evaluación de capacidad laboral",
-                  "Intervención en población con discapacidad",
-                  "Programas de ergonomía empresarial"
-                ],
-                "rate_unit": "sesión",
-                "rates": {
-                  "min": 80000,
-                  "max": 200000,
-                  "avg": 140000
-                },
-                "source_freelance": "Min.Salud/SaludJobs 2026"
-              }
-            },
-            {
               "id": "analista-esg",
               "title": "Analista ESG / Sostenibilidad",
               "ciiu": "K – Actividades financieras y de seguros",
@@ -7912,6 +8331,43 @@
                   "avg": 13530000
                 },
                 "source_freelance": "Min.Salud/DANE 2026"
+              }
+            },
+            {
+              "id": "rector-colegio-publico",
+              "title": "Rector de Colegio Público",
+              "ciiu": "P – Educación",
+              "salary": {
+                "month": {
+                  "min": 7380000,
+                  "max": 17220000,
+                  "avg": 12300000
+                },
+                "day": {
+                  "min": 246000.0,
+                  "max": 574000.0,
+                  "avg": 410000.0
+                },
+                "hour": {
+                  "min": 32086.96,
+                  "max": 74869.57,
+                  "avg": 53478.26
+                }
+              },
+              "source": "MEN/DAFP 2026",
+              "freelance": {
+                "services": [
+                  "Consultoría en gestión escolar",
+                  "Asesoría en acreditación institucional",
+                  "Conferencias sobre liderazgo educativo"
+                ],
+                "rate_unit": "hora",
+                "rates": {
+                  "min": 98400,
+                  "max": 246000,
+                  "avg": 159900
+                },
+                "source_freelance": "MEN/DAFP 2026"
               }
             }
           ]
@@ -8943,43 +9399,6 @@
               }
             },
             {
-              "id": "scrum-master",
-              "title": "Scrum Master",
-              "ciiu": "J – TIC: Desarrollo de software y tecnología",
-              "salary": {
-                "month": {
-                  "min": 6765000,
-                  "max": 14760000,
-                  "avg": 10762500
-                },
-                "day": {
-                  "min": 225500.0,
-                  "max": 492000.0,
-                  "avg": 358750.0
-                },
-                "hour": {
-                  "min": 29413.04,
-                  "max": 64173.91,
-                  "avg": 46793.48
-                }
-              },
-              "source": "Min.TIC 2026",
-              "freelance": {
-                "services": [
-                  "Facilitación de sprints y ceremonias Scrum",
-                  "Coaching ágil a equipos de desarrollo",
-                  "Implementación de metodologías ágiles en empresas"
-                ],
-                "rate_unit": "hora",
-                "rates": {
-                  "min": 98400,
-                  "max": 221400,
-                  "avg": 153750
-                },
-                "source_freelance": "Workana/PMI Colombia 2026"
-              }
-            },
-            {
               "id": "data-analyst",
               "title": "Data Analyst",
               "ciiu": "J – TIC: Ciencia de datos",
@@ -9244,82 +9663,6 @@
               }
             },
             {
-              "id": "blockchain-developer",
-              "title": "Blockchain Developer",
-              "ciiu": "J – TIC: Desarrollo de software y tecnología",
-              "salary": {
-                "month": {
-                  "min": 9000000,
-                  "max": 22000000,
-                  "avg": 15500000
-                },
-                "day": {
-                  "min": 300000.0,
-                  "max": 733333.33,
-                  "avg": 516666.67
-                },
-                "hour": {
-                  "min": 39130.43,
-                  "max": 95652.17,
-                  "avg": 67391.3
-                }
-              },
-              "source": "Computrabajo/Min.TIC 2026",
-              "freelance": {
-                "services": [
-                  "Desarrollo de smart contracts (Solidity/Rust)",
-                  "Integración de wallets y protocolos DeFi",
-                  "Consultoría en adopción de blockchain empresarial",
-                  "Auditorías de contratos inteligentes"
-                ],
-                "rate_unit": "proyecto",
-                "rates": {
-                  "min": 3500000,
-                  "max": 12000000,
-                  "avg": 7750000
-                },
-                "source_freelance": "Workana/Upwork Colombia 2026"
-              }
-            },
-            {
-              "id": "ux-ui-designer",
-              "title": "Diseñador UX/UI",
-              "ciiu": "J – TIC: Desarrollo de software y tecnología",
-              "salary": {
-                "month": {
-                  "min": 5000000,
-                  "max": 13000000,
-                  "avg": 9000000
-                },
-                "day": {
-                  "min": 166666.67,
-                  "max": 433333.33,
-                  "avg": 300000.0
-                },
-                "hour": {
-                  "min": 21739.13,
-                  "max": 56521.74,
-                  "avg": 39130.43
-                }
-              },
-              "source": "Computrabajo/DANE 2026",
-              "freelance": {
-                "services": [
-                  "Diseño de interfaces digitales (Figma/Adobe XD)",
-                  "Research de usuario e investigación cualitativa",
-                  "Pruebas de usabilidad y experiencia de usuario",
-                  "Design systems para productos digitales"
-                ],
-                "rate_unit": "proyecto",
-                "rates": {
-                  "min": 1500000,
-                  "max": 7000000,
-                  "avg": 4250000
-                },
-                "source_freelance": "Workana/Upwork Colombia 2026"
-              }
-            },
-            {
               "id": "product-manager-digital",
               "title": "Product Manager Digital",
               "ciiu": "J – TIC: Desarrollo de software y tecnología",
@@ -9394,6 +9737,82 @@
                 },
                 "source_freelance": "Workana/Glassdoor CO 2026"
               }
+            },
+            {
+              "id": "site-reliability-engineer",
+              "title": "Site Reliability Engineer (SRE)",
+              "ciiu": "J – TIC: Desarrollo de software y tecnología",
+              "salary": {
+                "month": {
+                  "min": 10000000,
+                  "max": 24000000,
+                  "avg": 17000000
+                },
+                "day": {
+                  "min": 333333.33,
+                  "max": 800000.0,
+                  "avg": 566666.67
+                },
+                "hour": {
+                  "min": 43478.26,
+                  "max": 104347.83,
+                  "avg": 73913.04
+                }
+              },
+              "source": "Michael Page Guía Salarial Tecnología 2026",
+              "freelance": {
+                "services": [
+                  "Diseño de arquitecturas de alta disponibilidad (99.99%)",
+                  "Implementación de SLOs, SLAs y error budgets",
+                  "Automatización de operaciones con IaC (Terraform, Pulumi)",
+                  "Consultoría en observabilidad y respuesta a incidentes"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 4000000,
+                  "max": 13000000,
+                  "avg": 8500000
+                },
+                "source_freelance": "Workana/Glassdoor CO 2026"
+              }
+            },
+            {
+              "id": "developer-relations",
+              "title": "Developer Relations / DevRel",
+              "ciiu": "J – TIC: Desarrollo de software y tecnología",
+              "salary": {
+                "month": {
+                  "min": 7000000,
+                  "max": 18000000,
+                  "avg": 12500000
+                },
+                "day": {
+                  "min": 233333.33,
+                  "max": 600000.0,
+                  "avg": 416666.67
+                },
+                "hour": {
+                  "min": 30434.78,
+                  "max": 78260.87,
+                  "avg": 54347.83
+                }
+              },
+              "source": "Min.TIC/Computrabajo 2026",
+              "freelance": {
+                "services": [
+                  "Creación de contenido técnico (tutoriales, demos, SDKs)",
+                  "Representación en conferencias y comunidades de desarrolladores",
+                  "Diseño de programas de adopción para plataformas API/SDK",
+                  "Consultoría en estrategia de comunidad técnica"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 2500000,
+                  "max": 10000000,
+                  "avg": 6250000
+                },
+                "source_freelance": "Workana/Glassdoor CO 2026"
+              }
             }
           ]
         },
@@ -9401,44 +9820,6 @@
           "id": "especialista-maestria",
           "name": "Especialista / Maestría",
           "jobs": [
-            {
-              "id": "data-scientist-ml-engineer",
-              "title": "Data Scientist / ML Engineer",
-              "ciiu": "J – TIC: Desarrollo de software y tecnología",
-              "salary": {
-                "month": {
-                  "min": 14760000,
-                  "max": 34440000,
-                  "avg": 24600000
-                },
-                "day": {
-                  "min": 492000.0,
-                  "max": 1148000.0,
-                  "avg": 820000.0
-                },
-                "hour": {
-                  "min": 64173.91,
-                  "max": 149739.13,
-                  "avg": 106956.52
-                }
-              },
-              "source": "Min.TIC/OIT 2026",
-              "freelance": {
-                "services": [
-                  "Construcción de modelos de ML para empresas",
-                  "Consultoría en estrategia de inteligencia artificial",
-                  "Análisis predictivo y prescriptivo",
-                  "Automatización de procesos con ML"
-                ],
-                "rate_unit": "hora",
-                "rates": {
-                  "min": 147600,
-                  "max": 344400,
-                  "avg": 239850
-                },
-                "source_freelance": "Min.TIC/Glassdoor CO 2026"
-              }
-            },
             {
               "id": "ingeniero-de-inteligencia-artificial",
               "title": "Ingeniero de Inteligencia Artificial",
@@ -9814,44 +10195,6 @@
               }
             },
             {
-              "id": "cto-ciso-fraccional",
-              "title": "CTO / CISO Fraccional",
-              "ciiu": "J – TIC: Desarrollo de software y tecnología",
-              "salary": {
-                "month": {
-                  "min": 20000000,
-                  "max": 45000000,
-                  "avg": 32500000
-                },
-                "day": {
-                  "min": 666666.67,
-                  "max": 1500000.0,
-                  "avg": 1083333.33
-                },
-                "hour": {
-                  "min": 86956.52,
-                  "max": 195652.17,
-                  "avg": 141304.35
-                }
-              },
-              "source": "Michael Page / Glassdoor CO 2026",
-              "freelance": {
-                "services": [
-                  "Dirección tecnológica fraccional para startups y PYMES",
-                  "Definición de estrategia tecnológica y seguridad",
-                  "Liderazgo de equipos de ingeniería por contrato",
-                  "Due diligence tecnológico en M&A"
-                ],
-                "rate_unit": "mes-retainer",
-                "rates": {
-                  "min": 8000000,
-                  "max": 22000000,
-                  "avg": 15000000
-                },
-                "source_freelance": "Workana/Glassdoor CO 2026"
-              }
-            },
-            {
               "id": "investigador-senior",
               "title": "Investigador Senior",
               "ciiu": "M – Act. científicas y técnicas (I+D)",
@@ -10080,82 +10423,6 @@
                   "avg": 19680000
                 },
                 "source_freelance": "Min.TIC/Glassdoor CO 2026"
-              }
-            },
-            {
-              "id": "director-tecnologia",
-              "title": "Director de Tecnología (CTO)",
-              "ciiu": "J – TIC: Desarrollo de software y tecnología",
-              "salary": {
-                "month": {
-                  "min": 25000000,
-                  "max": 60000000,
-                  "avg": 42500000
-                },
-                "day": {
-                  "min": 833333.33,
-                  "max": 2000000.0,
-                  "avg": 1416666.67
-                },
-                "hour": {
-                  "min": 108695.65,
-                  "max": 260869.57,
-                  "avg": 184782.61
-                }
-              },
-              "source": "Michael Page Guía Salarial Tecnología 2026",
-              "freelance": {
-                "services": [
-                  "Definición de arquitectura tecnológica corporativa",
-                  "Gestión de equipos de ingeniería de alto desempeño",
-                  "Consultoría estratégica en transformación digital",
-                  "Evaluación de inversiones en tecnología"
-                ],
-                "rate_unit": "mes-retainer",
-                "rates": {
-                  "min": 10000000,
-                  "max": 28000000,
-                  "avg": 19000000
-                },
-                "source_freelance": "Michael Page/Glassdoor CO 2026"
-              }
-            },
-            {
-              "id": "gerente-transformacion-digital",
-              "title": "Gerente de Transformación Digital",
-              "ciiu": "J – TIC: Desarrollo de software y tecnología",
-              "salary": {
-                "month": {
-                  "min": 18000000,
-                  "max": 40000000,
-                  "avg": 29000000
-                },
-                "day": {
-                  "min": 600000.0,
-                  "max": 1333333.33,
-                  "avg": 966666.67
-                },
-                "hour": {
-                  "min": 78260.87,
-                  "max": 173913.04,
-                  "avg": 126086.96
-                }
-              },
-              "source": "Michael Page / DANE 2026",
-              "freelance": {
-                "services": [
-                  "Liderazgo de proyectos de transformación digital",
-                  "Gestión del cambio organizacional tecnológico",
-                  "Consultoría en digitalización de procesos",
-                  "Diseño de estrategia digital corporativa"
-                ],
-                "rate_unit": "mes-retainer",
-                "rates": {
-                  "min": 7000000,
-                  "max": 20000000,
-                  "avg": 13500000
-                },
-                "source_freelance": "Michael Page/Workana 2026"
               }
             }
           ]
@@ -10428,6 +10695,442 @@
                   "avg": 24600000
                 },
                 "source_freelance": "Min.TIC/DANE 2026"
+              }
+            },
+            {
+              "id": "cfo-multinacional",
+              "title": "CFO de Multinacional",
+              "ciiu": "K – Actividades financieras y de seguros",
+              "salary": {
+                "month": {
+                  "min": 45000000,
+                  "max": 120000000,
+                  "avg": 82500000
+                },
+                "day": {
+                  "min": 1500000.0,
+                  "max": 4000000.0,
+                  "avg": 2750000.0
+                },
+                "hour": {
+                  "min": 195652.17,
+                  "max": 521739.13,
+                  "avg": 358695.65
+                }
+              },
+              "source": "Michael Page / Glassdoor CO 2026",
+              "freelance": {
+                "services": [
+                  "Estructuración financiera de filiales en Latinoamérica",
+                  "Relaciones con bancos multilaterales y mercados de capitales",
+                  "Dirección de procesos de M&A y fundraising",
+                  "Reestructuración de deuda corporativa internacional"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 15000000,
+                  "max": 50000000,
+                  "avg": 32500000
+                },
+                "source_freelance": "Michael Page / Glassdoor CO 2026"
+              }
+            },
+            {
+              "id": "cmo-chief-marketing-officer",
+              "title": "CMO – Chief Marketing Officer",
+              "ciiu": "M – Act. profesionales, científicas y técnicas",
+              "salary": {
+                "month": {
+                  "min": 35000000,
+                  "max": 90000000,
+                  "avg": 62500000
+                },
+                "day": {
+                  "min": 1166666.67,
+                  "max": 3000000.0,
+                  "avg": 2083333.33
+                },
+                "hour": {
+                  "min": 152173.91,
+                  "max": 391304.35,
+                  "avg": 271739.13
+                }
+              },
+              "source": "Michael Page / DANE 2026",
+              "freelance": {
+                "services": [
+                  "Diseño de estrategia de marca y posicionamiento global",
+                  "Dirección de presupuesto de marketing performance",
+                  "Transformación digital de canales de adquisición",
+                  "Consultoría en estrategia de marketing para C-suite"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 12000000,
+                  "max": 40000000,
+                  "avg": 26000000
+                },
+                "source_freelance": "Michael Page / Glassdoor CO 2026"
+              }
+            }
+          ]
+        },
+        {
+          "id": "poder-publico",
+          "name": "Poder Público / Cargos Electos",
+          "jobs": [
+            {
+              "id": "congresista-senador",
+              "title": "Congresista / Senador de la República",
+              "ciiu": "O – Administración pública y defensa",
+              "salary": {
+                "month": {
+                  "min": 35000000,
+                  "max": 42000000,
+                  "avg": 38500000
+                },
+                "day": {
+                  "min": 1166666.67,
+                  "max": 1400000.0,
+                  "avg": 1283333.33
+                },
+                "hour": {
+                  "min": 152173.91,
+                  "max": 182608.7,
+                  "avg": 167391.3
+                }
+              },
+              "source": "Congreso de la República / DANE 2026",
+              "freelance": {
+                "services": [
+                  "Asesoría legislativa y técnica en proyectos de ley",
+                  "Consultoría en políticas públicas y regulación sectorial",
+                  "Representación gremial ante el Congreso",
+                  "Cabildeo (lobbying) institucional para organizaciones"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 5000000,
+                  "max": 20000000,
+                  "avg": 12500000
+                },
+                "source_freelance": "Congreso de la República 2026"
+              }
+            },
+            {
+              "id": "magistrado-corte",
+              "title": "Magistrado de Corte",
+              "ciiu": "O – Actividades de la justicia",
+              "salary": {
+                "month": {
+                  "min": 38000000,
+                  "max": 50000000,
+                  "avg": 44000000
+                },
+                "day": {
+                  "min": 1266666.67,
+                  "max": 1666666.67,
+                  "avg": 1466666.67
+                },
+                "hour": {
+                  "min": 165217.39,
+                  "max": 217391.3,
+                  "avg": 191304.35
+                }
+              },
+              "source": "Rama Judicial / DANE 2026",
+              "freelance": {
+                "services": [
+                  "Arbitraje y amigable composición en disputas comerciales",
+                  "Consultoría jurídica de alto nivel en derecho constitucional",
+                  "Opiniones jurídicas especializadas para firma de abogados",
+                  "Docencia en posgrados de derecho"
+                ],
+                "rate_unit": "hora",
+                "rates": {
+                  "min": 500000,
+                  "max": 1500000,
+                  "avg": 1000000
+                },
+                "source_freelance": "Rama Judicial / DANE 2026"
+              }
+            },
+            {
+              "id": "gobernador",
+              "title": "Gobernador Departamental",
+              "ciiu": "O – Administración pública y defensa",
+              "salary": {
+                "month": {
+                  "min": 22000000,
+                  "max": 32000000,
+                  "avg": 27000000
+                },
+                "day": {
+                  "min": 733333.33,
+                  "max": 1066666.67,
+                  "avg": 900000.0
+                },
+                "hour": {
+                  "min": 95652.17,
+                  "max": 139130.43,
+                  "avg": 117391.3
+                }
+              },
+              "source": "DANE/DNP 2026",
+              "freelance": {
+                "services": [
+                  "Consultoría en gestión pública territorial",
+                  "Asesoría en formulación de planes de desarrollo regional",
+                  "Representación ante organismos multilaterales regionales",
+                  "Dirección de proyectos de infraestructura pública"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 8000000,
+                  "max": 20000000,
+                  "avg": 14000000
+                },
+                "source_freelance": "DANE/DNP 2026"
+              }
+            }
+          ]
+        },
+        {
+          "id": "diplomacia",
+          "name": "Diplomacia y Relaciones Internacionales",
+          "jobs": [
+            {
+              "id": "embajador-consul",
+              "title": "Embajador / Cónsul General",
+              "ciiu": "O – Administración pública y defensa",
+              "salary": {
+                "month": {
+                  "min": 28000000,
+                  "max": 55000000,
+                  "avg": 41500000
+                },
+                "day": {
+                  "min": 933333.33,
+                  "max": 1833333.33,
+                  "avg": 1383333.33
+                },
+                "hour": {
+                  "min": 121739.13,
+                  "max": 239130.43,
+                  "avg": 180434.78
+                }
+              },
+              "source": "Cancillería / Min.Relaciones Exteriores 2026",
+              "freelance": {
+                "services": [
+                  "Negociación de tratados bilaterales de comercio",
+                  "Asesoría en relaciones internacionales y geopolítica",
+                  "Representación institucional ante organismos internacionales",
+                  "Consultoría en política exterior para cancillerías"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 8000000,
+                  "max": 25000000,
+                  "avg": 16500000
+                },
+                "source_freelance": "Cancillería 2026"
+              }
+            },
+            {
+              "id": "negociador-tratados-comerciales",
+              "title": "Negociador de Tratados Comerciales (TLC)",
+              "ciiu": "O – Administración pública y defensa",
+              "salary": {
+                "month": {
+                  "min": 18000000,
+                  "max": 38000000,
+                  "avg": 28000000
+                },
+                "day": {
+                  "min": 600000.0,
+                  "max": 1266666.67,
+                  "avg": 933333.33
+                },
+                "hour": {
+                  "min": 78260.87,
+                  "max": 165217.39,
+                  "avg": 121739.13
+                }
+              },
+              "source": "Min.Comercio / Cancillería 2026",
+              "freelance": {
+                "services": [
+                  "Negociación técnica de acuerdos comerciales internacionales",
+                  "Análisis de impacto de TLCs en sectores productivos",
+                  "Asesoría a gremios en acceso a mercados internacionales",
+                  "Representación de Colombia en OMC y grupos de negociación"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 5000000,
+                  "max": 18000000,
+                  "avg": 11500000
+                },
+                "source_freelance": "Min.Comercio 2026"
+              }
+            },
+            {
+              "id": "especialista-cooperacion-internacional",
+              "title": "Especialista en Cooperación Internacional",
+              "ciiu": "O – Administración pública y defensa",
+              "salary": {
+                "month": {
+                  "min": 8000000,
+                  "max": 18000000,
+                  "avg": 13000000
+                },
+                "day": {
+                  "min": 266666.67,
+                  "max": 600000.0,
+                  "avg": 433333.33
+                },
+                "hour": {
+                  "min": 34782.61,
+                  "max": 78260.87,
+                  "avg": 56521.74
+                }
+              },
+              "source": "APC Colombia / DANE 2026",
+              "freelance": {
+                "services": [
+                  "Formulación de proyectos para cooperación (GIZ, BID, USAID, UE)",
+                  "Gestión de fondos de cooperación multilateral",
+                  "Asesoría en estrategia de cooperación sur-sur",
+                  "Seguimiento y evaluación de proyectos cooperación"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 3000000,
+                  "max": 10000000,
+                  "avg": 6500000
+                },
+                "source_freelance": "APC Colombia / Workana 2026"
+              }
+            }
+          ]
+        },
+        {
+          "id": "asesoria-politica",
+          "name": "Asesoría Política y Think Tanks",
+          "jobs": [
+            {
+              "id": "asesor-politico-senior",
+              "title": "Asesor Político Senior",
+              "ciiu": "O – Administración pública y defensa",
+              "salary": {
+                "month": {
+                  "min": 15000000,
+                  "max": 40000000,
+                  "avg": 27500000
+                },
+                "day": {
+                  "min": 500000.0,
+                  "max": 1333333.33,
+                  "avg": 916666.67
+                },
+                "hour": {
+                  "min": 65217.39,
+                  "max": 173913.04,
+                  "avg": 119565.22
+                }
+              },
+              "source": "DANE / Organizaciones Políticas 2026",
+              "freelance": {
+                "services": [
+                  "Asesoría estratégica a candidatos y partidos políticos",
+                  "Diseño de plataformas de gobierno y programas electorales",
+                  "Consultoría en comunicación política y crisis institucional",
+                  "Análisis de escenarios políticos para organismos multilaterales"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 5000000,
+                  "max": 20000000,
+                  "avg": 12500000
+                },
+                "source_freelance": "Workana / DANE 2026"
+              }
+            },
+            {
+              "id": "investigador-think-tank",
+              "title": "Investigador de Think Tank / Policy Analyst",
+              "ciiu": "M – Act. profesionales, científicas y técnicas",
+              "salary": {
+                "month": {
+                  "min": 8000000,
+                  "max": 20000000,
+                  "avg": 14000000
+                },
+                "day": {
+                  "min": 266666.67,
+                  "max": 666666.67,
+                  "avg": 466666.67
+                },
+                "hour": {
+                  "min": 34782.61,
+                  "max": 86956.52,
+                  "avg": 60869.57
+                }
+              },
+              "source": "Minciencias / Fedesarrollo / DANE 2026",
+              "freelance": {
+                "services": [
+                  "Investigación de políticas públicas para organizaciones de incidencia",
+                  "Elaboración de documentos de política (policy papers)",
+                  "Análisis de impacto regulatorio (AIR) para ministerios",
+                  "Consultoría en diseño de política pública basada en evidencia"
+                ],
+                "rate_unit": "proyecto",
+                "rates": {
+                  "min": 3000000,
+                  "max": 12000000,
+                  "avg": 7500000
+                },
+                "source_freelance": "Fedesarrollo / Workana 2026"
+              }
+            },
+            {
+              "id": "director-ejecutivo-ong",
+              "title": "Director Ejecutivo de ONG / Fundación",
+              "ciiu": "Q – Actividades de organizaciones sin fines de lucro",
+              "salary": {
+                "month": {
+                  "min": 12000000,
+                  "max": 30000000,
+                  "avg": 21000000
+                },
+                "day": {
+                  "min": 400000.0,
+                  "max": 1000000.0,
+                  "avg": 700000.0
+                },
+                "hour": {
+                  "min": 52173.91,
+                  "max": 130434.78,
+                  "avg": 91304.35
+                }
+              },
+              "source": "DANE / Confecámaras 2026",
+              "freelance": {
+                "services": [
+                  "Dirección estratégica de organizaciones sin ánimo de lucro",
+                  "Gestión de relaciones con donantes y organismos de cooperación",
+                  "Diseño de programas de impacto social medible",
+                  "Movilización de recursos y fundraising institucional"
+                ],
+                "rate_unit": "mes-retainer",
+                "rates": {
+                  "min": 4000000,
+                  "max": 15000000,
+                  "avg": 9500000
+                },
+                "source_freelance": "DANE / Workana 2026"
               }
             }
           ]

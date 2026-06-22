@@ -5,6 +5,7 @@ export interface CalculatorFormData {
 	// Formulario 1
 	monthlySalary: number; // Último sueldo o promedio mercado
 	experienceLevel: ExperienceLevel | null;
+	specialty: string | null; // Especialidad seleccionada del dataset
 	serviceType: string; // Texto libre
 	// Formulario 2
 	durationValue: number;

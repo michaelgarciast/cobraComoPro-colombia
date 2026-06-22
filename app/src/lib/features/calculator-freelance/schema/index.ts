@@ -7,6 +7,7 @@ export const DurationUnitSchema = z.enum(['hours', 'days', 'weeks']);
 export const CalculatorFormSchema = z.object({
 	monthlySalary: z.number().positive('El sueldo debe ser mayor a 0'),
 	experienceLevel: ExperienceLevelSchema.nullable(),
+	specialty: z.string().nullable(),
 	serviceType: z.string().min(1, 'El tipo de servicio es requerido').max(100),
 	durationValue: z.number().int().positive('La duración debe ser mayor a 0'),
 	durationUnit: DurationUnitSchema,

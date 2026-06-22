@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { FormStep1, FormStep2, ResultsPanel, activeStep, isStep1Valid } from '$lib/features/calculator-freelance';
+
+	let { data } = $props();
 </script>
 
 <svelte:head>
@@ -67,7 +69,7 @@
 				</div>
 
 				{#if $activeStep === 1}
-					<FormStep1 />
+					<FormStep1 specialties={data.specialties} />
 				{:else}
 					<FormStep2 />
 				{/if}
