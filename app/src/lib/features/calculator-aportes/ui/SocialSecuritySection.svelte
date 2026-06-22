@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SectionHeader, Modal } from '$lib/shared/ui/components';
+	import { Modal } from '$lib/shared/ui/components';
 	import { formData, aportesBreakdown } from '$lib/features/calculator-aportes/stores/calculator-aportes-store';
 	import { computeBreakdownRows } from '$lib/features/calculator-aportes/utils/calculation';
 	import CalculatorControls from './CalculatorControls.svelte';
@@ -20,11 +20,20 @@
 	</div>
 
 	<div class="relative mx-auto max-w-7xl space-y-10 sm:space-y-12">
-		<SectionHeader
-			title="Calcula tus aportes"
-			description="Ingresa la siguiente información"
-			align="center"
-		/>
+		<!-- Header estilo calculadora freelance -->
+		<div class="relative mb-12 sm:mb-14">
+			<!-- Decorative background glow -->
+			<div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ffd200]/10 blur-[100px] sm:h-56 sm:w-56 sm:blur-[120px]"></div>
+
+			<div class="relative text-center">
+				<h1 class="mt-5 text-balance text-[2.5rem] font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl font-[Montserrat]">
+					Calcula tus <span class="text-[#ffd200]">aportes</span>
+				</h1>
+				<p class="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-[#e0e3e5]/70 sm:text-lg">
+					Ingresa tu ingreso base y tipo de vínculo para estimar tu cotización mensual a salud, pensión y ARL. Ajusta las opciones y obtén valores oficiales para independientes en Colombia.
+				</p>
+			</div>
+		</div>
 
 		<div class="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
 			<!-- Controls + Alerts -->

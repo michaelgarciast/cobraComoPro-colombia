@@ -7,6 +7,7 @@ const STORAGE_KEY = 'calculator-freelance-v2';
 const initialState: CalculatorFormData = {
 	monthlySalary: 0,
 	experienceLevel: null,
+	specialty: null,
 	serviceType: '',
 	durationValue: 1,
 	durationUnit: 'weeks',
@@ -52,7 +53,7 @@ export const activeStep = writable<1 | 2>(1);
 
 // Validaciones
 export const isStep1Valid = derived(formData, $f =>
-	$f.monthlySalary > 0 && !!$f.experienceLevel && $f.serviceType.trim().length > 0
+	$f.monthlySalary > 0 && !!$f.experienceLevel && !!$f.specialty && $f.serviceType.trim().length > 0
 );
 
 export const isStep2Valid = derived(formData, $f =>

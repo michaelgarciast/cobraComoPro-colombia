@@ -16,7 +16,7 @@
 	let currentStep = $derived($activeStep);
 
 	let profileReady = $derived(
-		$formData.monthlySalary > 0 || !!$formData.experienceLevel || $formData.serviceType.trim().length > 0
+		$formData.monthlySalary > 0 || !!$formData.experienceLevel || !!$formData.specialty || $formData.serviceType.trim().length > 0
 	);
 	let projectReady = $derived($formData.durationValue > 0);
 
