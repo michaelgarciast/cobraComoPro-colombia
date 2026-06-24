@@ -21,9 +21,13 @@
 
 	let { specialties }: Props = $props();
 
-	let selectedSpecialty = $derived(specialties.find(s => s.id === $formData.specialty));
+	let uniqueSpecialties = $derived(
+		Array.from(new Map(specialties.map(s => [s.id, s])).values())
+	);
 
-	let availableServiceChips = $derived(selectedSpecialty?.services ?? []);
+	let selectedSpecialty = $derived(uniqueSpecialties.find(s => s.id === $formData.specialty));
+
+	let availableServiceChips = $derived(Array.from(new Set(selectedSpecialty?.services ?? [])));
 
 	let marketRef = $derived(
 		$formData.experienceLevel
@@ -51,8 +55,8 @@
 
 	let filteredList = $derived(() => {
 		const q = searchQuery.trim().toLowerCase();
-		if (!q) return specialties.slice(0, 20);
-		return specialties
+		if (!q) return uniqueSpecialties.slice(0, 20);
+		return uniqueSpecialties
 			.filter(s => s.title.toLowerCase().includes(q))
 			.slice(0, 8);
 	});
@@ -73,7 +77,7 @@
 	}
 
 	function selectSpecialty(id: string) {
-		const spec = specialties.find(s => s.id === id);
+		const spec = uniqueSpecialties.find(s => s.id === id);
 		if (!spec) return;
 		searchQuery = spec.title;
 		formData.setField('specialty', id);
