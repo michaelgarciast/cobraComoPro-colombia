@@ -30,7 +30,7 @@
 					Calcula tus <span class="text-[#ffd200]">aportes</span>
 				</h1>
 				<p class="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-[#e0e3e5]/70 sm:text-lg">
-					Ingresa tu ingreso base y tipo de vínculo para estimar tu cotización mensual a salud, pensión y ARL. Ajusta las opciones y obtén valores oficiales para independientes en Colombia.
+					Ingresa tu ingreso base y tipo de vínculo para estimar tu cotización mensual a salud, pensión y ARL. Obtén valores oficiales para independientes en Colombia.
 				</p>
 			</div>
 		</div>
