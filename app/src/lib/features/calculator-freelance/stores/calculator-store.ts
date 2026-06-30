@@ -15,9 +15,9 @@ const initialState: CalculatorFormData = {
 };
 
 function loadFromStorage(): CalculatorFormData {
-	if (typeof sessionStorage === 'undefined') return initialState;
+	if (typeof localStorage === 'undefined') return initialState;
 	try {
-		const saved = sessionStorage.getItem(STORAGE_KEY);
+		const saved = localStorage.getItem(STORAGE_KEY);
 		return saved ? { ...initialState, ...JSON.parse(saved) } : initialState;
 	} catch {
 		return initialState;
@@ -28,8 +28,8 @@ function createFormStore() {
 	const { subscribe, set, update } = writable<CalculatorFormData>(loadFromStorage());
 
 	function persist(state: CalculatorFormData) {
-		if (typeof sessionStorage !== 'undefined') {
-			sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		if (typeof localStorage !== 'undefined') {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 		}
 		return state;
 	}
@@ -40,7 +40,7 @@ function createFormStore() {
 			update(s => persist({ ...s, [field]: value }));
 		},
 		reset: () => {
-			if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem(STORAGE_KEY);
+			if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY);
 			set(initialState);
 		}
 	};
