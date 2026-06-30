@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { QuotePreview } from '$lib/features/calculator-freelance';
+	import { resolveQuoteTemplate } from '$lib/features/calculator-freelance/quote/data/quote-templates';
+	import { createQuoteStore } from '$lib/features/calculator-freelance/quote/stores/quote-store';
 	import {
 		formData,
 		calculationResult,
@@ -53,6 +56,9 @@
 	let copied = $state(false);
 	let modalOpen = $state(false);
 	let modalView = $state<'totales' | 'retenciones'>('totales');
+	let quoteModalOpen = $state(false);
+	let quote = createQuoteStore();
+	let template = $derived(resolveQuoteTemplate($formData.specialty));
 
 	function openModal(view: 'totales' | 'retenciones') {
 		modalView = view;
@@ -61,6 +67,54 @@
 
 	function closeModal() {
 		modalOpen = false;
+	}
+
+	function handlePrint() {
+		const quotePaper = document.querySelector('.quote-paper');
+		if (!quotePaper) return;
+
+		const iframe = document.createElement('iframe');
+		iframe.style.position = 'fixed';
+		iframe.style.right = '0';
+		iframe.style.bottom = '0';
+		iframe.style.width = '0';
+		iframe.style.height = '0';
+		iframe.style.border = '0';
+		document.body.appendChild(iframe);
+
+		const doc = iframe.contentWindow!.document;
+		doc.open();
+
+		let stylesHtml = '';
+		for (const link of document.querySelectorAll('link[rel="stylesheet"]')) {
+			stylesHtml += link.outerHTML;
+		}
+		for (const style of document.querySelectorAll('style')) {
+			stylesHtml += style.outerHTML;
+		}
+
+		doc.write(`
+			<html>
+				<head>
+					${stylesHtml}
+					<style>
+						body { margin: 0; padding: 0; background: white !important; }
+					</style>
+				</head>
+				<body>
+					${quotePaper.outerHTML}
+				</body>
+			</html>
+		`);
+		doc.close();
+
+		setTimeout(() => {
+			iframe.contentWindow!.focus();
+			iframe.contentWindow!.print();
+			setTimeout(() => {
+				document.body.removeChild(iframe);
+			}, 1000);
+		}, 300);
 	}
 
 	async function handleCopy() {
@@ -98,6 +152,15 @@
 							Ver retenciones legales
 						</Button>
 					</div>
+					<Button
+						as="button"
+						variant="primary"
+						size="md"
+						class="mt-3 w-full"
+						onclick={() => (quoteModalOpen = true)}
+					>
+						Ver cotización formal
+					</Button>
 				</section>
 			{/if}
 		{/if}
@@ -180,6 +243,32 @@
 				El cliente retiene estos valores y los paga a la DIAN en tu nombre. Puedes descontarlos en tu
 				declaración de renta anual.
 			</p>
+		</div>
+	{/if}
+</Modal>
+
+<Modal open={quoteModalOpen} onclose={() => (quoteModalOpen = false)} title="Cotización formal" className="max-w-5xl">
+	{#if result}
+		<QuotePreview {quote} {result} form={$formData} {template} />
+
+		<div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end print:hidden">
+			<Button
+				as="button"
+				variant="ghost"
+				size="md"
+				class="border border-white/10"
+				onclick={() => (quoteModalOpen = false)}
+			>
+				Editar datos
+			</Button>
+			<Button
+				as="button"
+				variant="primary"
+				size="md"
+				onclick={handlePrint}
+			>
+				Descargar / Imprimir
+			</Button>
 		</div>
 	{/if}
 </Modal>

@@ -1,5 +1,6 @@
 // UI Components
 export { FormStep1, FormStep2, ResultsPanel } from './ui';
+export { QuotePreview, QuoteDownloadButton } from './quote/ui';
 
 // Types
 export type {
