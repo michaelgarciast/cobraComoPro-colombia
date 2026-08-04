@@ -13,8 +13,7 @@ Esta plataforma responde una sola pregunta con muchas variables: **¿cuánto deb
 
 ## Demo en vivo
 
-Pruébala aquí: `https://cobracomopro.vercel.app` *(reemplaza con tu dominio real)*
-
+Pruébala aquí: `https://cobracomopro.vercel.app`
 ## Stack técnico
 
 | Capa | Tecnología |
