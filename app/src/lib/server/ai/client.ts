@@ -58,6 +58,7 @@ export async function expandSector(sector: Sector, recordsToAdd: number): Promis
 		model: MODEL,
 		contents: buildExpandPrompt(sector, recordsToAdd),
 		config: {
+			temperature: 0.1,
 			responseMimeType: 'application/json',
 			responseSchema: z.toJSONSchema(SectorSchema)
 		}
@@ -71,6 +72,7 @@ export async function refreshSectorValues(sector: Sector): Promise<unknown> {
 		model: MODEL,
 		contents: buildRefreshPrompt(sector),
 		config: {
+			temperature: 0,
 			responseMimeType: 'application/json',
 			responseSchema: z.toJSONSchema(SectorSchema)
 		}
