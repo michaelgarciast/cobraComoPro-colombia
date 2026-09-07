@@ -14,7 +14,8 @@ function getSectorRules(): string {
 4. Las tarifas freelance deben ser superiores al salario equivalente por día/hora.
 5. Referencia: SMMLV ${currentYear} = $1.750.905 COP/mes. Fuentes: DANE, SENA, Min. Trabajo, Banco de la República, Función Pública.
 6. Actualiza OBLIGATORIAMENTE los campos "source" y "source_freelance" con el año vigente (${prevYear}/${currentYear}). No dejes valores de años anteriores.
-7. Devuelve ÚNICAMENTE el objeto JSON del sector, sin texto adicional.`;
+7. Si no estás seguro de un valor salarial, usa datos oficiales o no lo inventes al azar, básate en el SMMLV.
+8. Devuelve ÚNICAMENTE el objeto JSON del sector, sin texto adicional ni campos inventados.`;
 }
 
 export function buildExpandPrompt(sector: Sector, recordsToAdd: number): string {
