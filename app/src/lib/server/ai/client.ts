@@ -1,11 +1,11 @@
 import { GoogleGenAI } from '@google/genai';
-import { jsonrepair } from 'jsonrepair';
 import { z } from 'zod';
 import { env } from '$env/dynamic/private';
 import { SectorSchema, type Sector } from '$lib/server/data/dataset.schema';
 import { buildExpandPrompt, buildRefreshPrompt } from './prompts';
 
-const MODEL = 'gemini-2.5-flash';
+// Cambiamos al modelo PRO para garantizar la consistencia matemática y evitar alucinaciones salariales
+const MODEL = 'gemini-2.5-pro';
 
 if (!env.GOOGLE_AI_API_KEY) {
 	throw new Error('GOOGLE_AI_API_KEY environment variable is not set');
@@ -13,43 +13,26 @@ if (!env.GOOGLE_AI_API_KEY) {
 
 const ai = new GoogleGenAI({ apiKey: env.GOOGLE_AI_API_KEY });
 
-function extractJsonPayload(raw: string | undefined | null): string {
-	if (!raw?.trim()) {
-		throw new Error('AI no devolvió contenido para el dataset');
+// La API de Gemini solo soporta un subconjunto de JSON Schema en `responseJsonSchema`
+// ($id, $defs, $ref, $anchor, type, properties, etc.). La clave "$schema" que genera
+// zod no está en esa lista, así que la removemos para evitar que el campo sea ignorado
+// o rechazado por la API.
+const SECTOR_JSON_SCHEMA = z.toJSONSchema(SectorSchema) as Record<string, unknown>;
+delete SECTOR_JSON_SCHEMA.$schema;
+
+/**
+ * Procesa la respuesta de la IA. 
+ * Al usar Structured Outputs de forma correcta, la respuesta de Gemini ya es un JSON válido de manera garantizada.
+ */
+function parseDatasetJson(responseText: string | undefined | null): unknown {
+	if (!responseText?.trim()) {
+		throw new Error('La IA devolvió una respuesta vacía');
 	}
-
-	const trimmed = raw.trim();
-	const fencedMatch = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
-	if (fencedMatch) {
-		return fencedMatch[1].trim();
-	}
-
-	const firstBrace = trimmed.indexOf('{');
-	const lastBrace = trimmed.lastIndexOf('}');
-
-	if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
-		throw new Error('No se encontró un objeto JSON válido dentro de la respuesta de la IA');
-	}
-
-	return trimmed.slice(firstBrace, lastBrace + 1);
-}
-
-function parseDatasetJson(raw: string | undefined | null) {
-	const payload = extractJsonPayload(raw);
-
 	try {
-		return JSON.parse(payload);
+		return JSON.parse(responseText.trim());
 	} catch (err) {
-		const parseErr = err instanceof Error ? err.message : String(err);
-		try {
-			const repaired = jsonrepair(payload);
-			console.warn('[ai] JSON reparado automáticamente tras error de parseo:', parseErr);
-			return JSON.parse(repaired);
-		} catch (repairErr) {
-			console.error('[ai] JSON inválido generado por Gemini, primeros 500 caracteres:', payload.slice(0, 500));
-			console.error('[ai] Reparación automática fallida:', repairErr);
-			throw err;
-		}
+		console.error('[ai] Error crítico al parsear el JSON nativo de Gemini:', responseText);
+		throw err;
 	}
 }
 
@@ -58,9 +41,10 @@ export async function expandSector(sector: Sector, recordsToAdd: number): Promis
 		model: MODEL,
 		contents: buildExpandPrompt(sector, recordsToAdd),
 		config: {
-			temperature: 0.1,
+			temperature: 0.2, // Un toque de temperatura baja para permitir creatividad controlada en los nombres de nuevos cargos
 			responseMimeType: 'application/json',
-			responseSchema: z.toJSONSchema(SectorSchema)
+			// CORRECCIÓN: Se usa responseJsonSchema para activar Structured Outputs nativo
+			responseJsonSchema: SECTOR_JSON_SCHEMA
 		}
 	});
 
@@ -72,9 +56,10 @@ export async function refreshSectorValues(sector: Sector): Promise<unknown> {
 		model: MODEL,
 		contents: buildRefreshPrompt(sector),
 		config: {
-			temperature: 0,
+			temperature: 0, // Determinismo absoluto para recálculos matemáticos puros
 			responseMimeType: 'application/json',
-			responseSchema: z.toJSONSchema(SectorSchema)
+			// CORRECCIÓN: Se usa responseJsonSchema para activar Structured Outputs nativo
+			responseJsonSchema: SECTOR_JSON_SCHEMA
 		}
 	});
 
