@@ -24,8 +24,7 @@ Pruébala aquí: `https://cobracomopro.vercel.app`
 | Validación | [Zod 4](https://zod.dev/) |
 | Runtime | [Bun](https://bun.sh/) |
 | Datos | [Upstash Redis](https://upstash.com/) + dataset base embebido |
-| IA | [Gemini 2.5 Flash](https://ai.google.dev/) — solo para refresco automatizado de datos |
-| Reparación JSON | [jsonrepair](https://www.npmjs.com/package/jsonrepair) — recupera JSON malformado de la IA |
+| IA | [Gemini 2.5 Pro](https://ai.google.dev/) — solo para refresco automatizado de datos, con Structured Outputs (`responseJsonSchema`) |
 | Deploy | [Vercel](https://vercel.com/) |
 
 ## Cómo correrlo localmente
@@ -170,13 +169,12 @@ Pasos del pipeline:
 
 1. Lee el dataset actual desde Redis (o usa el dataset base embebido si no existe).
 2. Selecciona el sector objetivo según el modo de operación.
-3. Envía el sector a Gemini 2.5 Flash con un prompt de expansión o refresco.
-4. Repara el JSON devuelto con `jsonrepair` si el parseo falla.
-5. Normaliza la estructura y valida con Zod (`SectorSchema`).
-6. Sanitiza el payload con `sanitizeObject` (elimina tags HTML, previene XSS).
-7. Fusiona el sector actualizado con el dataset existente.
-8. Persiste el resultado validado en Redis.
-9. Los usuarios siempre leen desde cache (memoria → Redis), nunca esperan a la IA.
+3. Envía el sector a Gemini 2.5 Pro con un prompt de expansión o refresco, forzando salida JSON estructurada (`responseJsonSchema` a partir de `SectorSchema`).
+4. Normaliza la estructura y valida con Zod (`SectorSchema`).
+5. Sanitiza el payload con `sanitizeObject` (elimina tags HTML, previene XSS).
+6. Fusiona el sector actualizado con el dataset existente.
+7. Persiste el resultado validado en Redis.
+8. Los usuarios siempre leen desde cache (memoria → Redis), nunca esperan a la IA.
 
 ### Seguridad del cron
 
