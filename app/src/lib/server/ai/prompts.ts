@@ -5,31 +5,18 @@ function getCurrentYear() {
 }
 
 function getSectorRules(): string {
-	const currentYear = getCurrentYear();
-	const prevYear = currentYear - 1;
 	return `REGLAS DE NEGOCIO Y CONSISTENCIA:
-1. Estructura JSON: Conserva estrictamente el esquema original sin alterar IDs ni nombres existentes. Devuelve ÚNICAMENTE el objeto JSON limpio.
-2. Consistencia Matemática Absoluta (Aplica a min, max, avg):
-   - day = month / 30 (Redondeado al entero más cercano).
-   - hour = month / 240 (Redondeado al entero más cercano).
-3. Coherencia Freelance: freelance.rates (min/max/avg) DEBEN ser superiores al salario equivalente por día/hora (calcula un incremento del 30% al 50% por costos prestacionales).
-4. Control de Alucinación Salarial: No inventes salarios ejecutivos exorbitantes. Usa como ancla el SMMLV colombiano vigente (${currentYear}: $1.750.905 COP/mes). 
-   - Un cargo júnior promedia 1.5 a 2 SMMLV.
-   - Un cargo medio/profesional promedia 2.5 a 4.5 SMMLV.
-   - Un cargo sénior/especialista promedia 5 a 9 SMMLV.
-   - Solo cargos directivos de alta responsabilidad superan los 10 SMMLV.
-5. Fuentes: Coloca "Estimación basada en Ofertas del Mercado Laboral Colombiano (${prevYear}/${currentYear})" en los campos "source" y "source_freelance". No cites tablas específicas del DANE si son aproximaciones.`;
+1. Conserva estrictamente el esquema original, IDs, nombres y estructura. Devuelve ÚNICAMENTE el objeto JSON.
+2. Antes de cambiar salarios o tarifas, busca en Google ofertas laborales recientes de Colombia para el cargo exacto y usa únicamente rangos que aparezcan respaldados por resultados encontrados.
+3. El campo "source" debe contener la URL HTTPS exacta de un resultado de Google que respalde el salario mensual de ese cargo; "source_freelance" debe contener una URL que respalde sus tarifas independientes. No escribas nombres genéricos de fuentes ni inventes URLs.
+4. Si no encuentras evidencia reciente y pertinente para un cargo, conserva sus valores numéricos y campos de fuente existentes. No completes datos con conocimiento previo, multiplicadores por nivel ni estimaciones sin evidencia.
+5. Calcula day = month / 30 y hour = month / 240, redondeados al entero más cercano. Los valores min, max y avg deben ser coherentes entre sí.
+6. Usa fuentes colombianas recientes y pertinentes al cargo; descarta salarios de otros países, páginas sin fecha o páginas que no informen rangos salariales.`;
 }
 
 export function buildExpandPrompt(sector: Sector, recordsToAdd: number): string {
 	const currentYear = getCurrentYear();
-	return `Eres un analista experto en el mercado laboral colombiano (año ${currentYear}).
-Tu tarea es EXPANDIR el sector entregado agregando exactamente ${recordsToAdd} cargos NUEVOS reales y comunes en Colombia, y ACTUALIZAR los existentes al mercado actual.
-
-INSTRUCCIONES DE EXPANSIÓN:
-1. Agrega exactamente ${recordsToAdd} cargos nuevos con IDs únicos en kebab-case.
-2. Manten y actualiza TODOS los cargos existentes. No elimines ninguno.
-3. Clasificación: Asígnale a cada cargo nuevo su código CIIU real correspondiente a Colombia.
+	return `Eres un analista del mercado laboral colombiano para ${currentYear}. Expande el sector con exactamente ${recordsToAdd} cargos nuevos comunes y verificables en Colombia, con IDs únicos en kebab-case y códigos CIIU reales. Actualiza también los cargos existentes solo cuando encuentres evidencia web reciente y específica. No elimines cargos.
 
 ${getSectorRules()}
 
@@ -39,12 +26,9 @@ ${JSON.stringify(sector)}`;
 
 export function buildRefreshPrompt(sector: Sector): string {
 	const currentYear = getCurrentYear();
-	return `Eres un analista experto en el mercado laboral colombiano (año ${currentYear}).
-Tu tarea es REFRESCAR ÚNICAMENTE los valores numéricos del sector para adaptarlos al mercado actual.
+	return `Eres un analista del mercado laboral colombiano para ${currentYear}. Refresca los valores numéricos solo si encuentras en Google evidencia reciente, publicada en Colombia, específica al cargo y a la modalidad laboral.
 
-INSTRUCCIONES DE ACTUALIZACIÓN:
-1. NO agregues ni elimines categorías ni jobs. Mantén la estructura idéntica.
-2. Modifica exclusivamente los campos numéricos de salary (month, day, hour) y freelance (rates) aplicando incrementos coherentes con la inflación y el SMMLV actual.
+No agregues ni elimines categorías o cargos; mantén exactamente la estructura e IDs. No aumentes salarios solo por inflación o cambio de año. Si la búsqueda no proporciona datos pertinentes, conserva los números y sus fuentes originales.
 
 ${getSectorRules()}
 
