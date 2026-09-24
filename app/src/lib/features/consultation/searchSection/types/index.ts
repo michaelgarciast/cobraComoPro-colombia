@@ -12,7 +12,6 @@ export interface EmpleoData {
 	'VALOR HORA\nMín (COP)': number;
 	'VALOR HORA\nMáx (COP)': number;
 	'VALOR HORA\nProm (COP)': number;
-	FUENTE: string;
 }
 
 export interface SectorSummary {
@@ -29,7 +28,6 @@ export interface SectorSummary {
 	valorHoraMin: number;
 	valorHoraMax: number;
 	valorHoraProm: number;
-	fuente: string;
 }
 
 export interface FilterOptions {

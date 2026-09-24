@@ -35,8 +35,7 @@ function flattenDataset(dataset: Dataset): SectorSummary[] {
 				valorDiaProm: Math.round(job.salary.day.avg),
 				valorHoraMin: Math.round(job.salary.hour.min),
 				valorHoraMax: Math.round(job.salary.hour.max),
-				valorHoraProm: Math.round(job.salary.hour.avg),
-				fuente: job.source
+				valorHoraProm: Math.round(job.salary.hour.avg)
 			}))
 		)
 	);

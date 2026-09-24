@@ -86,10 +86,4 @@
 			</div>
 		</div>
 
-		<!-- Fuente -->
-		<div class="mt-4 pt-3 border-t border-white/10">
-			<p class="text-[10px] text-[#999077]/60 truncate">
-				Fuente: {data.fuente}
-			</p>
-		</div>
 </Card>

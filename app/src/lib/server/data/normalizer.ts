@@ -3,10 +3,6 @@ import baseDataset from './db_data_colombia.json';
 
 const FALLBACK_RATE_UNIT = 'día';
 
-function getCurrentYear() {
-	return new Date().getFullYear();
-}
-
 const baseJobMap = buildBaseJobMap(baseDataset);
 
 type DatasetLike = { sectors?: unknown };
@@ -37,7 +33,7 @@ type JobLike = Partial<Job> & Record<string, unknown>;
 function ensureJobIntegrity(jobLike: JobLike): JobLike {
 	const fallback = typeof jobLike.id === 'string' ? baseJobMap.get(jobLike.id) : undefined;
 
-	jobLike.source = pickString(jobLike.source as string, fallback?.source, `Fuentes oficiales laborales Colombia ${getCurrentYear()}`);
+	jobLike.source = pickString(jobLike.source as string, fallback?.source);
 	jobLike.freelance = ensureFreelance(jobLike, fallback);
 
 	return jobLike;
@@ -54,11 +50,7 @@ function ensureFreelance(job: JobLike, fallback?: Job): Job['freelance'] {
 	);
 	const rate_unit = pickString(current?.rate_unit as string, baseFreelance?.rate_unit, FALLBACK_RATE_UNIT);
 	const rates = normalizeRates(current?.rates, baseFreelance?.rates, (job.salary as Job['salary']) ?? fallback?.salary);
-	const source_freelance = pickString(
-		current?.source_freelance as string,
-		baseFreelance?.source_freelance,
-		`Mercado freelance Colombia ${getCurrentYear()}`
-	);
+	const source_freelance = pickString(current?.source_freelance as string, baseFreelance?.source_freelance);
 
 	return {
 		services,

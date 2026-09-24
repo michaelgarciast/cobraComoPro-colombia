@@ -4,8 +4,7 @@ import { env } from '$env/dynamic/private';
 import { SectorSchema, type Sector } from '$lib/server/data/dataset.schema';
 import { buildExpandPrompt, buildRefreshPrompt } from './prompts';
 
-// Cambiamos al modelo PRO para garantizar la consistencia matemática y evitar alucinaciones salariales
-const MODEL = 'gemini-2.5-pro';
+const MODEL = 'gemini-3.1-flash-lite';
 
 if (!env.GOOGLE_AI_API_KEY) {
 	throw new Error('GOOGLE_AI_API_KEY environment variable is not set');
@@ -36,32 +35,82 @@ function parseDatasetJson(responseText: string | undefined | null): unknown {
 	}
 }
 
-export async function expandSector(sector: Sector, recordsToAdd: number): Promise<unknown> {
+function normalizeSourceUrl(source: string) {
+	try {
+		const url = new URL(source.trim());
+		if (url.protocol !== 'https:') return null;
+		url.hash = '';
+		return url.toString().replace(/\/$/, '');
+	} catch {
+		return null;
+	}
+}
+
+function verifyGroundedSources(candidate: Sector, original: Sector, groundedUrls: Set<string>) {
+	const originalJobs = new Map(original.categories.flatMap((category) => category.jobs.map((job) => [job.id, job] as const)));
+
+	for (const category of candidate.categories) {
+		for (const job of category.jobs) {
+			const previous = originalJobs.get(job.id);
+			const salaryChanged = !previous || JSON.stringify(previous.salary) !== JSON.stringify(job.salary);
+			const freelanceRatesChanged = !previous || JSON.stringify(previous.freelance.rates) !== JSON.stringify(job.freelance.rates);
+
+			if (salaryChanged) {
+				const sourceUrl = normalizeSourceUrl(job.source);
+				if (!sourceUrl || !groundedUrls.has(sourceUrl)) {
+					throw new Error(`Google Search no respaldó el salario del cargo ${job.id}`);
+				}
+				job.source = sourceUrl;
+			} else if (previous) {
+				job.source = previous.source;
+			}
+
+			if (freelanceRatesChanged) {
+				const sourceUrl = normalizeSourceUrl(job.freelance.source_freelance);
+				if (!sourceUrl || !groundedUrls.has(sourceUrl)) {
+					throw new Error(`Google Search no respaldó la tarifa freelance del cargo ${job.id}`);
+				}
+				job.freelance.source_freelance = sourceUrl;
+			} else if (previous) {
+				job.freelance.source_freelance = previous.freelance.source_freelance;
+			}
+		}
+	}
+
+	return candidate;
+}
+
+async function generateGroundedSector(prompt: string, original: Sector): Promise<Sector> {
 	const response = await ai.models.generateContent({
 		model: MODEL,
-		contents: buildExpandPrompt(sector, recordsToAdd),
+		contents: prompt,
 		config: {
-			temperature: 0.2, // Un toque de temperatura baja para permitir creatividad controlada en los nombres de nuevos cargos
+			temperature: 0,
+			tools: [{ googleSearch: {} }],
 			responseMimeType: 'application/json',
-			// CORRECCIÓN: Se usa responseJsonSchema para activar Structured Outputs nativo
 			responseJsonSchema: SECTOR_JSON_SCHEMA
 		}
 	});
 
-	return parseDatasetJson(response.text);
+	const groundedUrls = new Set(
+		(response.candidates ?? [])
+			.flatMap((candidate) => candidate.groundingMetadata?.groundingChunks ?? [])
+			.map((chunk) => (chunk.web?.uri ? normalizeSourceUrl(chunk.web.uri) : null))
+			.filter((url): url is string => Boolean(url))
+	);
+
+	if (!groundedUrls.size) {
+		throw new Error('Google Search no devolvió fuentes web verificables');
+	}
+
+	const candidate = SectorSchema.parse(parseDatasetJson(response.text));
+	return verifyGroundedSources(candidate, original, groundedUrls);
+}
+
+export async function expandSector(sector: Sector, recordsToAdd: number): Promise<unknown> {
+	return generateGroundedSector(buildExpandPrompt(sector, recordsToAdd), sector);
 }
 
 export async function refreshSectorValues(sector: Sector): Promise<unknown> {
-	const response = await ai.models.generateContent({
-		model: MODEL,
-		contents: buildRefreshPrompt(sector),
-		config: {
-			temperature: 0, // Determinismo absoluto para recálculos matemáticos puros
-			responseMimeType: 'application/json',
-			// CORRECCIÓN: Se usa responseJsonSchema para activar Structured Outputs nativo
-			responseJsonSchema: SECTOR_JSON_SCHEMA
-		}
-	});
-
-	return parseDatasetJson(response.text);
+	return generateGroundedSector(buildRefreshPrompt(sector), sector);
 }
