@@ -3,9 +3,21 @@ set -euo pipefail
 
 # ── Config ──────────────────────────────────────────────────────────────────
 IMAGE="bun-vite-runner"
-CONTAINER="vite-dev"
+CONTAINER="vite-dev-$$"
 PROJECT_DIR="$(pwd)/app"
 PORT="${PORT:-5173}"
+ENV_FILE=""
+
+if [ -f "$PROJECT_DIR/.env" ]; then
+  ENV_FILE="$PROJECT_DIR/.env"
+elif [ -f "$(pwd)/.env.local" ]; then
+  ENV_FILE="$(pwd)/.env.local"
+fi
+
+ENV_ARGS=()
+if [ -n "$ENV_FILE" ]; then
+  ENV_ARGS+=(--env-file "$ENV_FILE")
+fi
 
 # ── Cleanup on exit ──────────────────────────────────────────────────────────
 cleanup() {
@@ -42,6 +54,7 @@ echo "   Presiona Ctrl+C para detener y limpiar."
 echo ""
 
 docker run -it \
+  "${ENV_ARGS[@]}" \
   --name "$CONTAINER" \
   -v "$PROJECT_DIR:/app" \
   -p "${PORT}:${PORT}" \
