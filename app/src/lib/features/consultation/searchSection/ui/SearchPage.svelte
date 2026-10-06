@@ -4,14 +4,15 @@
 	import SearchHeader from './SearchHeader.svelte';
 	import SearchFilters from './SearchFilters.svelte';
 	import ResultsSection from './ResultsSection.svelte';
-	import type { FilterOptions } from '../types';
+	import type { FilterOptions, DataInfo } from '../types';
 
 	interface Props {
 		filterOptions: FilterOptions;
 		updatedAt: string | null;
+		dataInfo?: DataInfo | null;
 	}
 
-	let { filterOptions, updatedAt }: Props = $props();
+	let { filterOptions, updatedAt, dataInfo = null }: Props = $props();
 
 	// filterOptions son datos estáticos del servidor (no reactivos).
 	// Se usa untrack para evitar el warning state_referenced_locally.
@@ -19,8 +20,8 @@
 </script>
 
 <div class="min-h-screen bg-[#101415]">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-		<SearchHeader updatedAt={updatedAt} />
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+		<SearchHeader {updatedAt} {dataInfo} />
 		
 		<SearchFilters
 			searchTerm={store.searchTerm}
@@ -44,6 +45,9 @@
 			viewMode={store.viewMode}
 			itemsPerPage={store.itemsPerPage}
 			onPageChange={store.handlePageChange}
+			hasActiveFilters={store.hasActiveFilters}
+			onClearFilters={store.clearFilters}
+			{dataInfo}
 		/>
 	</div>
 </div>

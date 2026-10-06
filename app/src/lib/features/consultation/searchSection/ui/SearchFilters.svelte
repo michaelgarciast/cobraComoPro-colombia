@@ -39,10 +39,10 @@
 				<Input
 					id="search"
 					type="text"
-					label="Buscar cargo o especialidad"
+					label="Buscar ocupación"
 					value={searchTerm}
 					oninput={(e) => onSearchChange(e.currentTarget.value)}
-					placeholder="Ej: Ingeniero, Técnico, Operario..."
+					placeholder="Ej: Abogados, Peluqueros, Electricistas..."
 					class="pl-10 focus:ring-[#ffd200]/15 focus:border-[#ffd200]/60"
 				/>
 				<svg class="absolute left-3 top-[2.6rem] h-5 w-5 text-[#999077] pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,16 +97,18 @@
 	<!-- View Mode Toggle & Clear -->
 	<div class="flex flex-wrap items-center justify-between gap-4 mt-6 pt-4 border-t border-white/10">
 		<div class="flex items-center gap-2">
-			<span class="text-sm text-[#e0e3e5]/70">Ver valores por:</span>
-			<div class="flex bg-[#191c1e] rounded-lg p-1">
+			<span class="text-sm text-[#e0e3e5]/70" id="view-mode-label">Ver valores por:</span>
+			<div class="flex bg-[#191c1e] rounded-lg p-1" role="group" aria-labelledby="view-mode-label">
 				<button
 					onclick={() => onViewModeChange('dia')}
+					aria-pressed={viewMode === 'dia'}
 					class="px-3 py-1.5 rounded-md text-sm font-medium transition-all {viewMode === 'dia' ? 'bg-[#ffd200] text-[#3b2f00]' : 'text-[#999077] hover:text-white'}"
 				>
 					Día
 				</button>
 				<button
 					onclick={() => onViewModeChange('hora')}
+					aria-pressed={viewMode === 'hora'}
 					class="px-3 py-1.5 rounded-md text-sm font-medium transition-all {viewMode === 'hora' ? 'bg-[#ffd200] text-[#3b2f00]' : 'text-[#999077] hover:text-white'}"
 				>
 					Hora

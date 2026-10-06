@@ -1,28 +1,43 @@
 <script lang="ts">
+	import type { DataInfo } from '../types';
+
 	interface Props {
 		updatedAt: string | null;
+		dataInfo?: DataInfo | null;
 	}
 
-	let { updatedAt }: Props = $props();
+	let { updatedAt, dataInfo = null }: Props = $props();
 
-	const formatter = new Intl.DateTimeFormat('es-CO', {
-		dateStyle: 'long',
-		timeStyle: 'short'
-	});
-
+	const formatter = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long', timeZone: 'UTC' });
 	const lastUpdateLabel = $derived(updatedAt ? formatter.format(new Date(updatedAt)) : null);
 </script>
 
-<div class="mb-8">
-	<h1 class="text-3xl font-bold text-white mb-3 font-[Montserrat]">Consulta de Salarios por Sector</h1>
-	<p class="text-[#e0e3e5]/70 max-w-2xl">
-		Explora los rangos salariales por sector económico, categoría laboral y Trabajo 2026.
-		Información basada en datos del DANE, SENA y Ministerio de Trabajo.
+<header class="mb-8">
+	<h1 class="mb-3 text-3xl font-bold text-white font-[Montserrat] sm:text-4xl">
+		Consulta de tarifas por ocupación
+	</h1>
+	<p class="max-w-2xl text-[#e0e3e5]/70">
+		Ingresos por hora, día y mes de trabajadores por cuenta propia en Colombia, por ocupación y
+		sector económico. Úsalos como punto de partida para fijar tu tarifa.
 	</p>
-	<p class="text-sm text-[#e0e3e5]/70 mt-2">
-		Datos actualizados:
-		<span class="font-semibold text-[#22C55E]">
-			{lastUpdateLabel ?? 'pendiente de sincronización'}
-		</span>
-	</p>
-</div>
+	<ul class="mt-4 flex flex-wrap gap-2 text-xs">
+		<li class="rounded-full bg-white/5 px-3 py-1 text-[#e0e3e5]/80 ring-1 ring-inset ring-white/10">
+			Fuente: GEIH · DANE
+		</li>
+		{#if dataInfo}
+			<li class="rounded-full bg-white/5 px-3 py-1 text-[#e0e3e5]/80 ring-1 ring-inset ring-white/10">
+				Periodo: {dataInfo.periodo}
+			</li>
+			{#if dataInfo.estado === 'provisional'}
+				<li class="rounded-full bg-[#ffd200]/10 px-3 py-1 text-[#ffd200] ring-1 ring-inset ring-[#ffd200]/30">
+					Datos provisionales
+				</li>
+			{/if}
+		{/if}
+		{#if lastUpdateLabel}
+			<li class="rounded-full bg-white/5 px-3 py-1 text-[#e0e3e5]/80 ring-1 ring-inset ring-white/10">
+				Generado: {lastUpdateLabel}
+			</li>
+		{/if}
+	</ul>
+</header>

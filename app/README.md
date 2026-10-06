@@ -9,11 +9,12 @@ Esta plataforma responde una sola pregunta con muchas variables: **¿cuánto deb
 - **Calculadora Freelance** — ingresa tu aspiración salarial, nivel de experiencia y duración del proyecto. Obtén una tarifa por hora y un total de proyecto que ya incluye retenciones tributarias colombianas, prestaciones, vacaciones e imprevistos.
 - **Cotizador de Aportes** — calcula tu planilla integrada (PILA) como independiente o contratista. Ingresa tu IBC, selecciona tu clase de ARL y obtén el desglose de salud (EPS), pensión, ARL y caja de compensación familiar con las tarifas vigentes 2026.
 - **Generador de Cotizaciones** — genera documentos de cotización profesionales y listos para imprimir. Selecciona una especialidad y el sistema asigna automáticamente una plantilla (Tecnología, Creativo, Consultoría o General) con términos comerciales y notas legales preconfiguradas para Colombia.
-- **Consulta de Salarios** — explora rangos salariales por sector, categoría y especialidad. Los datos se mantienen actualizados mediante un pipeline automatizado que procesa información del DANE, SENA, Ministerio de Trabajo y otras fuentes oficiales.
+- **Consulta de Tarifas** — explora tarifas por hora, día y mes (Baja · Referencia · Alta) por ocupación, grupo ocupacional y sector económico, con datos reales de la GEIH del DANE (2026). Cada tarjeta abre un detalle con la tabla completa, el tamaño de muestra y la metodología.
 
 ## Demo en vivo
 
 Pruébala aquí: `https://cobracomopro.vercel.app`
+
 ## Stack técnico
 
 | Capa | Tecnología |
@@ -23,8 +24,7 @@ Pruébala aquí: `https://cobracomopro.vercel.app`
 | Lenguaje | [TypeScript](https://www.typescriptlang.org/) — strict mode |
 | Validación | [Zod 4](https://zod.dev/) |
 | Runtime | [Bun](https://bun.sh/) |
-| Datos | [Upstash Redis](https://upstash.com/) + dataset base embebido |
-| IA | [Gemini 2.5 Pro](https://ai.google.dev/) — solo para refresco automatizado de datos, con Structured Outputs (`responseJsonSchema`) |
+| Datos | Dataset estático `tarifas-2026.json` (GEIH/DANE) + [Upstash Redis](https://upstash.com/) para rate limiting |
 | Deploy | [Vercel](https://vercel.com/) |
 
 ## Cómo correrlo localmente
@@ -42,10 +42,8 @@ Abre `http://localhost:5173`.
 Crea un archivo `.env` en `app/` con:
 
 ```env
-GOOGLE_AI_API_KEY=""           # Para el cron de actualización de datos
-UPSTASH_REDIS_REST_URL=""      # Cache, dataset en vivo y rate limiting
+UPSTASH_REDIS_REST_URL=""      # Rate limiting
 UPSTASH_REDIS_REST_TOKEN=""
-CRON_SECRET=""                 # Protege el endpoint /api/cron/refresh-data
 ```
 
 ## Comandos disponibles
@@ -130,15 +128,14 @@ app/src/
 │   │   │   └── utils/              # Cálculo de aportes y formato COP
 │   │   ├── consultation/           # Motor de consulta de salarios
 │   │   │   └── searchSection/
-│   │   │       ├── data/           # Filtrado y paginación
-│   │   │       ├── types/          # Tipos de API y dominio
-│   │   │       └── ui/             # Componentes + store reactivo
+│   │   │       ├── data/           # Filtrado y colores por sector
+│   │   │       ├── types/          # SectorSummary, DataInfo, tipos de API
+│   │   │       └── ui/             # SectorCard, SectorDetailModal, filtros + store reactivo
 │   │   └── home/                   # Landing page
 │   ├── server/
-│   │   ├── ai/                     # Cliente Gemini + prompts (solo cron)
-│   │   ├── data/                   # Dataset base, loader, normalizador, constantes
+│   │   ├── data/                   # Esquema Zod, loader y tarifas-2026.json
 │   │   ├── kv/                     # Cliente Redis (Upstash)
-│   │   └── security/               # Rate limiting y sanitización anti-XSS
+│   │   └── security/               # Rate limiting
 │   └── shared/
 │       ├── schemas/                # Esquemas Zod compartidos (SearchParams)
 │       ├── ui/
@@ -153,35 +150,33 @@ app/src/
     │   │   └── cotizacion/         # Vista de cotización imprimible
     │   ├── cotizar-aportes/        # Página del cotizador de aportes
     │   └── consultar/              # Página + endpoint API de búsqueda
-    └── api/
-        └── cron/
-            └── refresh-data/       # Cron job de actualización de datos
 ```
 
-## Pipeline de datos automatizado
+## Datos
 
-Un cron job programado en Vercel ejecuta `/api/cron/refresh-data` diariamente a las 6 AM (`0 6 * * *`). Este proceso opera en dos modos:
+Las tarifas provienen de `src/lib/server/data/tarifas-2026.json`, generado con Python a partir de la GEIH del DANE (trabajadores por cuenta propia). El archivo es relacional: `sectores_economicos`, `actividades_economicas` (CIIU Rev. 4), `grupos_ocupacionales`, `ocupaciones` (CIUO-08 A.C.) y `tarifas` (percentiles p25/p50/p75 por hora, día y mes). El loader (`loader.ts`) lo valida con Zod, lo aplana en filas de consulta y lo mantiene en memoria. No hay cron ni IA en el flujo.
 
-- **Modo growth** — cuando el dataset tiene menos de 500 registros, selecciona el sector más rico y le agrega nuevos cargos usando Gemini.
-- **Modo values-only** — cuando se alcanza el máximo (500 registros), recorre los sectores con un cursor circular y actualiza los valores salariales existentes.
+- **Datos directos:** combinaciones ocupación × actividad con al menos 30 observaciones (`estado: disponible`).
+- **Estimación de referencia:** por cada ocupación con datos se agrega una fila "Todos los sectores", con los percentiles promediados y ponderados por número de observaciones. Es una aproximación, no un percentil real.
+- **Sin datos:** las combinaciones con `muestra_insuficiente` no se publican.
+- **Etiquetas:** p25 = Baja, p50 = Referencia (mediana), p75 = Alta. No equivalen a niveles junior, medio o senior.
+- **Periodo:** enero–julio 2026, provisional. Día y mes asumen 8 horas diarias y 20 días facturables.
+- La calculadora freelance usa la fila de referencia (tarifa por hora) de cada ocupación.
 
-Pasos del pipeline:
+### Actualizar los datos
 
-1. Lee el dataset actual desde Redis (o usa el dataset base embebido si no existe).
-2. Selecciona el sector objetivo según el modo de operación.
-3. Envía el sector a Gemini 2.5 Pro con un prompt de expansión o refresco, forzando salida JSON estructurada (`responseJsonSchema` a partir de `SectorSchema`).
-4. Normaliza la estructura y valida con Zod (`SectorSchema`).
-5. Sanitiza el payload con `sanitizeObject` (elimina tags HTML, previene XSS).
-6. Fusiona el sector actualizado con el dataset existente.
-7. Persiste el resultado validado en Redis.
-8. Los usuarios siempre leen desde cache (memoria → Redis), nunca esperan a la IA.
+1. Regenerar `tarifas-2026.json` con el script de Python y los archivos del DANE.
+2. Reemplazar el archivo en `src/lib/server/data/`.
+3. Correr `bun run check` y desplegar. Si el esquema no valida, la app falla al cargar.
 
-### Seguridad del cron
+Rate limiting por IP en el endpoint de consulta: 120 requests/minuto.
 
-- Autenticación con `CRON_SECRET` vía `timingSafeEqual` (previene timing attacks).
-- Rechazo de requests con header `Origin` (los crons de Vercel no lo envían; los navegadores sí).
-- Rate limiting por IP en el endpoint de consulta (120 requests/minuto).
-- Sanitización recursiva de todo dato proveniente de la IA.
+## Contribuir
+
+- Ramas `type/descripcion-corta` desde `main`, commits con Conventional Commits y PRs pequeños.
+- Antes de abrir un PR: `bun run check`, `bun run lint` y `bun run build`.
+- Plantilla de PR: `.github/pull_request_template.md`. Guía para agentes y IDEs: `AGENTS.md` y `.devin/skills/open-pull-request/SKILL.md`.
+- Nunca subir `.env*` ni secretos.
 
 ## Docker
 

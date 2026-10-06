@@ -1,165 +1,86 @@
-import { redis, KV_KEYS } from '../kv/redis';
-import { DatasetSchema, SectorSchema, type Dataset, type Sector } from './dataset.schema';
-import { refreshSectorValues } from '$lib/server/ai/client';
-import { normalizeDatasetStructure } from './normalizer';
-import baseDataset from './db_data_colombia.json';
-import { SECTOR_ORDER } from './constants';
+import type { SectorSummary } from '$lib/features/consultation/searchSection/types';
+import { DatasetSchema, type Dataset } from './dataset.schema';
+import raw from './tarifas-2026.json';
 
-let memoryCache: { data: Dataset; ts: number } | null = null;
-const TTL_MS = 60 * 60 * 1000;
+export const ALL_SECTORS_LABEL = 'Todos los sectores';
 
-export async function loadDataset(): Promise<Dataset> {
-  if (memoryCache && Date.now() - memoryCache.ts < TTL_MS) {
-    return memoryCache.data;
-  }
+let cache: { dataset: Dataset; rows: SectorSummary[] } | null = null;
 
-  try {
-    const fromKv = await redis.get<Dataset>(KV_KEYS.dataset);
-    if (fromKv) {
-      const parsed = DatasetSchema.parse(fromKv);
-      memoryCache = { data: parsed, ts: Date.now() };
-      return parsed;
-    }
-  } catch (error) {
-    console.error('[loader] Error leyendo de Redis:', error);
-  }
-
-  return seedDatasetWithAI();
+function load() {
+	if (!cache) {
+		const dataset = DatasetSchema.parse(raw);
+		cache = { dataset, rows: buildRows(dataset) };
+	}
+	return cache;
 }
 
-export async function getUpdatedAt(): Promise<string | null> {
-  try {
-    return await redis.get<string>(KV_KEYS.updatedAt);
-  } catch (error) {
-    console.error('[loader] Error leyendo updatedAt:', error);
-    return null;
-  }
+export const loadDataset = () => load().dataset;
+export const loadRows = () => load().rows;
+
+export function getDataInfo() {
+	const { meta } = load().dataset;
+	return { version: meta.version, generadoEn: meta.generado_en, periodo: meta.periodo_cubierto.descripcion, estado: meta.periodo_cubierto.estado };
 }
 
-export function getBaseDataset(): Dataset {
-  return DatasetSchema.parse(structuredClone(baseDataset));
-}
+const r = Math.round;
 
-export function countSectorRecords(sector: Sector): number {
-  return sector.categories.reduce((acc, category) => acc + category.jobs.length, 0);
-}
+function buildRows(d: Dataset): SectorSummary[] {
+	const ocupaciones = new Map(d.ocupaciones.map((o) => [o.id, o]));
+	const grupos = new Map(d.grupos_ocupacionales.map((g) => [g.id, g.nombre]));
+	const sectores = new Map(d.sectores_economicos.map((s) => [s.id, s.nombre]));
+	const actividades = new Map(d.actividades_economicas.map((a) => [a.id, a]));
 
-export function countRecords(dataset: Dataset): number {
-  return dataset.sectors.reduce((acc, sector) => acc + countSectorRecords(sector), 0);
-}
+	const make = (
+		ocId: string,
+		sector: string,
+		ciiu: string,
+		t: { hora: { p25: number; p50: number; p75: number }; dia: { p25: number; p50: number; p75: number }; mes: { p25: number; p50: number; p75: number } },
+		n: number,
+		esReferencia: boolean
+	): SectorSummary => {
+		const o = ocupaciones.get(ocId)!;
+		return {
+			sector,
+			codigoCiiu: ciiu,
+			categoriaLaboral: grupos.get(o.grupo_ciuo_id) ?? 'Sin clasificar',
+			especialidadCargo: o.nombre,
+			salarioMin: r(t.mes.p25),
+			salarioProm: r(t.mes.p50),
+			salarioMax: r(t.mes.p75),
+			valorDiaMin: r(t.dia.p25),
+			valorDiaProm: r(t.dia.p50),
+			valorDiaMax: r(t.dia.p75),
+			valorHoraMin: r(t.hora.p25),
+			valorHoraProm: r(t.hora.p50),
+			valorHoraMax: r(t.hora.p75),
+			nMuestra: n,
+			esReferencia
+		};
+	};
 
-export function pickRichestSector(dataset: Dataset): Sector {
-  const orderIndex = (id: string) => {
-    const idx = SECTOR_ORDER.indexOf(id as (typeof SECTOR_ORDER)[number]);
-    return idx === -1 ? SECTOR_ORDER.length : idx;
-  };
+	const rows: SectorSummary[] = [];
+	const byOcc = new Map<string, typeof d.tarifas>();
 
-  return dataset.sectors.reduce((best, sector) => {
-    const bestCount = countSectorRecords(best);
-    const sectorCount = countSectorRecords(sector);
-    if (sectorCount > bestCount) return sector;
-    if (sectorCount === bestCount && orderIndex(sector.id) < orderIndex(best.id)) return sector;
-    return best;
-  });
-}
+	for (const t of d.tarifas) {
+		if (t.estado !== 'disponible' || !t.hora || !t.dia || !t.mes) continue;
+		const act = actividades.get(t.actividad_economica_id);
+		if (!act || !ocupaciones.has(t.ocupacion_id)) continue;
+		rows.push(
+			make(t.ocupacion_id, sectores.get(act.sector_economico_id) ?? 'Sin clasificar', `${act.codigo_ciiu} - ${act.nombre}`, t as never, t.n_muestra, false)
+		);
+		byOcc.set(t.ocupacion_id, [...(byOcc.get(t.ocupacion_id) ?? []), t]);
+	}
 
-export function getSectorById(dataset: Dataset, id: string): Sector | undefined {
-  return dataset.sectors.find((sector) => sector.id === id);
-}
+	// Referencia amplia por ocupación: promedio de percentiles ponderado por n_muestra en todos los sectores.
+	for (const [ocId, ts] of byOcc) {
+		const n = ts.reduce((s, t) => s + t.n_muestra, 0);
+		const avg = (unit: 'hora' | 'dia' | 'mes') => ({
+			p25: ts.reduce((s, t) => s + t[unit]!.p25 * t.n_muestra, 0) / n,
+			p50: ts.reduce((s, t) => s + t[unit]!.p50 * t.n_muestra, 0) / n,
+			p75: ts.reduce((s, t) => s + t[unit]!.p75 * t.n_muestra, 0) / n
+		});
+		rows.push(make(ocId, ALL_SECTORS_LABEL, 'Referencia ponderada de los sectores con muestra suficiente', { hora: avg('hora'), dia: avg('dia'), mes: avg('mes') }, n, true));
+	}
 
-export function mergeSector(dataset: Dataset, updatedSector: Sector): Dataset {
-  const existingSector = dataset.sectors.find((s) => s.id === updatedSector.id);
-
-  if (!existingSector) {
-    return {
-      ...dataset,
-      sectors: dataset.sectors.map((sector) => (sector.id === updatedSector.id ? updatedSector : sector))
-    };
-  }
-
-  const existingCategories = new Map(existingSector.categories.map((c) => [c.id, c]));
-  const updatedCategoryIds = new Set(updatedSector.categories.map((c) => c.id));
-
-  // Merge categories from updated sector
-  const mergedCategories = updatedSector.categories.map((updatedCat) => {
-    const existingCat = existingCategories.get(updatedCat.id);
-    if (!existingCat) {
-      return updatedCat;
-    }
-
-    // Merge jobs: replace existing jobs with updated ones, preserve any omitted by AI
-    const updatedJobIds = new Set(updatedCat.jobs.map((j) => j.id));
-    const preservedJobs = existingCat.jobs.filter((j) => !updatedJobIds.has(j.id));
-
-    return {
-      ...updatedCat,
-      jobs: [...updatedCat.jobs, ...preservedJobs]
-    };
-  });
-
-  // Preserve categories that the AI might have omitted
-  const preservedCategories = existingSector.categories.filter((c) => !updatedCategoryIds.has(c.id));
-
-  const finalSector: Sector = {
-    ...updatedSector,
-    categories: [...mergedCategories, ...preservedCategories]
-  };
-
-  return {
-    ...dataset,
-    sectors: dataset.sectors.map((sector) => (sector.id === updatedSector.id ? finalSector : sector))
-  };
-}
-
-async function seedDatasetWithAI(): Promise<Dataset> {
-  try {
-    console.log('[loader] Redis vacío. Guardando dataset base inicial...');
-    const base = getBaseDataset();
-    const baseRecords = countRecords(base);
-    console.log(`[loader] Dataset base tiene ${baseRecords} registros.`);
-
-    // Guardamos el dataset base primero para asegurar que nunca perdemos los registros originales
-    try {
-      await redis.set(KV_KEYS.dataset, base);
-      await redis.set(KV_KEYS.updatedAt, new Date().toISOString());
-      console.log(`[loader] Dataset base guardado en Redis con ${baseRecords} registros.`);
-    } catch (err) {
-      console.error('[loader] Error guardando dataset base en Redis:', err);
-    }
-
-    let dataset = base;
-
-    // Refrescamos sector por sector con merge para no perder registros si la IA omite alguno
-    for (const sector of base.sectors) {
-      try {
-        console.log(`[loader] Refrescando sector: ${sector.id} (${countSectorRecords(sector)} jobs)...`);
-        const candidate = await refreshSectorValues(sector);
-        const normalized = normalizeDatasetStructure({ sectors: [candidate] }) as { sectors: unknown[] };
-        const updatedSector = SectorSchema.parse(normalized.sectors[0]);
-        dataset = mergeSector(dataset, updatedSector);
-        console.log(`[loader] Sector ${sector.id} refrescado. Total dataset: ${countRecords(dataset)} registros.`);
-      } catch (err) {
-        console.error(`[loader] Error refrescando sector ${sector.id}:`, err);
-      }
-    }
-
-    dataset.meta = { ...dataset.meta, records: countRecords(dataset) };
-    const validated = DatasetSchema.parse(dataset);
-
-    try {
-      await redis.set(KV_KEYS.dataset, validated);
-      await redis.set(KV_KEYS.updatedAt, new Date().toISOString());
-      console.log(`[loader] Dataset refrescado guardado en Redis con ${validated.meta.records} registros.`);
-    } catch (err) {
-      console.error('[loader] Error guardando dataset refrescado en Redis:', err);
-    }
-
-    memoryCache = { data: validated, ts: Date.now() };
-    return validated;
-  } catch (err) {
-    console.error('[loader] Error en seedDatasetWithAI:', err);
-    const fallback = getBaseDataset();
-    memoryCache = { data: fallback, ts: Date.now() };
-    return fallback;
-  }
+	return rows.sort((a, b) => a.especialidadCargo.localeCompare(b.especialidadCargo, 'es'));
 }

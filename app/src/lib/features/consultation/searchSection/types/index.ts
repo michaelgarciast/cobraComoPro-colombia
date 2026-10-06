@@ -1,19 +1,3 @@
-export interface EmpleoData {
-	SECTOR: string;
-	'CÓDIGO CIIU / DIVISIÓN': string;
-	'CATEGORÍA LABORAL': string;
-	'ESPECIALIDAD / CARGO': string;
-	'SALARIO MÍNIMO\n(COP/Mes)': number;
-	'SALARIO MÁXIMO\n(COP/Mes)': number;
-	'SALARIO PROMEDIO\n(COP/Mes)': number;
-	'VALOR DÍA\nMín (COP)': number;
-	'VALOR DÍA\nMáx (COP)': number;
-	'VALOR DÍA\nProm (COP)': number;
-	'VALOR HORA\nMín (COP)': number;
-	'VALOR HORA\nMáx (COP)': number;
-	'VALOR HORA\nProm (COP)': number;
-}
-
 export interface SectorSummary {
 	sector: string;
 	codigoCiiu: string;
@@ -28,6 +12,15 @@ export interface SectorSummary {
 	valorHoraMin: number;
 	valorHoraMax: number;
 	valorHoraProm: number;
+	nMuestra: number;
+	esReferencia: boolean;
+}
+
+export interface DataInfo {
+	version: string;
+	generadoEn: string;
+	periodo: string;
+	estado: string;
 }
 
 export interface FilterOptions {

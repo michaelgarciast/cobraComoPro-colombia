@@ -1,25 +1,19 @@
-import { loadDataset } from '$lib/server/data/loader';
+import { loadRows } from '$lib/server/data/loader';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-	const dataset = await loadDataset();
-
-	const specialties = dataset.sectors
-		.flatMap((sector) =>
-			sector.categories.flatMap((category) =>
-				category.jobs.map((job) => ({
-					id: job.id,
-					title: job.title,
-					category: category.name,
-					sector: sector.name,
-					services: job.freelance.services,
-					salaryAvg: job.salary.month.avg,
-					freelanceRateAvg: job.freelance.rates.avg,
-					freelanceRateUnit: job.freelance.rate_unit
-				}))
-			)
-		)
-		.sort((a, b) => a.title.localeCompare(b.title));
+	const specialties = loadRows()
+		.filter((row) => row.esReferencia)
+		.map((row, i) => ({
+		id: `${i}`,
+		title: row.especialidadCargo,
+		category: row.categoriaLaboral,
+		sector: row.sector,
+		services: [] as string[],
+		salaryAvg: row.salarioProm,
+		freelanceRateAvg: row.valorHoraProm,
+		freelanceRateUnit: 'hora'
+	}));
 
 	return { specialties };
 };

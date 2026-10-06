@@ -2,7 +2,8 @@
 	import { Pagination, Card } from '$lib/shared';
 	import SectorCard from './SectorCard.svelte';
 	import SkeletonCard from './SkeletonCard.svelte';
-	import type { SectorSummary, PaginationInfo, ViewMode } from '../types';
+	import SectorDetailModal from './SectorDetailModal.svelte';
+	import type { SectorSummary, PaginationInfo, ViewMode, DataInfo } from '../types';
 
 	interface Props {
 		results: SectorSummary[];
@@ -12,6 +13,9 @@
 		viewMode: ViewMode;
 		itemsPerPage: number;
 		onPageChange: (page: number) => void;
+		hasActiveFilters?: boolean;
+		onClearFilters?: () => void;
+		dataInfo?: DataInfo | null;
 	}
 
 	let {
@@ -21,15 +25,21 @@
 		error,
 		viewMode,
 		itemsPerPage,
-		onPageChange
+		onPageChange,
+		hasActiveFilters = false,
+		onClearFilters,
+		dataInfo = null
 	}: Props = $props();
+
+	let selected = $state<SectorSummary | null>(null);
 </script>
 
 <!-- Results Count -->
-<div id="results-section" class="flex items-center justify-between mb-6 scroll-mt-8">
+<div id="results-section" aria-live="polite" class="flex items-center justify-between mb-6 scroll-mt-8">
 	<div class="flex items-center gap-3">
 		<p class="text-[#e0e3e5]/70">
-			<span class="font-medium text-white">{pagination.total}</span> resultados encontrados
+			<span class="font-medium text-white">{pagination.total.toLocaleString('es-CO')}</span>
+			{pagination.total === 1 ? 'resultado' : 'resultados'}
 		</p>
 		{#if isLoading}
 			<svg class="animate-spin h-4 w-4 text-[#ffd200]" fill="none" viewBox="0 0 24 24">
@@ -63,7 +73,7 @@
 {:else if results.length > 0}
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
 		{#each results as result (result.especialidadCargo + result.codigoCiiu)}
-			<SectorCard data={result} {viewMode} />
+			<SectorCard data={result} {viewMode} onselect={(d) => (selected = d)} />
 		{/each}
 	</div>
 
@@ -84,8 +94,29 @@
 			</svg>
 			<h3 class="text-lg font-medium text-white mb-2 font-[Montserrat]">No se encontraron resultados</h3>
 			<p class="text-[#999077] text-sm">
-				Intenta ajustar los filtros o busca con otros términos.
+				Intenta ajustar los filtros o busca con otros términos. Algunas ocupaciones no tienen
+				muestra suficiente para publicar una tarifa.
 			</p>
+			{#if hasActiveFilters && onClearFilters}
+				<button
+					onclick={onClearFilters}
+					class="mt-4 rounded-lg bg-[#ffd200] px-4 py-2 text-sm font-semibold text-[#3b2f00] transition hover:brightness-110"
+				>
+					Limpiar filtros
+				</button>
+			{/if}
 		</Card>
 	</div>
 {/if}
+
+<aside class="mt-12 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-xs leading-relaxed text-[#e0e3e5]/60">
+	<p class="mb-1 font-semibold text-[#e0e3e5]/80">Cómo leer estas cifras</p>
+	<p>
+		<strong>Baja</strong>, <strong>Referencia</strong> y <strong>Alta</strong> son los percentiles 25, 50 (mediana) y 75 de
+		la distribución observada. No equivalen a niveles junior, medio o senior. Solo se publican combinaciones
+		con al menos 30 observaciones; las tarjetas «Referencia» son promedios ponderados entre sectores. Valor por
+		hora calculado desde el ingreso laboral y las horas trabajadas; día y mes asumen 8 horas diarias y 20 días facturables.
+	</p>
+</aside>
+
+<SectorDetailModal data={selected} {dataInfo} onclose={() => (selected = null)} />
