@@ -1,59 +1,40 @@
 import { z } from 'zod';
 
-export const SalaryRangeSchema = z.object({
-  min: z.number(),
-  max: z.number(),
-  avg: z.number()
-});
+const PercentilesSchema = z.object({ p25: z.number(), p50: z.number(), p75: z.number() });
 
-export const SalarySchema = z.object({
-  month: SalaryRangeSchema,
-  day: SalaryRangeSchema,
-  hour: SalaryRangeSchema
-});
-
-export const FreelanceSchema = z.object({
-  services: z.array(z.string()),
-  rate_unit: z.string(),
-  rates: SalaryRangeSchema,
-  source_freelance: z.string()
-});
-
-export const JobSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  ciiu: z.string(),
-  salary: SalarySchema,
-  source: z.string(),
-  freelance: FreelanceSchema
-});
-
-export const CategorySchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  jobs: z.array(JobSchema)
-});
-
-export const SectorSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  categories: z.array(CategorySchema)
-});
-
-export const MetaSchema = z.object({
-  version: z.string(),
-  currency: z.string(),
-  country: z.string(),
-  source: z.string(),
-  records: z.number()
+export const TarifaSchema = z.object({
+	id: z.string(),
+	ocupacion_id: z.string(),
+	actividad_economica_id: z.string(),
+	n_muestra: z.number(),
+	hora: PercentilesSchema.nullable(),
+	dia: PercentilesSchema.nullable(),
+	mes: PercentilesSchema.nullable(),
+	estado: z.string()
 });
 
 export const DatasetSchema = z.object({
-  meta: MetaSchema,
-  sectors: z.array(SectorSchema)
+	meta: z.object({
+		version: z.string(),
+		generado_en: z.string(),
+		moneda: z.string(),
+		periodo_cubierto: z.object({ descripcion: z.string(), estado: z.string() })
+	}),
+	sectores_economicos: z.array(z.object({ id: z.string(), nombre: z.string() })),
+	actividades_economicas: z.array(
+		z.object({
+			id: z.string(),
+			codigo_ciiu: z.string(),
+			nombre: z.string(),
+			sector_economico_id: z.string()
+		})
+	),
+	grupos_ocupacionales: z.array(z.object({ id: z.string(), nombre: z.string() })),
+	ocupaciones: z.array(
+		z.object({ id: z.string(), nombre: z.string(), grupo_ciuo_id: z.string() })
+	),
+	tarifas: z.array(TarifaSchema)
 });
 
 export type Dataset = z.infer<typeof DatasetSchema>;
-export type Sector = z.infer<typeof SectorSchema>;
-export type Category = z.infer<typeof CategorySchema>;
-export type Job = z.infer<typeof JobSchema>;
+export type Tarifa = z.infer<typeof TarifaSchema>;
