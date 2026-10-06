@@ -175,7 +175,7 @@ Rate limiting por IP en el endpoint de consulta: 120 requests/minuto.
 
 - Ramas `type/descripcion-corta` desde `main`, commits con Conventional Commits y PRs pequeños.
 - Antes de abrir un PR: `bun run check`, `bun run lint` y `bun run build`.
-- Plantilla de PR: `.github/pull_request_template.md`. Guía para agentes y IDEs: `AGENTS.md` y `.devin/skills/open-pull-request/SKILL.md`.
+- Plantilla de PR: `.github/pull_request_template.md`. Guía para agentes y IDEs: `.devin/skills/open-pull-request/SKILL.md`.
 - Nunca subir `.env*` ni secretos.
 
 ## Docker
