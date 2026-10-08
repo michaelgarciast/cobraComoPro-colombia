@@ -1,0 +1,54 @@
+name: Create branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: Branch type
+        required: true
+        type: choice
+        options:
+          - feat
+          - fix
+          - chore
+          - docs
+      ticket:
+        description: Numeric ticket ID (without PROJ-)
+        required: true
+        type: string
+      description:
+        description: Short description in lowercase kebab-case
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Create and push branch
+        env:
+          BRANCH_TYPE: ${{ inputs.type }}
+          TICKET: ${{ inputs.ticket }}
+          DESCRIPTION: ${{ inputs.description }}
+        run: |
+          if [[ ! "$TICKET" =~ ^[0-9]+$ ]]; then
+            echo "Ticket ID must contain only digits."
+            exit 1
+          fi
+
+          if [[ ! "$DESCRIPTION" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+            echo "Description must be lowercase kebab-case."
+            exit 1
+          fi
+
+          branch="${BRANCH_TYPE}/PROJ-${TICKET}-${DESCRIPTION}"
+          git switch --create "$branch" origin/main
+          git push origin "$branch"
+          echo "Created \`$branch\` from \`main\`." >> "$GITHUB_STEP_SUMMARY"

@@ -173,7 +173,8 @@ Rate limiting por IP en el endpoint de consulta: 120 requests/minuto.
 
 ## Contribuir
 
-- Ramas `feat/PROJ-123-descripcion-corta` desde `main` (también se permiten `fix`, `chore` y `docs`), commits con Conventional Commits en minúsculas y PRs pequeños.
+- Crear ramas desde **Actions → Create branch**, indicando tipo, número de ticket y descripción. El flujo crea y publica `tipo/PROJ-<id>-descripcion-corta` desde `main`.
+- Commits y títulos de PR con Conventional Commits en minúsculas; PRs pequeños.
 - Antes de abrir un PR: `bun run check`, `bun run lint` y `bun run build`.
 - Plantilla de PR: `.github/pull_request_template.md`. Guía para agentes y IDEs: `.devin/skills/open-pull-request/SKILL.md`.
 - Nunca subir `.env*` ni secretos.
