@@ -1,7 +1,16 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { formData, activeStep, isStep1Valid } from '$lib/features/calculator-freelance/stores/calculator-store';
-	import { EXPERIENCE_LEVELS, formatCOP, formatCOPInput, parseCOPInput } from '$lib/features/calculator-freelance/utils/calculation';
+	import {
+		formData,
+		activeStep,
+		isStep1Valid
+	} from '$lib/features/calculator-freelance/stores/calculator-store';
+	import {
+		EXPERIENCE_LEVELS,
+		formatCOP,
+		formatCOPInput,
+		parseCOPInput
+	} from '$lib/features/calculator-freelance/utils/calculation';
 	import { Input, Chip, Button } from '$lib/shared/ui/components';
 
 	interface Specialty {
@@ -21,24 +30,20 @@
 
 	let { specialties }: Props = $props();
 
-	let uniqueSpecialties = $derived(
-		Array.from(new Map(specialties.map(s => [s.id, s])).values())
-	);
+	let uniqueSpecialties = $derived(Array.from(new Map(specialties.map((s) => [s.id, s])).values()));
 
-	let selectedSpecialty = $derived(uniqueSpecialties.find(s => s.id === $formData.specialty));
+	let selectedSpecialty = $derived(uniqueSpecialties.find((s) => s.id === $formData.specialty));
 
 	let availableServiceChips = $derived(Array.from(new Set(selectedSpecialty?.services ?? [])));
 
 	let marketRef = $derived(
 		$formData.experienceLevel
-			? EXPERIENCE_LEVELS.find(l => l.id === $formData.experienceLevel)?.marketSalaryRef ?? 0
+			? (EXPERIENCE_LEVELS.find((l) => l.id === $formData.experienceLevel)?.marketSalaryRef ?? 0)
 			: 0
 	);
 
 	let salaryDiff = $derived(
-		marketRef > 0 && $formData.monthlySalary > 0
-			? $formData.monthlySalary - marketRef
-			: 0
+		marketRef > 0 && $formData.monthlySalary > 0 ? $formData.monthlySalary - marketRef : 0
 	);
 
 	// Búsqueda de especialidad
@@ -56,9 +61,7 @@
 	let filteredList = $derived(() => {
 		const q = searchQuery.trim().toLowerCase();
 		if (!q) return uniqueSpecialties.slice(0, 20);
-		return uniqueSpecialties
-			.filter(s => s.title.toLowerCase().includes(q))
-			.slice(0, 8);
+		return uniqueSpecialties.filter((s) => s.title.toLowerCase().includes(q)).slice(0, 8);
 	});
 
 	function clickOutside(node: HTMLElement) {
@@ -77,7 +80,7 @@
 	}
 
 	function selectSpecialty(id: string) {
-		const spec = uniqueSpecialties.find(s => s.id === id);
+		const spec = uniqueSpecialties.find((s) => s.id === id);
 		if (!spec) return;
 		searchQuery = spec.title;
 		formData.setField('specialty', id);
@@ -154,13 +157,13 @@
 
 <div class="space-y-7">
 	<div>
-		<h2 class="text-lg font-semibold text-white font-[Montserrat]">Tu perfil profesional</h2>
-		<p class="text-sm text-[#e0e3e5]/70 mt-1">Esta información define tu tarifa base por hora</p>
+		<h2 class="font-[Montserrat] text-lg font-semibold text-white">Tu perfil profesional</h2>
+		<p class="mt-1 text-sm text-[#e0e3e5]/70">Esta información define tu tarifa base por hora</p>
 	</div>
 
 	<!-- Nivel de experiencia -->
 	<div>
-		<span class="block text-sm font-medium text-[#e0e3e5]/80 mb-3">
+		<span class="mb-3 block text-sm font-medium text-[#e0e3e5]/80">
 			Nivel de experiencia <span class="text-[#ffb4aa]">*</span>
 		</span>
 		<div class="grid grid-cols-2 gap-2">
@@ -171,24 +174,33 @@
 					onclick={() => formData.setField('experienceLevel', level.id)}
 					class="group rounded-lg border p-3.5 text-left transition-all duration-150
 						{selected
-							? 'border-[#ffd200] bg-[#ffd200]/10 ring-1 ring-[#ffd200]'
-							: 'border-white/10 bg-[#191c1e] hover:border-white/20 hover:bg-[#272a2c]'}"
+						? 'border-[#ffd200] bg-[#ffd200]/10 ring-1 ring-[#ffd200]'
+						: 'border-white/10 bg-[#191c1e] hover:border-white/20 hover:bg-[#272a2c]'}"
 				>
 					<div class="flex items-start justify-between gap-2">
 						<div class="min-w-0">
-							<p class="font-semibold text-white text-sm leading-tight">{level.label}</p>
-							<p class="text-xs text-[#ffd200] mt-0.5">{level.years}</p>
-							<p class="text-xs text-[#999077] mt-1 leading-snug">{level.description}</p>
+							<p class="text-sm leading-tight font-semibold text-white">{level.label}</p>
+							<p class="mt-0.5 text-xs text-[#ffd200]">{level.years}</p>
+							<p class="mt-1 text-xs leading-snug text-[#999077]">{level.description}</p>
 						</div>
-						<div class="shrink-0 mt-0.5">
+						<div class="mt-0.5 shrink-0">
 							{#if selected}
 								<span class="flex h-5 w-5 items-center justify-center rounded-full bg-[#ffd200]">
 									<svg class="h-3 w-3 text-[#3b2f00]" viewBox="0 0 12 12" fill="currentColor">
-										<path d="M10 3L5 8.5 2 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+										<path
+											d="M10 3L5 8.5 2 5.5"
+											stroke="currentColor"
+											stroke-width="1.5"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											fill="none"
+										/>
 									</svg>
 								</span>
 							{:else}
-								<span class="flex h-5 w-5 items-center justify-center rounded-full border border-white/20 group-hover:border-white/40"></span>
+								<span
+									class="flex h-5 w-5 items-center justify-center rounded-full border border-white/20 group-hover:border-white/40"
+								></span>
 							{/if}
 						</div>
 					</div>
@@ -199,7 +211,7 @@
 
 	<!-- Sueldo -->
 	<div>
-		<label for="salary" class="block text-sm font-medium text-[#e0e3e5]/80 mb-2">
+		<label for="salary" class="mb-2 block text-sm font-medium text-[#e0e3e5]/80">
 			Último sueldo o promedio del mercado <span class="text-[#ffb4aa]">*</span>
 		</label>
 		<Input
@@ -219,16 +231,19 @@
 					<span class="font-medium text-[#e0e3e5]/80">{formatCOP(marketRef)}/mes</span>
 					{#if salaryDiff !== 0 && $formData.monthlySalary > 0}
 						<span class="font-medium {salaryDiff >= 0 ? 'text-[#22C55E]' : 'text-[#ffd200]'}">
-							{salaryDiff >= 0 ? '↑' : '↓'} {formatCOP(Math.abs(salaryDiff))} vs. mercado
+							{salaryDiff >= 0 ? '↑' : '↓'}
+							{formatCOP(Math.abs(salaryDiff))} vs. mercado
 						</span>
 					{/if}
 				{:else}
-					<span class="text-[#999077]/60">Selecciona tu nivel para ver la referencia del mercado</span>
+					<span class="text-[#999077]/60"
+						>Selecciona tu nivel para ver la referencia del mercado</span
+					>
 				{/if}
 			</div>
 			<a
 				href={resolve('/consultar')}
-				class="shrink-0 text-[#999077] hover:text-[#ffd200] transition-colors underline underline-offset-2 decoration-dotted"
+				class="shrink-0 text-[#999077] underline decoration-dotted underline-offset-2 transition-colors hover:text-[#ffd200]"
 			>
 				¿No sabes tu sueldo?
 			</a>
@@ -237,7 +252,7 @@
 
 	<!-- Especialidad -->
 	<div class="relative" bind:this={containerRef} use:clickOutside>
-		<label for="specialty-search" class="block text-sm font-medium text-[#e0e3e5]/80 mb-2">
+		<label for="specialty-search" class="mb-2 block text-sm font-medium text-[#e0e3e5]/80">
 			Especialidad <span class="text-[#ffb4aa]">*</span>
 		</label>
 		<input
@@ -249,18 +264,21 @@
 			onfocus={handleSearchFocus}
 			onkeydown={handleSearchKeydown}
 			placeholder="Escribe tu especialidad..."
-			class="w-full rounded-lg border border-white/10 bg-[#191c1e] px-4 py-3 text-sm text-white placeholder-[#666f75] outline-none transition-colors focus:border-[#ffd200] focus:ring-1 focus:ring-[#ffd200]"
+			class="w-full rounded-lg border border-white/10 bg-[#191c1e] px-4 py-3 text-sm text-white placeholder-[#666f75] transition-colors outline-none focus:border-[#ffd200] focus:ring-1 focus:ring-[#ffd200]"
 		/>
 		{#if showDropdown && filteredList().length > 0}
 			<div
 				bind:this={dropdownRef}
-				class="absolute z-10 mt-1 w-full max-h-60 overflow-auto rounded-lg border border-white/10 bg-[#272a2c] shadow-lg"
+				class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-white/10 bg-[#272a2c] shadow-lg"
 			>
 				{#each filteredList() as spec, i (spec.id)}
 					{@const highlighted = i === activeIndex}
 					<button
 						type="button"
-						onmousedown={(e) => { e.preventDefault(); selectSpecialty(spec.id); }}
+						onmousedown={(e) => {
+							e.preventDefault();
+							selectSpecialty(spec.id);
+						}}
 						class="w-full px-4 py-2.5 text-left text-sm text-[#e0e3e5] transition-colors
 							{highlighted ? 'bg-[#ffd200]/20 text-white' : 'hover:bg-[#323537]'}"
 					>
@@ -273,19 +291,25 @@
 		{#if selectedSpecialty}
 			<div class="mt-2 flex items-center gap-2 text-xs">
 				<span class="text-[#999077]">Referencia:</span>
-				<span class="font-medium text-[#e0e3e5]/80">{formatCOP(selectedSpecialty.salaryAvg)}/mes</span>
+				<span class="font-medium text-[#e0e3e5]/80"
+					>{formatCOP(selectedSpecialty.salaryAvg)}/mes</span
+				>
 				<span class="text-[#999077]">· Tarifa freelance:</span>
-				<span class="font-medium text-[#ffd200]">{formatCOP(selectedSpecialty.freelanceRateAvg)}/{selectedSpecialty.freelanceRateUnit}</span>
+				<span class="font-medium text-[#ffd200]"
+					>{formatCOP(
+						selectedSpecialty.freelanceRateAvg
+					)}/{selectedSpecialty.freelanceRateUnit}</span
+				>
 			</div>
 		{/if}
 	</div>
 
 	<!-- Tipo de servicio -->
 	<div>
-		<label for="service" class="block text-sm font-medium text-[#e0e3e5]/80 mb-2">
+		<label for="service" class="mb-2 block text-sm font-medium text-[#e0e3e5]/80">
 			Tipo de servicio <span class="text-[#ffb4aa]">*</span>
 		</label>
-		<div class="flex flex-wrap gap-1.5 mb-3">
+		<div class="mb-3 flex flex-wrap gap-1.5">
 			{#each availableServiceChips as chip (chip)}
 				<Chip
 					label={chip}

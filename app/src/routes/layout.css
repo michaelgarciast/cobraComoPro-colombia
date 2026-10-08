@@ -3,145 +3,160 @@
 
 /* Sistema de diseño modo oscuro profesional */
 @layer base {
-  :root {
-    --color-primary: 255 210 0; /* #ffd200 */
-    --color-primary-dark: 236 194 0; /* #ecc200 */
-    --color-primary-fixed: 255 224 124; /* #ffe07c */
-    --color-secondary: 255 180 170; /* #ffb4aa */
-    --color-secondary-dark: 210 1 15; /* #d2010f */
-    --color-accent: 206 214 240; /* #ced6f0 */
-    --surface: #101415;
-    --surface-dim: #101415;
-    --surface-bright: #363a3b;
-    --surface-container-lowest: #0b0f10;
-    --surface-container-low: #191c1e;
-    --surface-container: #1d2022;
-    --surface-container-high: #272a2c;
-    --surface-container-highest: #323537;
-    --on-surface: #e0e3e5;
-    --on-surface-variant: #d1c6ab;
-    --outline: #999077;
-    --outline-variant: #4d4632;
-  }
+	:root {
+		--color-primary: 255 210 0; /* #ffd200 */
+		--color-primary-dark: 236 194 0; /* #ecc200 */
+		--color-primary-fixed: 255 224 124; /* #ffe07c */
+		--color-secondary: 255 180 170; /* #ffb4aa */
+		--color-secondary-dark: 210 1 15; /* #d2010f */
+		--color-accent: 206 214 240; /* #ced6f0 */
+		--surface: #101415;
+		--surface-dim: #101415;
+		--surface-bright: #363a3b;
+		--surface-container-lowest: #0b0f10;
+		--surface-container-low: #191c1e;
+		--surface-container: #1d2022;
+		--surface-container-high: #272a2c;
+		--surface-container-highest: #323537;
+		--on-surface: #e0e3e5;
+		--on-surface-variant: #d1c6ab;
+		--outline: #999077;
+		--outline-variant: #4d4632;
+	}
 
-  html {
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
-  }
+	html {
+		font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		scroll-behavior: smooth;
+	}
 
-  body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background-color: var(--surface);
-    background-image:
-      radial-gradient(circle at 20% 20%, rgba(255, 210, 0, 0.08), transparent 45%),
-      radial-gradient(circle at 80% 0%, rgba(206, 214, 240, 0.06), transparent 40%),
-      linear-gradient(180deg, rgba(16, 20, 21, 0.9) 0%, rgba(16, 20, 21, 1) 70%);
-    background-attachment: fixed;
-    color: var(--on-surface);
-  }
+	body {
+		font-family:
+			'Inter',
+			system-ui,
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			sans-serif;
+		background-color: var(--surface);
+		background-image:
+			radial-gradient(circle at 20% 20%, rgba(255, 210, 0, 0.08), transparent 45%),
+			radial-gradient(circle at 80% 0%, rgba(206, 214, 240, 0.06), transparent 40%),
+			linear-gradient(180deg, rgba(16, 20, 21, 0.9) 0%, rgba(16, 20, 21, 1) 70%);
+		background-attachment: fixed;
+		color: var(--on-surface);
+	}
 
-  main {
-    min-height: 100%;
-  }
+	main {
+		min-height: 100%;
+	}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #fff;
-    text-wrap: balance;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		color: #fff;
+		text-wrap: balance;
+	}
 
-  p {
-    text-wrap: pretty;
-  }
+	p {
+		text-wrap: pretty;
+	}
 
-  ::selection {
-    background: rgba(250, 204, 21, 0.25);
-    color: #f8fafc;
-  }
+	::selection {
+		background: rgba(250, 204, 21, 0.25);
+		color: #f8fafc;
+	}
 
-  *:focus-visible {
-    outline: 2px solid rgba(250, 204, 21, 0.9);
-    outline-offset: 4px;
-    border-radius: 0.5rem;
-  }
+	*:focus-visible {
+		outline: 2px solid rgba(250, 204, 21, 0.9);
+		outline-offset: 4px;
+		border-radius: 0.5rem;
+	}
 }
 
 /* Utilidades personalizadas para modo oscuro */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
 
-  .shadow-dark-sm {
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-  }
+	.shadow-dark-sm {
+		box-shadow:
+			0 1px 3px 0 rgb(0 0 0 / 0.3),
+			0 1px 2px -1px rgb(0 0 0 / 0.3);
+	}
 
-  .shadow-dark-md {
-    box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.6);
-  }
+	.shadow-dark-md {
+		box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+	}
 
-  .shadow-dark-lg {
-    box-shadow: 0 25px 60px -35px rgba(15, 23, 42, 0.8);
-  }
+	.shadow-dark-lg {
+		box-shadow: 0 25px 60px -35px rgba(15, 23, 42, 0.8);
+	}
 
-  .shadow-dark-xl {
-    box-shadow: 0 35px 80px -40px rgba(15, 23, 42, 0.95);
-  }
+	.shadow-dark-xl {
+		box-shadow: 0 35px 80px -40px rgba(15, 23, 42, 0.95);
+	}
 
-  .glass-panel {
-    backdrop-filter: blur(12px);
-    background: rgba(16, 20, 21, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
+	.glass-panel {
+		backdrop-filter: blur(12px);
+		background: rgba(16, 20, 21, 0.6);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
 
-  .glow-ring {
-    position: relative;
-  }
+	.glow-ring {
+		position: relative;
+	}
 
-  .glow-ring::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(120deg, rgba(250, 204, 21, 0.6), rgba(56, 189, 248, 0.5));
-    mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
-    mask-composite: exclude;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 250ms ease;
-  }
+	.glow-ring::after {
+		content: '';
+		position: absolute;
+		inset: -1px;
+		border-radius: inherit;
+		padding: 1px;
+		background: linear-gradient(120deg, rgba(250, 204, 21, 0.6), rgba(56, 189, 248, 0.5));
+		mask:
+			linear-gradient(#000, #000) content-box,
+			linear-gradient(#000, #000);
+		mask-composite: exclude;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 250ms ease;
+	}
 
-  .glow-ring:hover::after,
-  .glow-ring:focus-within::after {
-    opacity: 1;
-  }
+	.glow-ring:hover::after,
+	.glow-ring:focus-within::after {
+		opacity: 1;
+	}
 
-  .reveal-up {
-    opacity: 0;
-    transform: translateY(24px);
-    animation: reveal-up 0.8s ease forwards;
-  }
+	.reveal-up {
+		opacity: 0;
+		transform: translateY(24px);
+		animation: reveal-up 0.8s ease forwards;
+	}
 
-  .reveal-fade {
-    opacity: 0;
-    animation: reveal-fade 1s ease forwards;
-  }
+	.reveal-fade {
+		opacity: 0;
+		animation: reveal-fade 1s ease forwards;
+	}
 }
 
 @keyframes reveal-up {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes reveal-fade {
-  to {
-    opacity: 1;
-  }
+	to {
+		opacity: 1;
+	}
 }

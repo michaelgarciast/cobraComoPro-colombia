@@ -7,20 +7,15 @@
 		onclick?: () => void;
 	}
 
-	let {
-		label,
-		active = false,
-		hint,
-		colorScheme = 'primary',
-		onclick
-	}: Props = $props();
+	let { label, active = false, hint, colorScheme = 'primary', onclick }: Props = $props();
 
 	const activeClasses = {
 		primary: 'border-[#ffd200] bg-[#ffd200]/15 text-[#ffd200]',
 		secondary: 'border-[#ffb4aa] bg-[#ffb4aa]/15 text-[#ffb4aa]'
 	};
 
-	const inactiveClasses = 'border-white/10 bg-[#191c1e] text-[#999077] hover:border-white/20 hover:text-[#e0e3e5]';
+	const inactiveClasses =
+		'border-white/10 bg-[#191c1e] text-[#999077] hover:border-white/20 hover:text-[#e0e3e5]';
 </script>
 
 <button
@@ -31,7 +26,15 @@
 >
 	{#if hint}
 		<p class="text-sm font-semibold">{label}</p>
-		<p class="text-[10px] mt-0.5 {active ? (colorScheme === 'primary' ? 'text-[#ffd200]/70' : 'text-[#ffb4aa]/70') : 'text-[#999077]/60'}">{hint}</p>
+		<p
+			class="mt-0.5 text-[10px] {active
+				? colorScheme === 'primary'
+					? 'text-[#ffd200]/70'
+					: 'text-[#ffb4aa]/70'
+				: 'text-[#999077]/60'}"
+		>
+			{hint}
+		</p>
 	{:else}
 		{label}
 	{/if}

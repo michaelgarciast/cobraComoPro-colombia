@@ -1,4 +1,9 @@
-import type { CalculatorFormData, CalculationBreakdown, ExperienceLevelOption, Retenciones } from '../types';
+import type {
+	CalculatorFormData,
+	CalculationBreakdown,
+	ExperienceLevelOption,
+	Retenciones
+} from '../types';
 
 export const EXPERIENCE_LEVELS: ExperienceLevelOption[] = [
 	{
@@ -69,7 +74,7 @@ function calcularRetenciones(total: number): Retenciones {
 export function calcularTarifa(data: CalculatorFormData): CalculationBreakdown | null {
 	if (!data.monthlySalary || data.monthlySalary <= 0 || !data.experienceLevel) return null;
 
-	const level = EXPERIENCE_LEVELS.find(l => l.id === data.experienceLevel);
+	const level = EXPERIENCE_LEVELS.find((l) => l.id === data.experienceLevel);
 	if (!level) return null;
 
 	const hourlyBase = data.monthlySalary / MONTHLY_HOURS;

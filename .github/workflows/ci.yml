@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+      - name: Validate branch and commit conventions
+        working-directory: .
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          LC_ALL: C.UTF-8
+        run: |
+          branch_pattern='^(feat|fix|chore|docs)/PROJ-[0-9]+-[a-z0-9]+(-[a-z0-9]+)*$'
+          commit_pattern='^(feat|fix|docs|style|refactor|test|chore)(\([[:alnum:]][[:alnum:]_./-]*\))?: [[:lower:][:digit:]][[:lower:][:digit:][:space:][:punct:]]*$'
+
+          if [[ ! "$BRANCH_NAME" =~ $branch_pattern ]]; then
+            echo "Branch '$BRANCH_NAME' must match feat|fix|chore|docs/PROJ-<id>-<descripcion-corta>."
+            exit 1
+          fi
+
+          if [[ ! "$PR_TITLE" =~ $commit_pattern ]]; then
+            echo "PR title must follow the Conventional Commits format in lowercase."
+            exit 1
+          fi
+
+          while IFS= read -r subject; do
+            if [[ ! "$subject" =~ $commit_pattern ]]; then
+              echo "Commit '$subject' must follow the Conventional Commits format in lowercase."
+              exit 1
+            fi
+          done < <(git log --no-merges --format=%s "$BASE_SHA..$HEAD_SHA")
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run lint
+      - run: bun run build
+        env:
+          UPSTASH_REDIS_REST_URL: https://example.invalid
+          UPSTASH_REDIS_REST_TOKEN: ci-placeholder

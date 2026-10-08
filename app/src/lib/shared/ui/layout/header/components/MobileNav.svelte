@@ -28,8 +28,7 @@
 		if (isActive) {
 			classes += ' bg-[#ffd200]/10 text-[#ffd200] border-l-4 border-[#ffd200]';
 		} else {
-			classes +=
-				' text-[#e0e3e5] hover:bg-white/10 hover:text-white border-l-4 border-transparent';
+			classes += ' text-[#e0e3e5] hover:bg-white/10 hover:text-white border-l-4 border-transparent';
 		}
 
 		return classes;
@@ -94,7 +93,7 @@
 
 <!-- Overlay -->
 <div
-	class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden transition-opacity duration-300"
+	class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 md:hidden"
 	class:opacity-0={!open}
 	class:opacity-100={open}
 	class:pointer-events-none={!open}
@@ -104,7 +103,7 @@
 
 <!-- Mobile Panel -->
 <div
-	class="fixed inset-y-0 right-0 z-50 w-80 border-l border-white/10 bg-[#101415]/98 shadow-[0_25px_60px_-35px_rgba(15,23,42,0.8)] backdrop-blur-xl md:hidden transition-transform duration-300 ease-out flex flex-col"
+	class="fixed inset-y-0 right-0 z-50 flex w-80 flex-col border-l border-white/10 bg-[#101415]/98 shadow-[0_25px_60px_-35px_rgba(15,23,42,0.8)] backdrop-blur-xl transition-transform duration-300 ease-out md:hidden"
 	class:translate-x-full={!open}
 	class:translate-x-0={open}
 	class:pointer-events-none={!open}
@@ -118,17 +117,18 @@
 			aria-label="Cerrar menú"
 		>
 			<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M6 18L18 6M6 6l12 12"
+				/>
 			</svg>
 		</button>
 	</div>
-	<nav class="flex flex-col gap-1 px-4 py-6 flex-1">
+	<nav class="flex flex-1 flex-col gap-1 px-4 py-6">
 		{#each items as item (item.href)}
-			<a
-				href={resolve(item.href)}
-				class={getItemClasses(item.href)}
-				onclick={close}
-			>
+			<a href={resolve(item.href)} class={getItemClasses(item.href)} onclick={close}>
 				<div class={getIconClasses(item.href)}>
 					{#if item.icon === 'home'}
 						<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

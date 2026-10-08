@@ -17,15 +17,15 @@ Pruébala aquí: `https://cobracomopro.vercel.app`
 
 ## Stack técnico
 
-| Capa | Tecnología |
-|------|------------|
-| Framework | [SvelteKit 2](https://kit.svelte.dev/) + [Svelte 5 Runes](https://svelte.dev/) |
-| Estilos | [Tailwind CSS 4](https://tailwindcss.com/) |
-| Lenguaje | [TypeScript](https://www.typescriptlang.org/) — strict mode |
-| Validación | [Zod 4](https://zod.dev/) |
-| Runtime | [Bun](https://bun.sh/) |
-| Datos | Dataset estático `tarifas-2026.json` (GEIH/DANE) + [Upstash Redis](https://upstash.com/) para rate limiting |
-| Deploy | [Vercel](https://vercel.com/) |
+| Capa       | Tecnología                                                                                                  |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| Framework  | [SvelteKit 2](https://kit.svelte.dev/) + [Svelte 5 Runes](https://svelte.dev/)                              |
+| Estilos    | [Tailwind CSS 4](https://tailwindcss.com/)                                                                  |
+| Lenguaje   | [TypeScript](https://www.typescriptlang.org/) — strict mode                                                 |
+| Validación | [Zod 4](https://zod.dev/)                                                                                   |
+| Runtime    | [Bun](https://bun.sh/)                                                                                      |
+| Datos      | Dataset estático `tarifas-2026.json` (GEIH/DANE) + [Upstash Redis](https://upstash.com/) para rate limiting |
+| Deploy     | [Vercel](https://vercel.com/)                                                                               |
 
 ## Cómo correrlo localmente
 
@@ -65,19 +65,19 @@ La tarifa por hora se deriva de tu aspiración salarial mensual, ajustada por lo
 tarifa/hora = (sueldo_mensual / 192) × 1.7 × experienceMultiplier × 1.2
 ```
 
-| Factor | Valor | Justificación |
-|--------|-------|---------------|
-| `192` | Horas/mes | 8 horas × 24 días laborales |
-| `1.7` | Factor freelance | Cubre prestaciones, vacaciones, incapacidades e imprevistos |
-| `experienceMultiplier` | 1.2 / 1.5 / 1.8 / 2.2 | Junior · Semi-senior · Senior · Experto |
-| `1.2` | Overhead | Factor de riesgo y gastos operativos |
+| Factor                 | Valor                 | Justificación                                               |
+| ---------------------- | --------------------- | ----------------------------------------------------------- |
+| `192`                  | Horas/mes             | 8 horas × 24 días laborales                                 |
+| `1.7`                  | Factor freelance      | Cubre prestaciones, vacaciones, incapacidades e imprevistos |
+| `experienceMultiplier` | 1.2 / 1.5 / 1.8 / 2.2 | Junior · Semi-senior · Senior · Experto                     |
+| `1.2`                  | Overhead              | Factor de riesgo y gastos operativos                        |
 
 ### Retenciones aplicadas (persona natural, servicios independientes)
 
-| Concepto | Tasa | Base legal |
-|----------|------|------------|
-| Retención en la fuente | 11% | Art. 392 ET |
-| ICA (Bogotá) | 0.966% | Tarifa servicios generales |
+| Concepto               | Tasa   | Base legal                 |
+| ---------------------- | ------ | -------------------------- |
+| Retención en la fuente | 11%    | Art. 392 ET                |
+| ICA (Bogotá)           | 0.966% | Tarifa servicios generales |
 
 La calculadora muestra cuánto debes **facturar** para recibir el **neto deseado** después de estas retenciones, que el cliente paga directamente a la DIAN o al municipio.
 
@@ -85,12 +85,12 @@ La calculadora muestra cuánto debes **facturar** para recibir el **neto deseado
 
 Calcula los aportes a seguridad social para independientes y contratistas en Colombia, con tarifas vigentes 2026:
 
-| Concepto | Tasa | Quién paga |
-|----------|------|-----------|
-| Salud (EPS) | 12.5% | Independiente |
-| Pensión | 16% | Independiente |
-| ARL | 0.522% – 6.96% | Según clase de riesgo (I–V) |
-| Caja de Compensación (CCF) | 2% | Voluntario para independientes · Obligatorio para contratistas |
+| Concepto                   | Tasa           | Quién paga                                                     |
+| -------------------------- | -------------- | -------------------------------------------------------------- |
+| Salud (EPS)                | 12.5%          | Independiente                                                  |
+| Pensión                    | 16%            | Independiente                                                  |
+| ARL                        | 0.522% – 6.96% | Según clase de riesgo (I–V)                                    |
+| Caja de Compensación (CCF) | 2%             | Voluntario para independientes · Obligatorio para contratistas |
 
 El calculador valida el IBC mínimo ($1.750.905) y el tope máximo de pensión ($43.772.625), y genera un desglose visual con los valores a pagar en la PILA.
 
@@ -173,7 +173,7 @@ Rate limiting por IP en el endpoint de consulta: 120 requests/minuto.
 
 ## Contribuir
 
-- Ramas `type/descripcion-corta` desde `main`, commits con Conventional Commits y PRs pequeños.
+- Ramas `feat/PROJ-123-descripcion-corta` desde `main` (también se permiten `fix`, `chore` y `docs`), commits con Conventional Commits en minúsculas y PRs pequeños.
 - Antes de abrir un PR: `bun run check`, `bun run lint` y `bun run build`.
 - Plantilla de PR: `.github/pull_request_template.md`. Guía para agentes y IDEs: `.devin/skills/open-pull-request/SKILL.md`.
 - Nunca subir `.env*` ni secretos.

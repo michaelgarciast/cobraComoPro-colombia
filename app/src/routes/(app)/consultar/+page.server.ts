@@ -8,7 +8,9 @@ export const load: PageServerLoad = async () => {
 		const rows = loadRows();
 		const filterOptions: FilterOptions = {
 			sectores: [...new Set(rows.map((r) => r.sector))].sort((a, b) => a.localeCompare(b, 'es')),
-			categorias: [...new Set(rows.map((r) => r.categoriaLaboral))].sort((a, b) => a.localeCompare(b, 'es'))
+			categorias: [...new Set(rows.map((r) => r.categoriaLaboral))].sort((a, b) =>
+				a.localeCompare(b, 'es')
+			)
 		};
 		const info = getDataInfo();
 		return { filterOptions, updatedAt: info.generadoEn, dataInfo: info };

@@ -39,24 +39,25 @@
 
 <dialog
 	bind:this={dialogRef}
-	class="w-full rounded-2xl border border-white/10 bg-[#1d2022] shadow-2xl p-0 {className || 'max-w-lg'}"
+	class="w-full rounded-2xl border border-white/10 bg-[#1d2022] p-0 shadow-2xl {className ||
+		'max-w-lg'}"
 	onclose={handleClose}
 	onclick={handleBackdropClick}
 >
 	<div class="p-6">
-		<div class="flex items-center justify-between mb-5">
+		<div class="mb-5 flex items-center justify-between">
 			{#if title}
-				<h3 class="text-lg font-semibold text-white font-[Montserrat]">{title}</h3>
+				<h3 class="font-[Montserrat] text-lg font-semibold text-white">{title}</h3>
 			{:else}
 				<div></div>
 			{/if}
 			<button
 				type="button"
 				onclick={() => dialogRef?.close()}
-				class="text-[#999077] hover:text-white transition-colors"
+				class="text-[#999077] transition-colors hover:text-white"
 				aria-label="Cerrar modal"
 			>
-				<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M18 6L6 18M6 6l12 12" />
 				</svg>
 			</button>

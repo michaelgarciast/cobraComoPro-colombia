@@ -11,10 +11,7 @@ export interface SearchCriteria<T> {
 	transform?: (value: string) => string;
 }
 
-export function filterByCriteria<T>(
-	data: T[],
-	criteria: FilterCriteria<T>[]
-): T[] {
+export function filterByCriteria<T>(data: T[], criteria: FilterCriteria<T>[]): T[] {
 	return data.filter((item) =>
 		criteria.every((criterion) => {
 			const value = item[criterion.field];
@@ -46,9 +43,7 @@ export function searchByFields<T>(data: T[], criteria: SearchCriteria<T>): T[] {
 	return data.filter((item) =>
 		criteria.fields.some((field) => {
 			const value = String(item[field] ?? '');
-			const normalizedValue = criteria.transform
-				? criteria.transform(value)
-				: value.toLowerCase();
+			const normalizedValue = criteria.transform ? criteria.transform(value) : value.toLowerCase();
 			return normalizedValue.includes(term);
 		})
 	);

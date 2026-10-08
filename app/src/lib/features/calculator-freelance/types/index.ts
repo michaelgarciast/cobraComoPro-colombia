@@ -14,8 +14,8 @@ export interface CalculatorFormData {
 }
 
 export interface Retenciones {
-	retencionFuente: number;   // ~11% servicios independientes (tabla DIAN)
-	ica: number;               // ~0.966% promedio Bogotá
+	retencionFuente: number; // ~11% servicios independientes (tabla DIAN)
+	ica: number; // ~0.966% promedio Bogotá
 	totalRetenido: number;
 	porcentajeTotal: number;
 }
@@ -33,8 +33,8 @@ export interface CalculationBreakdown {
 	total: number;
 	// Retenciones
 	retenciones: Retenciones;
-	netoRecibir: number;       // total - retenido
-	totalSugerido: number;     // cuánto cobrar para recibir `total` neto
+	netoRecibir: number; // total - retenido
+	totalSugerido: number; // cuánto cobrar para recibir `total` neto
 	diferenciaSugerida: number; // totalSugerido - total
 }
 

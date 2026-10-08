@@ -15,8 +15,18 @@
 	const rows = $derived(
 		data
 			? [
-					{ label: 'Por hora', low: data.valorHoraMin, mid: data.valorHoraProm, high: data.valorHoraMax },
-					{ label: 'Por día', low: data.valorDiaMin, mid: data.valorDiaProm, high: data.valorDiaMax },
+					{
+						label: 'Por hora',
+						low: data.valorHoraMin,
+						mid: data.valorHoraProm,
+						high: data.valorHoraMax
+					},
+					{
+						label: 'Por día',
+						low: data.valorDiaMin,
+						mid: data.valorDiaProm,
+						high: data.valorDiaMax
+					},
 					{ label: 'Por mes', low: data.salarioMin, mid: data.salarioProm, high: data.salarioMax }
 				]
 			: []
@@ -30,15 +40,15 @@
 		<div class="space-y-5">
 			<dl class="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
 				<div>
-					<dt class="text-xs uppercase tracking-wide text-[#999077]">Grupo ocupacional</dt>
+					<dt class="text-xs tracking-wide text-[#999077] uppercase">Grupo ocupacional</dt>
 					<dd class="text-[#e0e3e5]">{data.categoriaLaboral}</dd>
 				</div>
 				<div>
-					<dt class="text-xs uppercase tracking-wide text-[#999077]">Sector económico</dt>
+					<dt class="text-xs tracking-wide text-[#999077] uppercase">Sector económico</dt>
 					<dd class="text-[#e0e3e5]">{data.sector}</dd>
 				</div>
 				<div class="sm:col-span-2">
-					<dt class="text-xs uppercase tracking-wide text-[#999077]">Actividad (CIIU Rev. 4)</dt>
+					<dt class="text-xs tracking-wide text-[#999077] uppercase">Actividad (CIIU Rev. 4)</dt>
 					<dd class="text-[#e0e3e5]">
 						{#if data.esReferencia}Todas las actividades con muestra suficiente{:else}{ciiu} · {ciiuName}{/if}
 					</dd>
@@ -48,7 +58,7 @@
 			<div class="overflow-x-auto rounded-lg border border-white/10">
 				<table class="w-full text-sm tabular-nums">
 					<caption class="sr-only">Tarifas en pesos colombianos por unidad de tiempo</caption>
-					<thead class="bg-white/5 text-xs uppercase tracking-wide text-[#999077]">
+					<thead class="bg-white/5 text-xs tracking-wide text-[#999077] uppercase">
 						<tr>
 							<th scope="col" class="px-4 py-2 text-left font-medium">Unidad</th>
 							<th scope="col" class="px-4 py-2 text-right font-medium">Baja (p25)</th>
@@ -59,9 +69,13 @@
 					<tbody class="divide-y divide-white/10">
 						{#each rows as row (row.label)}
 							<tr>
-								<th scope="row" class="px-4 py-3 text-left font-medium text-[#e0e3e5]/80">{row.label}</th>
+								<th scope="row" class="px-4 py-3 text-left font-medium text-[#e0e3e5]/80"
+									>{row.label}</th
+								>
 								<td class="px-4 py-3 text-right text-[#e0e3e5]/90">{formatCurrency(row.low)}</td>
-								<td class="px-4 py-3 text-right font-semibold text-[#22C55E]">{formatCurrency(row.mid)}</td>
+								<td class="px-4 py-3 text-right font-semibold text-[#22C55E]"
+									>{formatCurrency(row.mid)}</td
+								>
 								<td class="px-4 py-3 text-right text-[#e0e3e5]/90">{formatCurrency(row.high)}</td>
 							</tr>
 						{/each}
@@ -69,29 +83,34 @@
 				</table>
 			</div>
 
-			<div class="rounded-lg border border-white/10 bg-white/[0.03] p-4 text-xs leading-relaxed text-[#e0e3e5]/70">
+			<div
+				class="rounded-lg border border-white/10 bg-white/[0.03] p-4 text-xs leading-relaxed text-[#e0e3e5]/70"
+			>
 				<p class="mb-1 font-semibold text-[#e0e3e5]/90">
 					{data.esReferencia ? 'Estimación de referencia' : 'Datos directos de la GEIH'}
 					· {data.nMuestra.toLocaleString('es-CO')} observaciones
 				</p>
 				{#if data.esReferencia}
 					<p>
-						Promedio de los percentiles de cada sector con muestra suficiente (mínimo 30), ponderado por
-						número de observaciones. Es una aproximación, no un percentil real de toda la ocupación.
+						Promedio de los percentiles de cada sector con muestra suficiente (mínimo 30), ponderado
+						por número de observaciones. Es una aproximación, no un percentil real de toda la
+						ocupación.
 					</p>
 				{:else}
 					<p>
-						Percentiles ponderados por el factor de expansión del ingreso laboral por hora de trabajadores
-						por cuenta propia. Día y mes asumen 8 horas diarias y 20 días facturables.
+						Percentiles ponderados por el factor de expansión del ingreso laboral por hora de
+						trabajadores por cuenta propia. Día y mes asumen 8 horas diarias y 20 días facturables.
 					</p>
 				{/if}
 				{#if dataInfo}
 					<p class="mt-2 text-[#999077]">
-						Periodo: {dataInfo.periodo}{dataInfo.estado === 'provisional' ? ' (provisional)' : ''} · Versión {dataInfo.version}
+						Periodo: {dataInfo.periodo}{dataInfo.estado === 'provisional' ? ' (provisional)' : ''} · Versión
+						{dataInfo.version}
 					</p>
 				{/if}
 				<p class="mt-2 text-[#999077]">
-					Baja, referencia y alta son puntos de la distribución; no equivalen a niveles junior, medio o senior.
+					Baja, referencia y alta son puntos de la distribución; no equivalen a niveles junior,
+					medio o senior.
 				</p>
 			</div>
 

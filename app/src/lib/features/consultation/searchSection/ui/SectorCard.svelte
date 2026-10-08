@@ -26,7 +26,7 @@
 	const ciiuName = $derived(data.codigoCiiu.split(' - ').slice(1).join(' - '));
 </script>
 
-<Card variant="gradient" padding="sm" gradientClass={gradientClass}>
+<Card variant="gradient" padding="sm" {gradientClass}>
 	<div
 		class="flex h-full cursor-pointer flex-col rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffd200]"
 		role="button"
@@ -42,20 +42,30 @@
 		}}
 	>
 		<div class="mb-3 flex items-center justify-between gap-2">
-			<span class="inline-flex max-w-[70%] items-center truncate rounded-full px-2.5 py-1 text-[11px] font-medium ring-1 ring-inset {badgeClass}">
+			<span
+				class="inline-flex max-w-[70%] items-center truncate rounded-full px-2.5 py-1 text-[11px] font-medium ring-1 ring-inset {badgeClass}"
+			>
 				<span class="truncate">{data.sector}</span>
 			</span>
 			{#if data.esReferencia}
-				<span class="shrink-0 rounded-full bg-[#ffd200]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#ffd200] ring-1 ring-inset ring-[#ffd200]/30" title="Promedio ponderado de los sectores con muestra suficiente">
+				<span
+					class="shrink-0 rounded-full bg-[#ffd200]/10 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-[#ffd200] uppercase ring-1 ring-[#ffd200]/30 ring-inset"
+					title="Promedio ponderado de los sectores con muestra suficiente"
+				>
 					Referencia
 				</span>
 			{/if}
 		</div>
 
-		<p class="mb-1 line-clamp-1 text-[11px] uppercase tracking-wider text-[#999077]" title={data.categoriaLaboral}>
+		<p
+			class="mb-1 line-clamp-1 text-[11px] tracking-wider text-[#999077] uppercase"
+			title={data.categoriaLaboral}
+		>
 			{data.categoriaLaboral}
 		</p>
-		<h3 class="mb-1 line-clamp-2 min-h-[2.75rem] text-lg font-semibold leading-snug text-white font-[Montserrat]">
+		<h3
+			class="mb-1 line-clamp-2 min-h-[2.75rem] font-[Montserrat] text-lg leading-snug font-semibold text-white"
+		>
 			{data.especialidadCargo}
 		</h3>
 		<p class="mb-4 line-clamp-1 text-xs text-[#999077]" title={data.codigoCiiu}>
@@ -65,20 +75,31 @@
 		<div class="mb-1 flex items-baseline justify-between">
 			<span class="text-xs text-[#e0e3e5]/70">Tarifa de referencia / {unit}</span>
 		</div>
-		<p class="text-2xl font-bold tabular-nums text-[#22C55E]">{formatCurrency(mid)}</p>
+		<p class="text-2xl font-bold text-[#22C55E] tabular-nums">{formatCurrency(mid)}</p>
 
-		<div class="mt-4" role="img" aria-label="Rango de {formatCurrency(low)} a {formatCurrency(high)} por {unit}, referencia {formatCurrency(mid)}">
+		<div
+			class="mt-4"
+			role="img"
+			aria-label="Rango de {formatCurrency(low)} a {formatCurrency(
+				high
+			)} por {unit}, referencia {formatCurrency(mid)}"
+		>
 			<div class="relative h-1.5 rounded-full bg-white/10">
-				<div class="absolute inset-y-0 left-0 right-0 rounded-full bg-gradient-to-r from-[#22C55E]/30 via-[#22C55E]/60 to-[#ffd200]/60"></div>
-				<span class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#101415] bg-white" style="left: {markerPct}%"></span>
+				<div
+					class="absolute inset-y-0 right-0 left-0 rounded-full bg-gradient-to-r from-[#22C55E]/30 via-[#22C55E]/60 to-[#ffd200]/60"
+				></div>
+				<span
+					class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#101415] bg-white"
+					style="left: {markerPct}%"
+				></span>
 			</div>
 			<div class="mt-2 flex justify-between text-xs tabular-nums">
 				<div>
-					<p class="text-[10px] uppercase tracking-wide text-[#999077]">Baja</p>
+					<p class="text-[10px] tracking-wide text-[#999077] uppercase">Baja</p>
 					<p class="text-[#e0e3e5]/90">{formatCurrency(low)}</p>
 				</div>
 				<div class="text-right">
-					<p class="text-[10px] uppercase tracking-wide text-[#999077]">Alta</p>
+					<p class="text-[10px] tracking-wide text-[#999077] uppercase">Alta</p>
 					<p class="text-[#e0e3e5]/90">{formatCurrency(high)}</p>
 				</div>
 			</div>
@@ -86,7 +107,9 @@
 
 		<div class="mt-auto flex items-center justify-between border-t border-white/10 pt-3 text-xs">
 			<span class="text-[#999077]">Ingreso mensual</span>
-			<span class="font-medium tabular-nums text-[#e0e3e5]/90">{formatCurrency(data.salarioProm)}</span>
+			<span class="font-medium text-[#e0e3e5]/90 tabular-nums"
+				>{formatCurrency(data.salarioProm)}</span
+			>
 		</div>
 		<p class="mt-1 text-[11px] text-[#999077]/80">
 			{data.esReferencia ? 'Estimación' : 'GEIH DANE'} · {data.nMuestra.toLocaleString('es-CO')} observaciones
