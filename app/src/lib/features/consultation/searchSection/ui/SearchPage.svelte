@@ -20,9 +20,9 @@
 </script>
 
 <div class="min-h-screen bg-[#101415]">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+	<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
 		<SearchHeader {updatedAt} {dataInfo} />
-		
+
 		<SearchFilters
 			searchTerm={store.searchTerm}
 			selectedSector={store.selectedSector}
@@ -30,13 +30,13 @@
 			viewMode={store.viewMode}
 			hasActiveFilters={store.hasActiveFilters}
 			filterOptions={store.filterOptions}
-			onSearchChange={(value) => store.searchTerm = value}
-			onSectorChange={(value) => store.selectedSector = value}
-			onCategoriaChange={(value) => store.selectedCategoria = value}
+			onSearchChange={(value) => (store.searchTerm = value)}
+			onSectorChange={(value) => (store.selectedSector = value)}
+			onCategoriaChange={(value) => (store.selectedCategoria = value)}
 			onViewModeChange={(mode) => store.setViewMode(mode)}
 			onClearFilters={store.clearFilters}
 		/>
-		
+
 		<ResultsSection
 			results={store.results}
 			pagination={store.pagination}

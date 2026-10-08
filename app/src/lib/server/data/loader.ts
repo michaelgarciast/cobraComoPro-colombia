@@ -19,7 +19,12 @@ export const loadRows = () => load().rows;
 
 export function getDataInfo() {
 	const { meta } = load().dataset;
-	return { version: meta.version, generadoEn: meta.generado_en, periodo: meta.periodo_cubierto.descripcion, estado: meta.periodo_cubierto.estado };
+	return {
+		version: meta.version,
+		generadoEn: meta.generado_en,
+		periodo: meta.periodo_cubierto.descripcion,
+		estado: meta.periodo_cubierto.estado
+	};
 }
 
 const r = Math.round;
@@ -34,7 +39,11 @@ function buildRows(d: Dataset): SectorSummary[] {
 		ocId: string,
 		sector: string,
 		ciiu: string,
-		t: { hora: { p25: number; p50: number; p75: number }; dia: { p25: number; p50: number; p75: number }; mes: { p25: number; p50: number; p75: number } },
+		t: {
+			hora: { p25: number; p50: number; p75: number };
+			dia: { p25: number; p50: number; p75: number };
+			mes: { p25: number; p50: number; p75: number };
+		},
 		n: number,
 		esReferencia: boolean
 	): SectorSummary => {
@@ -66,7 +75,14 @@ function buildRows(d: Dataset): SectorSummary[] {
 		const act = actividades.get(t.actividad_economica_id);
 		if (!act || !ocupaciones.has(t.ocupacion_id)) continue;
 		rows.push(
-			make(t.ocupacion_id, sectores.get(act.sector_economico_id) ?? 'Sin clasificar', `${act.codigo_ciiu} - ${act.nombre}`, t as never, t.n_muestra, false)
+			make(
+				t.ocupacion_id,
+				sectores.get(act.sector_economico_id) ?? 'Sin clasificar',
+				`${act.codigo_ciiu} - ${act.nombre}`,
+				t as never,
+				t.n_muestra,
+				false
+			)
 		);
 		byOcc.set(t.ocupacion_id, [...(byOcc.get(t.ocupacion_id) ?? []), t]);
 	}
@@ -79,7 +95,16 @@ function buildRows(d: Dataset): SectorSummary[] {
 			p50: ts.reduce((s, t) => s + t[unit]!.p50 * t.n_muestra, 0) / n,
 			p75: ts.reduce((s, t) => s + t[unit]!.p75 * t.n_muestra, 0) / n
 		});
-		rows.push(make(ocId, ALL_SECTORS_LABEL, 'Referencia ponderada de los sectores con muestra suficiente', { hora: avg('hora'), dia: avg('dia'), mes: avg('mes') }, n, true));
+		rows.push(
+			make(
+				ocId,
+				ALL_SECTORS_LABEL,
+				'Referencia ponderada de los sectores con muestra suficiente',
+				{ hora: avg('hora'), dia: avg('dia'), mes: avg('mes') },
+				n,
+				true
+			)
+		);
 	}
 
 	return rows.sort((a, b) => a.especialidadCargo.localeCompare(b.especialidadCargo, 'es'));

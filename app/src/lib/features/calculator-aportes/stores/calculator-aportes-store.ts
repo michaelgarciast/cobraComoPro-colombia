@@ -66,7 +66,10 @@ export const aportesBreakdown = derived(formData, ($f): AportesBreakdown => {
 	const ccfAmount = effectiveIbcCcf * (data.ccf.percentage / 100);
 
 	const independienteAmount =
-		saludAmount + pensionAmount + ($f.isContratista ? 0 : arlAmount) + ($f.isContratista ? 0 : ccfAmount);
+		saludAmount +
+		pensionAmount +
+		($f.isContratista ? 0 : arlAmount) +
+		($f.isContratista ? 0 : ccfAmount);
 	const contratistaAmount = $f.isContratista ? arlAmount + ccfAmount : 0;
 	const totalPila = saludAmount + pensionAmount + arlAmount + ccfAmount;
 

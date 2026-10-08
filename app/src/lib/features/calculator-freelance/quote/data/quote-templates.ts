@@ -91,9 +91,9 @@ const SPECIALTY_TEMPLATE_MAP: Record<string, QuoteTemplateId> = {
 	'tecnico-ciberseguridad': 'tech',
 	'cloud-engineer': 'tech',
 	'site-reliability': 'tech',
-	'cybersecurity': 'tech',
+	cybersecurity: 'tech',
 	'penetration-tester': 'tech',
-	'blockchain': 'tech',
+	blockchain: 'tech',
 	software: 'tech',
 	devops: 'tech',
 

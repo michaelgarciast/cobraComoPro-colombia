@@ -14,7 +14,9 @@
 
 <section class="relative bg-[#0b0f10] px-5 py-16 sm:px-6 sm:py-20 lg:py-24">
 	<div aria-hidden="true" class="pointer-events-none absolute inset-0">
-		<div class="absolute left-1/3 top-16 h-56 w-56 rounded-full bg-[#ffb4aa]/10 blur-[160px] sm:h-72 sm:w-72 sm:blur-[180px]"></div>
+		<div
+			class="absolute top-16 left-1/3 h-56 w-56 rounded-full bg-[#ffb4aa]/10 blur-[160px] sm:h-72 sm:w-72 sm:blur-[180px]"
+		></div>
 	</div>
 	<div class="relative mx-auto max-w-7xl space-y-10 sm:space-y-12">
 		<SectionHeader

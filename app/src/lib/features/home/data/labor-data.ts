@@ -27,10 +27,30 @@ export const laborData2026: LaborData2026 = {
 		ley: 'Ley 2101 de 2021 - Reducción progresiva de jornada'
 	},
 	sectores: [
-		{ nombre: 'Primario', descripcion: 'Agricultura, ganadería, pesca y silvicultura', porcentajePibAprox: '7%' },
-		{ nombre: 'Secundario', descripcion: 'Industria manufacturera, construcción y minería', porcentajePibAprox: '22%' },
-		{ nombre: 'Terciario', descripcion: 'Comercio, transporte, turismo y servicios básicos', porcentajePibAprox: '40%' },
-		{ nombre: 'Cuaternario', descripcion: 'Tecnología, educación, investigación y finanzas', porcentajePibAprox: '24%' },
-		{ nombre: 'Quinario', descripcion: 'Alta dirección, gobierno y servicios de alto nivel', porcentajePibAprox: '7%' }
+		{
+			nombre: 'Primario',
+			descripcion: 'Agricultura, ganadería, pesca y silvicultura',
+			porcentajePibAprox: '7%'
+		},
+		{
+			nombre: 'Secundario',
+			descripcion: 'Industria manufacturera, construcción y minería',
+			porcentajePibAprox: '22%'
+		},
+		{
+			nombre: 'Terciario',
+			descripcion: 'Comercio, transporte, turismo y servicios básicos',
+			porcentajePibAprox: '40%'
+		},
+		{
+			nombre: 'Cuaternario',
+			descripcion: 'Tecnología, educación, investigación y finanzas',
+			porcentajePibAprox: '24%'
+		},
+		{
+			nombre: 'Quinario',
+			descripcion: 'Alta dirección, gobierno y servicios de alto nivel',
+			porcentajePibAprox: '7%'
+		}
 	]
 };

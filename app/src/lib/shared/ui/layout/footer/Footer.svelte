@@ -10,24 +10,24 @@
 			<!-- Brand Section -->
 			<div class="space-y-4">
 				<a href={resolve('/')} class="inline-flex items-center gap-3">
-					<div class="flex h-10 w-10 items-center justify-center rounded-full bg-[#ffd200] text-sm font-bold text-[#3b2f00]">
+					<div
+						class="flex h-10 w-10 items-center justify-center rounded-full bg-[#ffd200] text-sm font-bold text-[#3b2f00]"
+					>
 						CC
 					</div>
 					<div>
-						<p class="text-base font-bold text-white font-[Montserrat]">CobraComoPro</p>
-						<p class="text-xs font-medium uppercase tracking-wider text-[#999077]">
-							Colombia
-						</p>
+						<p class="font-[Montserrat] text-base font-bold text-white">CobraComoPro</p>
+						<p class="text-xs font-medium tracking-wider text-[#999077] uppercase">Colombia</p>
 					</div>
 				</a>
 				<p class="max-w-md text-sm leading-relaxed text-[#e0e3e5]/70">
-					Herramienta profesional para freelancers en Colombia. Calcula tarifas justas y gestiona tus cobros con confianza.
+					Herramienta profesional para freelancers en Colombia. Calcula tarifas justas y gestiona
+					tus cobros con confianza.
 				</p>
 			</div>
 
 			<!-- Links Section -->
-			<div class="flex flex-col gap-6 lg:items-end">
-				</div>
+			<div class="flex flex-col gap-6 lg:items-end"></div>
 		</div>
 
 		<!-- Bottom Section -->

@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center">
-	<div class="mb-8 text-9xl font-bold text-[#ffd200] font-[Montserrat]">
+	<div class="mb-8 font-[Montserrat] text-9xl font-bold text-[#ffd200]">
 		{page.status}
 	</div>
 
@@ -18,7 +18,5 @@
 			: 'Lo sentimos, ha ocurrido un error inesperado.'}
 	</p>
 
-	<Button href="/" variant="primary" size="lg">
-		Volver al inicio
-	</Button>
+	<Button href="/" variant="primary" size="lg">Volver al inicio</Button>
 </div>

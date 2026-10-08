@@ -1,5 +1,8 @@
 import { formatCOP } from '$lib/features/calculator-freelance/utils/calculation';
-import type { CalculationBreakdown, ExperienceLevelOption } from '$lib/features/calculator-freelance/types';
+import type {
+	CalculationBreakdown,
+	ExperienceLevelOption
+} from '$lib/features/calculator-freelance/types';
 
 interface CopyParams {
 	result: CalculationBreakdown;

@@ -1,8 +1,16 @@
 import { debounce } from '$lib/shared/utils/format';
 import { goto } from '$app/navigation';
+import { resolve } from '$app/paths';
 import { page } from '$app/stores';
 import { get } from 'svelte/store';
-import type { SectorSummary, FilterOptions, ViewMode, SearchApiResponse, PaginationInfo } from '../types';
+import { SvelteURLSearchParams } from 'svelte/reactivity';
+import type {
+	SectorSummary,
+	FilterOptions,
+	ViewMode,
+	SearchApiResponse,
+	PaginationInfo
+} from '../types';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -48,14 +56,21 @@ export function createSearchStore(filterOptions: FilterOptions) {
 
 	/** Sync current filter state to URL query params */
 	function syncToUrl() {
-		const params = new URLSearchParams();
+		const params = new SvelteURLSearchParams();
 		if (searchTerm.trim()) params.set('q', searchTerm.trim());
 		if (selectedSector !== 'todos') params.set('sector', selectedSector);
 		if (selectedCategoria !== 'todas') params.set('categoria', selectedCategoria);
 		if (currentPage > 1) params.set('pagina', String(currentPage));
 
 		const query = params.toString();
-		goto(`/consultar${query ? `?${query}` : ''}`, { replaceState: true, keepFocus: true, noScroll: true });
+		let url = resolve('/consultar');
+		if (query) url += `?${query}`;
+
+		goto(url, {
+			replaceState: true,
+			keepFocus: true,
+			noScroll: true
+		});
 	}
 
 	// Fetch data when filters or page change
@@ -158,7 +173,9 @@ export function createSearchStore(filterOptions: FilterOptions) {
 
 	function handlePageChange(newPage: number) {
 		currentPage = newPage;
-		document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		document
+			.getElementById('results-section')
+			?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
 	function clearFilters() {
@@ -174,24 +191,54 @@ export function createSearchStore(filterOptions: FilterOptions) {
 
 	return {
 		// State (readable)
-		get searchTerm() { return searchTerm; },
-		get selectedSector() { return selectedSector; },
-		get selectedCategoria() { return selectedCategoria; },
-		get viewMode() { return viewMode; },
-		get currentPage() { return currentPage; },
-		get results() { return results; },
-		get pagination() { return pagination; },
-		get isLoading() { return isLoading; },
-		get error() { return error; },
-		get hasActiveFilters() { return hasActiveFilters; },
-		get itemsPerPage() { return ITEMS_PER_PAGE; },
+		get searchTerm() {
+			return searchTerm;
+		},
+		get selectedSector() {
+			return selectedSector;
+		},
+		get selectedCategoria() {
+			return selectedCategoria;
+		},
+		get viewMode() {
+			return viewMode;
+		},
+		get currentPage() {
+			return currentPage;
+		},
+		get results() {
+			return results;
+		},
+		get pagination() {
+			return pagination;
+		},
+		get isLoading() {
+			return isLoading;
+		},
+		get error() {
+			return error;
+		},
+		get hasActiveFilters() {
+			return hasActiveFilters;
+		},
+		get itemsPerPage() {
+			return ITEMS_PER_PAGE;
+		},
 		// Filter options
 		filterOptions,
 		// Setters
-		set searchTerm(value: string) { searchTerm = value; },
-		set selectedSector(value: string) { selectedSector = value; },
-		set selectedCategoria(value: string) { selectedCategoria = value; },
-		set currentPage(value: number) { currentPage = value; },
+		set searchTerm(value: string) {
+			searchTerm = value;
+		},
+		set selectedSector(value: string) {
+			selectedSector = value;
+		},
+		set selectedCategoria(value: string) {
+			selectedCategoria = value;
+		},
+		set currentPage(value: number) {
+			currentPage = value;
+		},
 		// Actions
 		handlePageChange,
 		clearFilters,

@@ -12,33 +12,33 @@
 	let durationHint = $derived(() => {
 		const v = $formData.durationValue;
 		if ($formData.durationUnit === 'hours') return `${v} hora${v !== 1 ? 's' : ''} totales`;
-		if ($formData.durationUnit === 'days') return `${v * 8} horas (${Math.ceil(v / 5)} sem. aprox.)`;
+		if ($formData.durationUnit === 'days')
+			return `${v * 8} horas (${Math.ceil(v / 5)} sem. aprox.)`;
 		return `${v * 40} horas · ${v * 5} días laborales`;
 	});
-
 </script>
 
 <div class="space-y-7">
 	<div>
-		<h2 class="text-lg font-semibold text-white font-[Montserrat]">Detalles del proyecto</h2>
-		<p class="text-sm text-[#e0e3e5]/70 mt-1">Define el alcance y ajustes de tu cotización</p>
+		<h2 class="font-[Montserrat] text-lg font-semibold text-white">Detalles del proyecto</h2>
+		<p class="mt-1 text-sm text-[#e0e3e5]/70">Define el alcance y ajustes de tu cotización</p>
 	</div>
 
 	<!-- Duración -->
 	<div>
-		<label for="duration" class="block text-sm font-medium text-[#e0e3e5]/80 mb-3">
+		<label for="duration" class="mb-3 block text-sm font-medium text-[#e0e3e5]/80">
 			Duración del proyecto <span class="text-[#ffb4aa]">*</span>
 		</label>
 		<!-- Selector de unidad -->
-		<div class="flex rounded-lg border border-white/10 bg-[#191c1e] p-1 mb-3">
+		<div class="mb-3 flex rounded-lg border border-white/10 bg-[#191c1e] p-1">
 			{#each [{ id: 'hours', label: 'Horas' }, { id: 'days', label: 'Días' }, { id: 'weeks', label: 'Semanas' }] as unit (unit.id)}
 				<button
 					type="button"
 					onclick={() => formData.setField('durationUnit', unit.id as 'hours' | 'days' | 'weeks')}
 					class="flex-1 rounded-lg py-2.5 text-sm font-medium transition-all duration-150
 						{$formData.durationUnit === unit.id
-							? 'bg-[#ffd200] text-[#3b2f00] shadow-sm'
-							: 'text-[#999077] hover:text-white'}"
+						? 'bg-[#ffd200] text-[#3b2f00] shadow-sm'
+						: 'text-[#999077] hover:text-white'}"
 				>
 					{unit.label}
 				</button>
@@ -61,12 +61,12 @@
 
 	<!-- Porcentaje extra -->
 	<div>
-		<div class="flex items-center justify-between mb-3">
+		<div class="mb-3 flex items-center justify-between">
 			<label for="extra" class="text-sm font-medium text-[#e0e3e5]/80">Porcentaje extra</label>
 			<span class="text-xs text-[#999077]">imprevistos · gastos · margen</span>
 		</div>
 
-		<div class="flex gap-2 mb-3">
+		<div class="mb-3 flex gap-2">
 			{#each EXTRA_PRESETS as preset (preset.value)}
 				<Chip
 					label={preset.label}
@@ -97,10 +97,11 @@
 			min="0"
 			max="100"
 			value={Math.min($formData.extraPercentage, 100)}
-			oninput={(e) => formData.setField('extraPercentage', parseInt((e.target as HTMLInputElement).value))}
-			class="mt-3 w-full accent-[#ffd200] cursor-pointer"
+			oninput={(e) =>
+				formData.setField('extraPercentage', parseInt((e.target as HTMLInputElement).value))}
+			class="mt-3 w-full cursor-pointer accent-[#ffd200]"
 		/>
-		<div class="flex justify-between text-[10px] text-[#999077]/60 mt-1 px-0.5">
+		<div class="mt-1 flex justify-between px-0.5 text-[10px] text-[#999077]/60">
 			<span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
 		</div>
 	</div>

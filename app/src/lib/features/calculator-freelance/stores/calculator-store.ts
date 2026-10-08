@@ -37,7 +37,7 @@ function createFormStore() {
 	return {
 		subscribe,
 		setField: <K extends keyof CalculatorFormData>(field: K, value: CalculatorFormData[K]) => {
-			update(s => persist({ ...s, [field]: value }));
+			update((s) => persist({ ...s, [field]: value }));
 		},
 		reset: () => {
 			if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY);
@@ -52,16 +52,22 @@ export const formData = createFormStore();
 export const activeStep = writable<1 | 2>(1);
 
 // Validaciones
-export const isStep1Valid = derived(formData, $f =>
-	$f.monthlySalary > 0 && !!$f.experienceLevel && !!$f.specialty && $f.serviceType.trim().length > 0
+export const isStep1Valid = derived(
+	formData,
+	($f) =>
+		$f.monthlySalary > 0 &&
+		!!$f.experienceLevel &&
+		!!$f.specialty &&
+		$f.serviceType.trim().length > 0
 );
 
-export const isStep2Valid = derived(formData, $f =>
-	$f.durationValue > 0 && $f.extraPercentage >= 0
+export const isStep2Valid = derived(
+	formData,
+	($f) => $f.durationValue > 0 && $f.extraPercentage >= 0
 );
 
 // Resultado reactivo (se recalcula en tiempo real)
-export const calculationResult = derived(formData, $f => calcularTarifa($f));
+export const calculationResult = derived(formData, ($f) => calcularTarifa($f));
 
 export function resetCalculator() {
 	formData.reset();

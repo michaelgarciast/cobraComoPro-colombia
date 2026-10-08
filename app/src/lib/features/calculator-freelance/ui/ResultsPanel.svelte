@@ -8,7 +8,10 @@
 		resetCalculator,
 		activeStep
 	} from '$lib/features/calculator-freelance/stores/calculator-store';
-	import { EXPERIENCE_LEVELS, formatCOP } from '$lib/features/calculator-freelance/utils/calculation';
+	import {
+		EXPERIENCE_LEVELS,
+		formatCOP
+	} from '$lib/features/calculator-freelance/utils/calculation';
 	import { Button, Modal } from '$lib/shared/ui/components';
 	import ProfileSummary from './ProfileSummary.svelte';
 	import ProjectSummary from './ProjectSummary.svelte';
@@ -19,7 +22,10 @@
 	let currentStep = $derived($activeStep);
 
 	let profileReady = $derived(
-		$formData.monthlySalary > 0 || !!$formData.experienceLevel || !!$formData.specialty || $formData.serviceType.trim().length > 0
+		$formData.monthlySalary > 0 ||
+			!!$formData.experienceLevel ||
+			!!$formData.specialty ||
+			$formData.serviceType.trim().length > 0
 	);
 	let projectReady = $derived($formData.durationValue > 0);
 
@@ -36,9 +42,13 @@
 			? [
 					{ op: `÷ 192`, label: 'Base/hora', value: result.hourlyBase },
 					{ op: `× 1.7`, label: 'Factor freelance', value: result.withFreelanceFactor },
-					{ op: `× ${level?.multiplier ?? '—'}`, label: 'Nivel elegido', value: result.withExperienceFactor },
+					{
+						op: `× ${level?.multiplier ?? '—'}`,
+						label: 'Nivel elegido',
+						value: result.withExperienceFactor
+					},
 					{ op: `× 1.2`, label: 'Factor riesgo', value: result.withRiskFactor }
-			  ]
+				]
 			: []
 	);
 
@@ -131,9 +141,17 @@
 	}
 </script>
 
-<div class="flex flex-col h-full">
-	<div class="space-y-5 flex-1">
-		<ProfileSummary {currentStep} {profileReady} {level} {result} {formulaSteps} {copied} onCopy={handleCopy} />
+<div class="flex h-full flex-col">
+	<div class="flex-1 space-y-5">
+		<ProfileSummary
+			{currentStep}
+			{profileReady}
+			{level}
+			{result}
+			{formulaSteps}
+			{copied}
+			onCopy={handleCopy}
+		/>
 
 		{#if currentStep === 2}
 			<ProjectSummary {projectReady} {result} {durationLabel} {totalHours} />
@@ -141,14 +159,30 @@
 			{#if result}
 				<section class="rounded-2xl border border-white/10 bg-[#14181a]/80 p-5 sm:p-6">
 					<div class="mb-4">
-						<p class="text-[11px] tracking-[0.2em] uppercase text-[#999077]/60">Totales y retenciones</p>
-						<h3 class="text-lg font-semibold text-white font-[Montserrat]">Lo que cobras vs. lo que recibes</h3>
+						<p class="text-[11px] tracking-[0.2em] text-[#999077]/60 uppercase">
+							Totales y retenciones
+						</p>
+						<h3 class="font-[Montserrat] text-lg font-semibold text-white">
+							Lo que cobras vs. lo que recibes
+						</h3>
 					</div>
 					<div class="grid grid-cols-2 gap-3">
-						<Button as="button" variant="outline" size="md" class="w-full" onclick={() => openModal('totales')}>
+						<Button
+							as="button"
+							variant="outline"
+							size="md"
+							class="w-full"
+							onclick={() => openModal('totales')}
+						>
 							Ver totales
 						</Button>
-						<Button as="button" variant="secondary" size="md" class="w-full" onclick={() => openModal('retenciones')}>
+						<Button
+							as="button"
+							variant="secondary"
+							size="md"
+							class="w-full"
+							onclick={() => openModal('retenciones')}
+						>
 							Ver retenciones legales
 						</Button>
 					</div>
@@ -186,34 +220,36 @@
 		<div class="space-y-4">
 			<div class="flex justify-between text-sm">
 				<span class="text-[#e0e3e5]/70">Subtotal</span>
-				<span class="text-white font-medium">{formatCOP(result?.subtotal ?? 0)}</span>
+				<span class="font-medium text-white">{formatCOP(result?.subtotal ?? 0)}</span>
 			</div>
 			<div class="flex justify-between text-sm">
 				<span class="text-[#e0e3e5]/70">Extra ({$formData.extraPercentage}%)</span>
-				<span class="text-white font-medium">+{formatCOP(result?.extraAmount ?? 0)}</span>
+				<span class="font-medium text-white">+{formatCOP(result?.extraAmount ?? 0)}</span>
 			</div>
-			<div class="border-t border-white/10 pt-3 flex justify-between text-base">
-				<span class="text-[#22C55E] font-medium">Total a cobrar</span>
-				<span class="text-[#22C55E] font-bold">{formatCOP(result?.total ?? 0)}</span>
+			<div class="flex justify-between border-t border-white/10 pt-3 text-base">
+				<span class="font-medium text-[#22C55E]">Total a cobrar</span>
+				<span class="font-bold text-[#22C55E]">{formatCOP(result?.total ?? 0)}</span>
 			</div>
-			<div class="border-t border-white/10 pt-3 flex justify-between text-sm">
+			<div class="flex justify-between border-t border-white/10 pt-3 text-sm">
 				<span class="text-[#ffb4aa]/80">Retenciones estimadas</span>
-				<span class="text-[#ffb4aa] font-medium">−{formatCOP(result?.retenciones.totalRetenido ?? 0)}</span>
+				<span class="font-medium text-[#ffb4aa]"
+					>−{formatCOP(result?.retenciones.totalRetenido ?? 0)}</span
+				>
 			</div>
 			<div class="flex justify-between text-base">
-				<span class="text-white font-medium">Neto que recibes</span>
-				<span class="text-white font-bold">{formatCOP(result?.netoRecibir ?? 0)}</span>
+				<span class="font-medium text-white">Neto que recibes</span>
+				<span class="font-bold text-white">{formatCOP(result?.netoRecibir ?? 0)}</span>
 			</div>
-			<div class="rounded-xl border border-green-400/20 bg-green-900/20 p-3 mt-2">
+			<div class="mt-2 rounded-xl border border-green-400/20 bg-green-900/20 p-3">
 				<div class="flex justify-between text-sm">
 					<span class="text-[#fff2d1]">Para no verte afectado, cobra</span>
-					<span class="text-green-400 font-semibold">{formatCOP(result?.totalSugerido ?? 0)}</span>
+					<span class="font-semibold text-green-400">{formatCOP(result?.totalSugerido ?? 0)}</span>
 				</div>
 			</div>
-			<p class="text-xs text-white /60 pt-1 leading-relaxed">
-				El cliente retiene aproximadamente el {result?.retenciones.porcentajeTotal ?? 0}% del valor total
-				(retención en la fuente + ICA). Si cobras este monto, después de las retenciones recibirás
-				el neto que esperas. De lo contrario, el dinero retenido sale de tu bolsillo.
+			<p class="/60 pt-1 text-xs leading-relaxed text-white">
+				El cliente retiene aproximadamente el {result?.retenciones.porcentajeTotal ?? 0}% del valor
+				total (retención en la fuente + ICA). Si cobras este monto, después de las retenciones
+				recibirás el neto que esperas. De lo contrario, el dinero retenido sale de tu bolsillo.
 			</p>
 		</div>
 	{:else}
@@ -221,33 +257,42 @@
 			<div class="flex justify-between text-sm">
 				<span class="text-[#e0e3e5]/70">
 					Retención en la fuente
-					<span class="text-[#999077]/60 text-xs">(11% · Art. 392 ET)</span>
+					<span class="text-xs text-[#999077]/60">(11% · Art. 392 ET)</span>
 				</span>
-				<span class="text-[#ffb4aa] font-medium">−{formatCOP(result?.retenciones.retencionFuente ?? 0)}</span>
+				<span class="font-medium text-[#ffb4aa]"
+					>−{formatCOP(result?.retenciones.retencionFuente ?? 0)}</span
+				>
 			</div>
 			<div class="flex justify-between text-sm">
 				<span class="text-[#e0e3e5]/70">
-					ICA <span class="text-[#999077]/60 text-xs">(0.966% · Bogotá)</span>
+					ICA <span class="text-xs text-[#999077]/60">(0.966% · Bogotá)</span>
 				</span>
-				<span class="text-[#ffb4aa] font-medium">−{formatCOP(result?.retenciones.ica ?? 0)}</span>
+				<span class="font-medium text-[#ffb4aa]">−{formatCOP(result?.retenciones.ica ?? 0)}</span>
 			</div>
-			<div class="border-t border-white/10 pt-3 flex justify-between text-base">
-				<span class="text-[#ffb4aa] font-medium">Total retenido</span>
-				<span class="text-[#ffb4aa] font-bold">−{formatCOP(result?.retenciones.totalRetenido ?? 0)}</span>
+			<div class="flex justify-between border-t border-white/10 pt-3 text-base">
+				<span class="font-medium text-[#ffb4aa]">Total retenido</span>
+				<span class="font-bold text-[#ffb4aa]"
+					>−{formatCOP(result?.retenciones.totalRetenido ?? 0)}</span
+				>
 			</div>
-			<div class="border-t border-white/10 pt-3 flex justify-between text-base">
-				<span class="text-white font-medium">Tú recibes neto</span>
-				<span class="text-white font-bold">{formatCOP(result?.netoRecibir ?? 0)}</span>
+			<div class="flex justify-between border-t border-white/10 pt-3 text-base">
+				<span class="font-medium text-white">Tú recibes neto</span>
+				<span class="font-bold text-white">{formatCOP(result?.netoRecibir ?? 0)}</span>
 			</div>
-			<p class="text-xs text-white /60 pt-1 leading-relaxed">
-				El cliente retiene estos valores y los paga a la DIAN en tu nombre. Puedes descontarlos en tu
-				declaración de renta anual.
+			<p class="/60 pt-1 text-xs leading-relaxed text-white">
+				El cliente retiene estos valores y los paga a la DIAN en tu nombre. Puedes descontarlos en
+				tu declaración de renta anual.
 			</p>
 		</div>
 	{/if}
 </Modal>
 
-<Modal open={quoteModalOpen} onclose={() => (quoteModalOpen = false)} title="Cotización formal" className="max-w-5xl">
+<Modal
+	open={quoteModalOpen}
+	onclose={() => (quoteModalOpen = false)}
+	title="Cotización formal"
+	className="max-w-5xl"
+>
 	{#if result}
 		<QuotePreview {quote} {result} form={$formData} {template} />
 
@@ -261,12 +306,7 @@
 			>
 				Editar datos
 			</Button>
-			<Button
-				as="button"
-				variant="primary"
-				size="md"
-				onclick={handlePrint}
-			>
+			<Button as="button" variant="primary" size="md" onclick={handlePrint}>
 				Descargar / Imprimir
 			</Button>
 		</div>

@@ -54,7 +54,7 @@ export async function copyResult(params: CopyParams): Promise<void> {
 		'📊 DISTRIBUCIÓN DE APORTES:',
 		`  • Salud (EPS): ${formatCOP(saludAmount)}`,
 		`  • Pensión: ${formatCOP(pensionAmount)}`,
-		`  • ARL: ${formatCOP(arlAmount)}`,
+		`  • ARL: ${formatCOP(arlAmount)}`
 	];
 
 	if (includeCcf) {

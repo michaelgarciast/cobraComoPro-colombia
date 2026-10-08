@@ -30,9 +30,7 @@ export const DatasetSchema = z.object({
 		})
 	),
 	grupos_ocupacionales: z.array(z.object({ id: z.string(), nombre: z.string() })),
-	ocupaciones: z.array(
-		z.object({ id: z.string(), nombre: z.string(), grupo_ciuo_id: z.string() })
-	),
+	ocupaciones: z.array(z.object({ id: z.string(), nombre: z.string(), grupo_ciuo_id: z.string() })),
 	tarifas: z.array(TarifaSchema)
 });
 

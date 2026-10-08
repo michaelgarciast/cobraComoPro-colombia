@@ -15,7 +15,8 @@
 {#if breakdown.isBelowMin}
 	<div class="rounded-xl border border-[#ffb4aa]/20 bg-[#d2010f]/10 p-4">
 		<p class="text-xs text-[#ffb4aa]">
-			<strong>Nota:</strong> Como tu IBC es menor a 1 SMMLV, los cálculos de salud y pensión se ajustan al mínimo legal de {formatCOP(data.ibcMinimo)}.
+			<strong>Nota:</strong> Como tu IBC es menor a 1 SMMLV, los cálculos de salud y pensión se
+			ajustan al mínimo legal de {formatCOP(data.ibcMinimo)}.
 		</p>
 	</div>
 {/if}
@@ -23,7 +24,9 @@
 {#if breakdown.isAbovePensionMax}
 	<div class="rounded-xl border border-[#ffb4aa]/20 bg-[#d2010f]/10 p-4">
 		<p class="text-xs text-[#ffb4aa]">
-			<strong>Nota:</strong> Para pensión, el IBC máximo es 25 SMMLV ({formatCOP(data.ibcMaximoPension)}). El cálculo de pensión usa este tope.
+			<strong>Nota:</strong> Para pensión, el IBC máximo es 25 SMMLV ({formatCOP(
+				data.ibcMaximoPension
+			)}). El cálculo de pensión usa este tope.
 		</p>
 	</div>
 {/if}
