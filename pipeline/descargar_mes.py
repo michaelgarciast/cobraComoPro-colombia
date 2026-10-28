@@ -98,6 +98,7 @@ def main():
     if not del_catalogo:
         sys.exit(f"No encontré meses de {args.anio} en el catálogo")
 
+    args.carpeta.mkdir(parents=True, exist_ok=True)
     existentes = {carpeta.name for carpeta in args.carpeta.iterdir() if carpeta.is_dir()}
     faltantes = sorted(del_catalogo.keys() - existentes)
     print(f"Catálogo: {sorted(del_catalogo)}")
