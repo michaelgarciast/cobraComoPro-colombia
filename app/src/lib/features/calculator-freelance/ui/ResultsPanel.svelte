@@ -227,8 +227,8 @@
 				<span class="font-medium text-white">+{formatCOP(result?.extraAmount ?? 0)}</span>
 			</div>
 			<div class="flex justify-between border-t border-white/10 pt-3 text-base">
-				<span class="font-medium text-[#22C55E]">Total a cobrar</span>
-				<span class="font-bold text-[#22C55E]">{formatCOP(result?.total ?? 0)}</span>
+				<span class="font-medium text-[#ffd200]">Total a cobrar</span>
+				<span class="font-bold text-[#ffd200]">{formatCOP(result?.total ?? 0)}</span>
 			</div>
 			<div class="flex justify-between border-t border-white/10 pt-3 text-sm">
 				<span class="text-[#ffb4aa]/80">Retenciones estimadas</span>
@@ -240,10 +240,10 @@
 				<span class="font-medium text-white">Neto que recibes</span>
 				<span class="font-bold text-white">{formatCOP(result?.netoRecibir ?? 0)}</span>
 			</div>
-			<div class="mt-2 rounded-xl border border-green-400/20 bg-green-900/20 p-3">
+			<div class="mt-2 rounded-xl border border-[#ffd200]/20 bg-[#ffd200]/5 p-3">
 				<div class="flex justify-between text-sm">
 					<span class="text-[#fff2d1]">Para no verte afectado, cobra</span>
-					<span class="font-semibold text-green-400">{formatCOP(result?.totalSugerido ?? 0)}</span>
+					<span class="font-semibold text-[#ffd200]">{formatCOP(result?.totalSugerido ?? 0)}</span>
 				</div>
 			</div>
 			<p class="/60 pt-1 text-xs leading-relaxed text-white">
