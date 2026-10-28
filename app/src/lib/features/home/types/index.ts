@@ -9,6 +9,8 @@ export interface Offering {
 	badge: string;
 	icon: string;
 	variant: 'amber' | 'emerald' | 'sky' | 'rose';
+	href: '/calculadora-freelance' | '/consultar' | '/cotizar-aportes';
+	linkLabel: string;
 }
 
 export interface ProposalFeature {
