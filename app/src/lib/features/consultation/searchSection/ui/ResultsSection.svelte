@@ -35,6 +35,12 @@
 </script>
 
 <!-- Results Count -->
+<p
+	class="mb-4 flex items-center gap-2 text-[10px] font-semibold tracking-[0.2em] text-white/50 uppercase"
+>
+	<span class="font-[Montserrat] text-base font-extrabold text-[#1e4fc2]">02</span>
+	Resultados del mercado
+</p>
 <div
 	id="results-section"
 	aria-live="polite"
@@ -145,8 +151,9 @@
 {/if}
 
 <aside
-	class="mt-12 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-xs leading-relaxed text-[#e0e3e5]/60"
+	class="relative mt-12 overflow-hidden rounded-xl border border-white/10 bg-white/3 p-4 pl-5 text-xs leading-relaxed text-[#e0e3e5]/60"
 >
+	<div class="absolute inset-y-0 left-0 w-1 bg-[#ffd200]/50"></div>
 	<p class="mb-1 font-semibold text-[#e0e3e5]/80">Cómo leer estas cifras</p>
 	<p>
 		<strong>Baja</strong>, <strong>Referencia</strong> y <strong>Alta</strong> son los percentiles 25,

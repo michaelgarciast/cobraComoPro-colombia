@@ -73,7 +73,7 @@
 									>{row.label}</th
 								>
 								<td class="px-4 py-3 text-right text-[#e0e3e5]/90">{formatCurrency(row.low)}</td>
-								<td class="px-4 py-3 text-right font-semibold text-[#22C55E]"
+								<td class="px-4 py-3 text-right font-semibold text-[#ffd200]"
 									>{formatCurrency(row.mid)}</td
 								>
 								<td class="px-4 py-3 text-right text-[#e0e3e5]/90">{formatCurrency(row.high)}</td>
@@ -84,7 +84,7 @@
 			</div>
 
 			<div
-				class="rounded-lg border border-white/10 bg-white/[0.03] p-4 text-xs leading-relaxed text-[#e0e3e5]/70"
+				class="rounded-lg border border-white/10 bg-white/3 p-4 text-xs leading-relaxed text-[#e0e3e5]/70"
 			>
 				<p class="mb-1 font-semibold text-[#e0e3e5]/90">
 					{data.esReferencia ? 'Estimación de referencia' : 'Datos directos de la GEIH'}
