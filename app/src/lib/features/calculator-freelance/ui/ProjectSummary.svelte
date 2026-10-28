@@ -37,15 +37,15 @@
 					<p class="text-xs text-[#999077]">= {formatCOP(result.extraAmount)} añadidos</p>
 				</div>
 			</div>
-			<div class="rounded-xl border border-[#22C55E]/20 bg-[#0f1c13] p-4">
+			<div class="rounded-xl border border-[#ffd200]/25 bg-[#ffd200]/5 p-4">
 				<div class="flex items-center justify-between">
-					<p class="text-sm text-[#d1f1dc]">Subtotal del proyecto</p>
-					<p class="text-lg font-semibold text-[#22C55E]">{formatCOP(result.subtotal)}</p>
+					<p class="text-sm text-[#fff2d1]">Subtotal del proyecto</p>
+					<p class="text-lg font-bold text-[#ffd200]">{formatCOP(result.subtotal)}</p>
 				</div>
 				{#if result.extraAmount > 0}
-					<div class="mt-2 flex items-center justify-between text-xs text-[#8fb89e]">
+					<div class="mt-2 flex items-center justify-between text-xs text-[#999077]">
 						<span>+ Extra ({$formData.extraPercentage}%)</span>
-						<span>+{formatCOP(result.extraAmount)}</span>
+						<span class="text-[#e0e3e5]/80">+{formatCOP(result.extraAmount)}</span>
 					</div>
 				{/if}
 			</div>

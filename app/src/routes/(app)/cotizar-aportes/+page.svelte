@@ -10,6 +10,6 @@
 	/>
 </svelte:head>
 
-<div class="min-h-screen bg-[#101415]">
+<div class="min-h-screen bg-[#0b0f10]">
 	<SocialSecuritySection />
 </div>
