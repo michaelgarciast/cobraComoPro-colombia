@@ -15,11 +15,16 @@ const config = {
 			mode: 'auto',
 			directives: {
 				'default-src': ['self'],
-				'script-src': ['self', 'unsafe-eval'],
+				'script-src': ['self', 'unsafe-eval', 'https://www.googletagmanager.com'],
 				'style-src': ['self', 'unsafe-inline', 'https://fonts.googleapis.com'],
 				'img-src': ['self', 'data:', 'https:'],
 				'font-src': ['self', 'https://fonts.gstatic.com'],
-				'connect-src': ['self'],
+				'connect-src': [
+					'self',
+					'https://*.google-analytics.com',
+					'https://*.analytics.google.com',
+					'https://*.googletagmanager.com'
+				],
 				'worker-src': ['self', 'blob:'],
 				'frame-ancestors': ['none'],
 				'base-uri': ['self'],
