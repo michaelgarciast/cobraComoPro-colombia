@@ -1,0 +1,924 @@
+{
+  "meta": {
+    "version": "2025",
+    "ocupaciones_fuente": "CUOC 2025 (denominación asociada por coincidencia de código de 4 dígitos; no es una tabla oficial de concordancia CIUO-CUOC)",
+    "actividades_fuente": "CIIU Rev. 4 A.C. 2022, divisiones de 2 dígitos",
+    "fuentes_dane": [
+      "https://www.dane.gov.co/files/sen/nomenclatura/cuoc/CUOC-indice-2025.xlsx",
+      "https://www.dane.gov.co/files/sen/nomenclatura/ciiu/Estructura-detallada-CIIU-4AC-2022.xlsx"
+    ]
+  },
+  "grupos_ciuo": {
+    "0": "FUERZAS MILITARES",
+    "1": "DIRECTORES Y GERENTES",
+    "2": "PROFESIONALES, CIENTÍFICOS E INTELECTUALES",
+    "3": "TÉCNICOS Y PROFESIONALES DEL NIVEL MEDIO",
+    "4": "PERSONAL DE APOYO ADMINISTRATIVO",
+    "5": "TRABAJADORES DE LOS SERVICIOS Y VENDEDORES DE COMERCIOS Y MERCADOS",
+    "6": "AGRICULTORES Y TRABAJADORES CALIFICADOS AGROPECUARIOS, FORESTALES Y PESQUEROS",
+    "7": "OFICIALES, OPERARIOS, ARTESANOS Y OFICIOS RELACIONADOS",
+    "8": "OPERADORES DE INSTALACIONES Y MÁQUINAS Y ENSAMBLADORES",
+    "9": "OCUPACIONES ELEMENTALES"
+  },
+  "ocupaciones_por_codigo": {
+    "0110": "Oficiales de las Fuerzas Militares",
+    "0210": "Suboficiales de las Fuerzas Militares",
+    "0310": "Otros miembros de las Fuerzas Militares",
+    "1111": "Directores formuladores y ejecutores de políticas y normas",
+    "1112": "Directores del gobierno",
+    "1113": "Jefes de comunidades étnicas",
+    "1114": "Dirigentes de organizaciones con un interés específico (partidos políticos, sindicatos y organizaciones sociales)",
+    "1120": "Directores y gerentes generales",
+    "1211": "Directores y gerentes de servicios financieros",
+    "1212": "Directores y gerentes de gestión de talento humano",
+    "1213": "Directores y gerentes de políticas y planeación",
+    "1219": "Directores y gerentes de administración y servicios no clasificados en otros grupos primarios",
+    "1221": "Directores y gerentes de ventas y comercialización",
+    "1222": "Directores y gerentes de publicidad y relaciones públicas",
+    "1223": "Directores y gerentes de ingeniería, investigación y desarrollo",
+    "1311": "Directores y gerentes de producción agropecuaria y silvicultura",
+    "1312": "Directores y gerentes de producción acuícola, piscícola y de pesca",
+    "1321": "Directores y gerentes de industrias manufactureras",
+    "1322": "Directores y gerentes de producción primaria (excepto agricultura)",
+    "1323": "Directores y gerentes de empresas de construcción",
+    "1324": "Directores y gerentes de abastecimiento, distribución, transporte y afines",
+    "1330": "Directores de servicios de tecnología de la información y las comunicaciones",
+    "1341": "Directores y gerentes de servicios de cuidados infantiles",
+    "1342": "Directores y gerentes de servicios de salud",
+    "1343": "Directores y gerentes de servicios de atención a personas mayores",
+    "1344": "Directores y gerentes de servicios de bienestar social, comunitario y correccional",
+    "1345": "Directores y gerentes de programas y servicios de educación",
+    "1346": "Directores y gerentes de sucursales de bancos, de servicios financieros y de seguros",
+    "1349": "Directores y gerentes de servicios profesionales no clasificados en otros grupos primarios",
+    "1411": "Directores y gerentes de servicios hoteleros y hospedaje",
+    "1412": "Gerentes y administradores de servicios de alimentos y restaurantes",
+    "1420": "Gerentes de comercios al por mayor y al por menor",
+    "1431": "Directores y gerentes de deportes, esparcimiento y cultura",
+    "1439": "Otros gerentes y administradores de servicios no clasificados en otros grupos primarios",
+    "2111": "Físicos y astrónomos",
+    "2112": "Meteorólogos",
+    "2113": "Químicos",
+    "2114": "Geólogos, geofísicos y geoquímicos",
+    "2120": "Matemáticos, actuarios y estadísticos",
+    "2131": "Biólogos, botánicos, zoólogos y afines",
+    "2132": "Agrónomos, silvicultores, zootecnistas y afines",
+    "2133": "Profesionales de la protección medioambiental y gestión de riesgo de desastres",
+    "2141": "Ingenieros industriales y de producción",
+    "2142": "Ingenieros civiles",
+    "2143": "Ingenieros medioambientales",
+    "2144": "Ingenieros mecánicos, navales y aeronáuticos",
+    "2145": "Ingenieros químicos",
+    "2146": "Ingenieros de minas, metalúrgicos, petróleos y afines",
+    "2149": "Ingenieros no clasificados en otros grupos primarios",
+    "2151": "Ingenieros electricistas",
+    "2152": "Ingenieros electrónicos, automatización y afines",
+    "2153": "Ingenieros de telecomunicaciones, audio y sonido",
+    "2161": "Arquitectos",
+    "2162": "Arquitectos paisajistas",
+    "2163": "Diseñadores industriales, de moda, espacios y servicios",
+    "2164": "Planificadores urbanos, regionales y de tránsito",
+    "2165": "Cartógrafos e ingenieros topográficos y catastrales",
+    "2166": "Diseñadores gráficos y multimedia",
+    "2211": "Médicos generales",
+    "2212": "Médicos especialistas",
+    "2221": "Profesionales de enfermería",
+    "2230": "Profesionales de medicina tradicional y alternativa",
+    "2240": "Paramédicos e instrumentadores quirúrgicos",
+    "2250": "Veterinarios",
+    "2261": "Odontólogos",
+    "2262": "Farmacéuticos y químicos farmacéuticos",
+    "2263": "Profesionales de la salud y la higiene laboral y ambiental",
+    "2264": "Fisioterapeutas",
+    "2265": "Nutricionistas dietistas",
+    "2266": "Fonoaudiólogos y terapeutas del lenguaje",
+    "2267": "Optómetras",
+    "2269": "Otros profesionales de la salud no clasificados en otros grupos primarios",
+    "2310": "Profesores de instituciones de educación superior",
+    "2320": "Profesores de formación profesional",
+    "2330": "Profesores de educación secundaria",
+    "2341": "Profesores de educación básica primaria",
+    "2342": "Profesores de primera infancia y preescolar",
+    "2351": "Especialistas en métodos y procesos pedagógicos",
+    "2352": "Profesores de educación especial e inclusiva y reeducadores",
+    "2353": "Otros profesores de idiomas",
+    "2354": "Otros profesores de música",
+    "2355": "Otros profesores de artes",
+    "2356": "Instructores de tecnología de la información",
+    "2359": "Otros profesionales de la educación no clasificados en otros grupos primarios",
+    "2411": "Contadores y auditores financieros",
+    "2412": "Asesores financieros y de inversiones",
+    "2413": "Analistas financieros",
+    "2421": "Profesionales y analistas de gestión y organización",
+    "2422": "Profesionales en políticas sociales y de administración",
+    "2423": "Profesionales de gestión de talento humano",
+    "2424": "Profesionales en formación, desarrollo de personal y evaluación de competencias",
+    "2431": "Profesionales de la publicidad y la comercialización",
+    "2432": "Profesionales de relaciones públicas y comunicaciones",
+    "2433": "Profesionales de ventas técnicas y médicas (excluyendo las TIC)",
+    "2434": "Profesionales de ventas de tecnología de la información y las comunicaciones",
+    "2511": "Analistas de sistemas",
+    "2512": "Desarrolladores de software",
+    "2513": "Desarrolladores web y multimedia",
+    "2514": "Programadores de aplicaciones",
+    "2519": "Desarrolladores y analistas de software y multimedia no clasificados en otros grupos primarios",
+    "2521": "Diseñadores y administradores de bases de datos",
+    "2522": "Administradores de sistemas",
+    "2523": "Profesionales en redes de computadores",
+    "2529": "Profesionales en bases de datos y en redes de computadores no clasificados en otros grupos primarios",
+    "2611": "Abogados",
+    "2612": "Jueces",
+    "2619": "Profesionales en derecho no clasificados en otros grupos primarios",
+    "2621": "Archivistas, curadores de arte y restauradores",
+    "2622": "Bibliotecólogos, documentalistas y afines",
+    "2631": "Economistas",
+    "2632": "Sociólogos, antropólogos y afines",
+    "2633": "Filósofos, historiadores y especialistas en ciencias políticas",
+    "2634": "Psicólogos",
+    "2635": "Profesionales del trabajo social y consejeros",
+    "2636": "Profesionales religiosos y ministros de culto",
+    "2641": "Autores y otros escritores",
+    "2642": "Periodistas, editores y redactores",
+    "2643": "Traductores, intérpretes y otros lingüistas",
+    "2651": "Escultores, pintores artísticos y afines",
+    "2652": "Compositores, músicos y cantantes",
+    "2653": "Coreógrafos y bailarines",
+    "2654": "Directores, editores y productores de cine, teatro y afines",
+    "2655": "Actores",
+    "2656": "Locutores y presentadores de radio, televisión y otros medios de comunicación",
+    "2659": "Artistas creativos e interpretativos no clasificados en otros grupos primarios",
+    "3111": "Técnicos en ciencias de la tierra, físicas y químicas",
+    "3112": "Técnicos en ingeniería civil",
+    "3113": "Técnicos en electricidad",
+    "3114": "Técnicos en electrónica, automatización e instrumentación",
+    "3115": "Técnicos en ingeniería mecánica",
+    "3116": "Técnicos en química industrial",
+    "3117": "Técnicos de minas y metalurgia",
+    "3118": "Delineantes y dibujantes técnicos",
+    "3119": "Técnicos en ciencias físicas y en ingeniería no clasificados en otros grupos primarios",
+    "3121": "Supervisores de minas y perforación",
+    "3122": "Supervisores de industrias manufactureras",
+    "3123": "Supervisores de la construcción, maestros generales de obra, instalación y reparación",
+    "3131": "Operadores de plantas de generación y distribución de energía",
+    "3132": "Operadores de incineradores, instalaciones de tratamiento de agua y desechos",
+    "3133": "Controladores de instalaciones de procesamiento de productos químicos",
+    "3134": "Operadores e inspectores de instalaciones de refinación de petróleo y gas natural",
+    "3135": "Controladores de procesos de producción y tratamiento de metales",
+    "3139": "Técnicos en control de procesos no clasificados en otros grupos primarios",
+    "3141": "Técnicos en ciencias biológicas (excluyendo la medicina)",
+    "3142": "Técnicos, supervisores e inspectores agropecuarios",
+    "3143": "Técnicos forestales",
+    "3151": "Oficiales maquinistas en navegación",
+    "3152": "Capitanes y oficiales de cubierta",
+    "3153": "Pilotos, ingenieros e instructores de vuelo",
+    "3154": "Controladores de tráfico aéreo, marítimo y ferroviario",
+    "3155": "Técnicos en seguridad aeronáutica e instrumentos de aeronavegación",
+    "3211": "Técnicos en aparatos de diagnóstico y tratamiento médico",
+    "3212": "Técnicos de laboratorios médicos",
+    "3213": "Técnicos y asistentes farmacéuticos",
+    "3214": "Técnicos de prótesis médicas y dentales",
+    "3222": "Técnicos y profesionales del nivel medio en partería tradicional",
+    "3230": "Técnicos y profesionales del nivel medio en medicina tradicional y alternativa",
+    "3240": "Técnicos y asistentes veterinarios",
+    "3252": "Técnicos en documentación sanitaria",
+    "3253": "Trabajadores comunitarios de la salud",
+    "3254": "Técnicos en óptica",
+    "3255": "Técnicos y asistentes terapeutas",
+    "3256": "Asistentes médicos",
+    "3257": "Inspectores de seguridad, salud ocupacional, medioambiental y afines",
+    "3258": "Técnicos en atención prehospitalaria",
+    "3259": "Otros técnicos y profesionales del nivel medio de la salud no clasificados en otros grupos primarios",
+    "3311": "Agentes de bolsa, cambio y otros servicios financieros",
+    "3312": "Analistas y asistentes financieros préstamos y créditos",
+    "3313": "Técnicos de contabilidad, asistentes y afines",
+    "3314": "Técnicos y profesionales del nivel medio de servicios estadísticos, matemáticos y afines",
+    "3315": "Tasadores, avaluadores y liquidadores de seguros",
+    "3321": "Agentes y corredores de seguros",
+    "3322": "Representantes comerciales",
+    "3323": "Agentes de compras",
+    "3324": "Agentes de operaciones comerciales y consignatarios",
+    "3331": "Declarantes o gestores de aduana",
+    "3332": "Coordinadores y productores de conferencias, eventos y espectáculos",
+    "3333": "Agentes de empleo y contratistas de mano de obra",
+    "3334": "Agentes inmobiliarios",
+    "3339": "Agentes de servicios comerciales no clasificados en otros grupos primarios",
+    "3341": "Supervisores de oficina",
+    "3342": "Secretarios jurídicos",
+    "3343": "Secretarios y asistentes administrativos y ejecutivos",
+    "3344": "Secretarios médicos",
+    "3351": "Inspectores de aduana, fronteras y migración",
+    "3352": "Agentes de administración tributaria",
+    "3353": "Funcionarios e inspectores de servicios de seguridad social",
+    "3354": "Funcionarios e inspectores gubernamentales de expedición de licencias",
+    "3355": "Inspectores de policía, detectives e investigadores criminalísticos",
+    "3359": "Agentes de gobierno y profesionales del nivel medio para la aplicación de regulaciones no clasificados en otros grupos primarios",
+    "3411": "Técnicos y profesionales del nivel medio del derecho, de servicios legales y afines",
+    "3412": "Trabajadores y asistentes sociales y comunitarios",
+    "3413": "Auxiliares laicos de las religiones",
+    "3421": "Atletas y deportistas",
+    "3422": "Entrenadores, instructores y árbitros de actividades deportivas",
+    "3423": "Instructores de educación física y actividades recreativas",
+    "3431": "Fotógrafos",
+    "3432": "Decoradores de interiores",
+    "3433": "Técnicos en galerías de arte, museos y bibliotecas",
+    "3434": "Chefs",
+    "3435": "Otros técnicos y profesionales del nivel medio en actividades culturales y artísticas",
+    "3511": "Técnicos en operaciones de tecnología de la información y las comunicaciones",
+    "3512": "Técnicos en asistencia y soporte al usuario de tecnología de la información y las comunicaciones",
+    "3513": "Técnicos en redes y tecnologías de la información",
+    "3514": "Técnicos de la web",
+    "3521": "Técnicos de radiodifusión y grabación audio visual",
+    "3522": "Técnicos y operadores de ingeniería de las telecomunicaciones",
+    "4110": "Oficinistas generales",
+    "4120": "Secretarios generales",
+    "4131": "Operadores de máquinas de procesamiento de texto y mecanógrafos",
+    "4132": "Grabadores de datos y digitadores",
+    "4211": "Cajeros de bancos y afines",
+    "4212": "Receptores de apuestas y afines",
+    "4213": "Prestamistas",
+    "4214": "Cobradores, auxiliares de cartera y afines",
+    "4221": "Empleados de ventas y servicios de viajes",
+    "4222": "Empleados de centros de llamadas",
+    "4223": "Telefonistas",
+    "4224": "Recepcionistas de hoteles",
+    "4225": "Empleados de ventanillas de información",
+    "4226": "Recepcionistas generales",
+    "4227": "Entrevistadores de encuestas y de investigaciones de mercados",
+    "4229": "Otros empleados de servicios de información al cliente no clasificados en otros grupos primarios",
+    "4311": "Auxiliares de contabilidad, costos y tesorería",
+    "4312": "Auxiliares de servicios estadísticos, financieros y de seguros",
+    "4313": "Auxiliares de nómina y prestaciones",
+    "4321": "Empleados control de abastecimientos e inventario y de almacén",
+    "4322": "Empleados de servicios de apoyo a la producción",
+    "4323": "Empleados de servicios de transporte",
+    "4411": "Empleados de bibliotecas",
+    "4412": "Empleados de servicios de correos",
+    "4413": "Codificadores de datos, correctores de pruebas de imprenta y afines",
+    "4414": "Escribientes públicos y afines",
+    "4415": "Empleados de archivos",
+    "4416": "Empleados del servicio de personal",
+    "4419": "Otro personal de apoyo administrativo no clasificados en otros grupos primarios",
+    "5111": "Personal de servicio a pasajeros",
+    "5112": "Revisores y cobradores de los transportes públicos",
+    "5113": "Guías de turismo y anfitriones turísticos locales",
+    "5120": "Cocineros",
+    "5131": "Meseros y capitanes de meseros",
+    "5132": "Bármanes y baristas",
+    "5141": "Peluqueros",
+    "5142": "Especialistas en tratamientos de belleza, asesores de imagen y afines",
+    "5151": "Supervisores de mantenimiento y limpieza en oficinas, hoteles y otros establecimientos",
+    "5152": "Ecónomos y mayordomos domésticos",
+    "5153": "Conserjes y afines",
+    "5161": "Astrólogos, adivinos y afines",
+    "5162": "Acompañantes",
+    "5163": "Personal de servicios funerarios y embalsamadores",
+    "5164": "Cuidadores de animales",
+    "5165": "Instructores de conducción",
+    "5169": "Otros trabajadores de servicios personales no clasificados en otros grupos primarios",
+    "5211": "Vendedores en quioscos y puestos de mercado",
+    "5212": "Vendedores ambulantes de alimentos preparados para consumo inmediato",
+    "5221": "Comerciantes de tiendas",
+    "5222": "Supervisores de tiendas y almacenes",
+    "5223": "Vendedores y auxiliares de venta en tiendas, almacenes y afines",
+    "5230": "Cajeros de comercio, taquilleros y expendedores de boletas",
+    "5241": "Modelos de moda, arte y publicidad",
+    "5242": "Demostradores de tiendas, almacenes y afines",
+    "5243": "Vendedores puerta a puerta",
+    "5244": "Vendedores a través de medios tecnológicos",
+    "5245": "Expendedores de combustibles para vehículos",
+    "5246": "Vendedores de comidas en mostrador",
+    "5249": "Otros vendedores no clasificados en otros grupos primarios",
+    "5311": "Cuidadores de niños",
+    "5312": "Auxiliares de maestros y primera infancia",
+    "5321": "Trabajadores de los cuidados personales en instituciones",
+    "5322": "Trabajadores de los cuidados personales a domicilio",
+    "5329": "Trabajadores de los cuidados personales en servicios de salud no clasificados en otros grupos primarios",
+    "5411": "Bomberos",
+    "5412": "Policías",
+    "5413": "Cuerpo de custodia y guardianes de prisión",
+    "5414": "Vigilantes y guardias de seguridad",
+    "5419": "Personal de los servicios de protección no clasificados en otros grupos primarios",
+    "6111": "Agricultores y trabajadores calificados de cultivos extensivos",
+    "6112": "Agricultores y trabajadores calificados de plantaciones de árboles y arbustos",
+    "6113": "Agricultores y trabajadores calificados de huertas, invernaderos, viveros y jardines",
+    "6114": "Agricultores y trabajadores calificados de cultivos mixtos",
+    "6121": "Criadores de ganado y trabajadores de la cría de animales domésticos (excepto aves de corral)",
+    "6122": "Avicultores y trabajadores calificados de la avicultura",
+    "6123": "Criadores y trabajadores calificados de la apicultura y la sericicultura",
+    "6129": "Criadores y trabajadores pecuarios calificados, avicultores y criadores de insectos no clasificados en otros grupos primarios",
+    "6130": "Productores y trabajadores calificados de explotaciones agropecuarias mixtas cuya producción se destina al mercado",
+    "6210": "Trabajadores forestales calificados y afines",
+    "6221": "Productores y trabajadores calificados de explotaciones de acuicultura",
+    "6222": "Capitanes, patrones y pescadores de agua dulce y en aguas costeras",
+    "6223": "Capitanes, patrones y pescadores de pesca en alta mar",
+    "6224": "Cazadores y tramperos",
+    "6310": "Trabajadores agrícolas de subsistencia",
+    "6320": "Trabajadores pecuarios de subsistencia",
+    "6330": "Trabajadores agropecuarios de subsistencia",
+    "6340": "Pescadores, cazadores, tramperos y recolectores de subsistencia",
+    "7111": "Constructores de casas",
+    "7112": "Albañiles y oficiales de construcción",
+    "7113": "Labrantes, tronzadores y grabadores de piedra",
+    "7114": "Operarios en cemento armado, enfoscadores y afines",
+    "7115": "Carpinteros de armar y de obra blanca",
+    "7119": "Oficiales y operarios de la construcción de obra gruesa y afines no clasificados en otros grupos primarios",
+    "7121": "Techadores",
+    "7122": "Enchapadores, parqueteros y colocadores de suelos",
+    "7123": "Revocadores",
+    "7124": "Instaladores de material aislante y de insonorización",
+    "7125": "Cristaleros y vidrieros",
+    "7126": "Fontaneros, instaladores y operarios de mantenimiento de tuberías",
+    "7127": "Mecánicos montadores de aire acondicionado y refrigeración",
+    "7131": "Pintores y empapeladores",
+    "7132": "Barnizadores y afines",
+    "7133": "Limpiadores de fachadas y deshollinadores",
+    "7211": "Operarios de fundición, moldeadores y macheros",
+    "7212": "Soldadores y oxicortadores",
+    "7213": "Chapistas y caldereros",
+    "7214": "Montadores de estructuras metálicas",
+    "7215": "Aparejadores, instaladores y empalmadores de cables",
+    "7221": "Herreros y forjadores",
+    "7222": "Herramentistas y afines",
+    "7223": "Ajustadores y operadores de máquinas herramientas",
+    "7224": "Pulidores de metales y afiladores de herramientas",
+    "7231": "Mecánicos y reparadores de vehículos de motor",
+    "7232": "Mecánicos y reparadores de sistemas y motores de aeronaves",
+    "7233": "Mecánicos y reparadores de máquinas agrícolas e industriales",
+    "7234": "Reparadores de bicicletas y afines",
+    "7311": "Mecánicos y reparadores de instrumentos de precisión",
+    "7312": "Fabricantes y afinadores de instrumentos musicales",
+    "7313": "Se desagrega en 7361, 7362 y 7363 por adaptación",
+    "7314": "Alfareros y ceramistas (barro y arcilla)",
+    "7315": "Operarios y artesanos de la fabricación, moldeo y acabado del vidrio",
+    "7316": "Rotulistas, pintores decorativos y grabadores",
+    "7317": "Se desagrega en 7341, 7342, 7351 y 7352 por adaptación",
+    "7318": "Se desagrega en 7331, 7332, 7333 y 7370 por adaptación",
+    "7319": "Se desagrega en 7391, 7392, 7393 y 7399 por adaptación",
+    "7321": "Pre-impresores, tipógrafos y afines",
+    "7322": "Impresores de artes gráficas",
+    "7323": "Encuadernadores y afines",
+    "7331": "Tejedores con telares",
+    "7332": "Tejedores con agujas",
+    "7333": "Otros tejedores",
+    "7341": "Cesteros y mimbreros",
+    "7342": "Sombrereros artesanales",
+    "7351": "Talladores de piezas artesanales de madera",
+    "7352": "Decoradores de piezas artesanales en madera",
+    "7361": "Joyeros",
+    "7362": "Orfebres y plateros",
+    "7363": "Bisuteros",
+    "7370": "Artesanos del cuero",
+    "7391": "Artesanos de papel",
+    "7392": "Artesanos del hierro y otros metales",
+    "7393": "Artesanos de las semillas y cortezas vegetales",
+    "7399": "Artesanos de otros materiales no clasificados en otros grupos primarios",
+    "7411": "Electricistas de obra, residenciales y afines",
+    "7412": "Mecánicos y ajustadores electricistas",
+    "7413": "Instaladores y reparadores de líneas eléctricas",
+    "7421": "Ajustadores, reparadores e instaladores en electrónica",
+    "7422": "Instaladores y reparadores en tecnología de la información y las comunicaciones",
+    "7511": "Carniceros, pescaderos y afines",
+    "7512": "Panaderos, pasteleros, confiteros y paneleros",
+    "7513": "Operarios de la elaboración de productos lácteos",
+    "7514": "Operarios de la conservación de frutas, legumbres, verduras y afines",
+    "7515": "Catadores y clasificadores de alimentos y bebidas",
+    "7516": "Preparadores y elaboradores de cigarros y productos del tabaco",
+    "7521": "Operarios del tratamiento de la madera",
+    "7522": "Ebanistas y carpinteros (excluye carpinteros de armar y de obra blanca)",
+    "7523": "Ajustadores y operadores de máquinas para trabajar madera",
+    "7531": "Sastres, modistos, peleteros y sombrereros",
+    "7532": "Patronistas y cortadores de tela, cuero y afines",
+    "7533": "Costureros, bordadores y afines",
+    "7534": "Tapiceros, colchoneros y afines",
+    "7535": "Apelambradores, pellejeros y curtidores",
+    "7536": "Zapateros y afines",
+    "7541": "Buzos",
+    "7542": "Dinamiteros y pegadores",
+    "7543": "Clasificadores y probadores de productos (excluyendo alimentos y bebidas)",
+    "7544": "Fumigadores y otros controladores de plagas y malas hierbas",
+    "7549": "Otros oficiales, operarios y oficios relacionados no clasificados en otros grupos primarios",
+    "8111": "Mineros y operadores de instalaciones mineras",
+    "8112": "Operadores de instalaciones de procesamiento de minerales y rocas",
+    "8113": "Perforadores y sondistas de pozos y afines",
+    "8114": "Operadores de máquinas para fabricar cemento y otros productos minerales",
+    "8121": "Operadores de instalaciones de procesamiento de metales",
+    "8122": "Operadores de máquinas pulidoras, galvanizadoras y recubridoras de metales",
+    "8131": "Operadores de plantas y máquinas de productos químicos",
+    "8132": "Operadores de máquinas y procesadores fotográficos y de películas",
+    "8141": "Operadores de máquinas para fabricar y procesar productos de caucho",
+    "8142": "Operadores de máquinas para fabricar productos de material plástico",
+    "8143": "Operadores de máquinas para fabricar productos de papel",
+    "8151": "Operadores de máquinas de preparación de fibras, hilado y devanado",
+    "8152": "Operadores de telares y otras máquinas tejedoras",
+    "8153": "Operadores de máquinas de coser y bordar",
+    "8154": "Operadores de máquinas de blanqueamiento, teñido y limpieza de tejidos",
+    "8155": "Operadores de máquinas de tratamiento de pieles y cueros",
+    "8156": "Operadores de máquinas para la fabricación de calzado y afines",
+    "8157": "Operadores de máquinas de lavandería",
+    "8159": "Operadores de máquinas para fabricar productos textiles y artículos de piel y cuero no clasificados en otros grupos primarios",
+    "8160": "Operadores de máquinas para elaborar alimentos y productos afines",
+    "8171": "Operadores de instalaciones para la preparación de papel y de pasta para papel",
+    "8172": "Operadores de instalaciones de procesamiento de la madera",
+    "8181": "Operadores de máquinas para la elaboración de productos de vidrio y cerámica",
+    "8182": "Operadores de máquinas de vapor y calderas",
+    "8183": "Operadores de máquinas de embalaje, embotellamiento y etiquetado",
+    "8189": "Otros operadores de máquinas y de instalaciones fijas no clasificados en otros grupos primarios",
+    "8211": "Ensambladores de maquinaria mecánica",
+    "8212": "Ensambladores de equipos eléctricos y electrónicos",
+    "8219": "Ensambladores no clasificados en otros grupos primarios",
+    "8311": "Maquinistas de transporte ferroviario",
+    "8312": "Guardafrenos, guardagujas y agentes de maniobras",
+    "8321": "Conductores de motocicletas",
+    "8322": "Se desagrega en 8323 y 8324 por adaptación",
+    "8323": "Conductores de camionetas y vehículos livianos",
+    "8324": "Conductores de taxis",
+    "8331": "Conductores de buses, microbuses y tranvías",
+    "8332": "Conductores de camiones y vehículos pesados",
+    "8341": "Operadores de maquinaria agrícola y forestal móvil",
+    "8342": "Operadores de máquinas de movimiento de tierras, construcción de vías y afines",
+    "8343": "Operadores de grúas, aparatos elevadores y afines",
+    "8344": "Operadores de montacargas",
+    "8350": "Marineros de cubierta y afines",
+    "9111": "Personal de servicio doméstico",
+    "9112": "Aseadores de oficinas, hoteles y otros establecimientos",
+    "9121": "Lavanderos y planchadores manuales",
+    "9122": "Lavadores de vehículos",
+    "9123": "Limpiadores de ventanas y vitrinas",
+    "9129": "Otro personal de limpieza no clasificados en otros grupos primarios",
+    "9211": "Obreros y peones de explotaciones agrícolas",
+    "9212": "Obreros y peones de explotaciones ganaderas",
+    "9213": "Obreros y peones de explotaciones agropecuarias",
+    "9214": "Obreros y peones de jardinería y horticultura",
+    "9215": "Obreros y peones forestales y de silvicultura",
+    "9216": "Obreros y peones de pesca y acuicultura",
+    "9311": "Obreros y peones de minas, canteras y producción de hidrocarburos",
+    "9312": "Obreros y peones de obras públicas, mantenimiento y cementerios",
+    "9313": "Obreros y peones de la construcción",
+    "9321": "Empacadores manuales",
+    "9329": "Obreros y peones de la industria manufacturera no clasificados en otros grupos primarios",
+    "9331": "Conductores de vehículos accionados a pedal o a brazo",
+    "9332": "Conductores de vehículos y maquinaria de tracción animal",
+    "9333": "Obreros y peones de carga, portuarios y de transporte",
+    "9334": "Surtidores de estanterías",
+    "9411": "Cocineros de comidas rápidas",
+    "9412": "Ayudantes de cocina",
+    "9510": "Trabajadores ambulantes de servicios y afines",
+    "9520": "Vendedores ambulantes (excluyendo comidas de preparación inmediata)",
+    "9611": "Recolectores de basura y material reciclable",
+    "9612": "Clasificadores de desechos",
+    "9613": "Ayudantes y operarios de barrido y limpieza de vías y áreas públicas",
+    "9621": "Mensajeros, mandaderos, maleteros y repartidores",
+    "9622": "Personas que realizan trabajos varios",
+    "9623": "Se desagrega en 9625 y 9626 por adaptación",
+    "9624": "Acarreadores de agua y recolectores de leña",
+    "9625": "Recolectores de dinero y surtidores de máquinas de venta automática",
+    "9626": "Lectores de medidores",
+    "9629": "Otras ocupaciones elementales no clasificadas en otros grupos primarios"
+  },
+  "actividades_ciiu": {
+    "01": {
+      "nombre": "Agricultura, ganadería, caza y actividades de servicios conexas",
+      "seccion_ciiu": "A",
+      "sector_economico": "AGRICULTURA, GANADERÍA, CAZA, SILVICULTURA Y PESCA"
+    },
+    "02": {
+      "nombre": "Silvicultura y extracción de madera",
+      "seccion_ciiu": "A",
+      "sector_economico": "AGRICULTURA, GANADERÍA, CAZA, SILVICULTURA Y PESCA"
+    },
+    "03": {
+      "nombre": "Pesca y acuicultura",
+      "seccion_ciiu": "A",
+      "sector_economico": "AGRICULTURA, GANADERÍA, CAZA, SILVICULTURA Y PESCA"
+    },
+    "05": {
+      "nombre": "Extracción de carbón de piedra y lignito",
+      "seccion_ciiu": "B",
+      "sector_economico": "EXPLOTACIÓN DE MINAS Y CANTERAS"
+    },
+    "06": {
+      "nombre": "Extracción de petróleo crudo y gas natural",
+      "seccion_ciiu": "B",
+      "sector_economico": "EXPLOTACIÓN DE MINAS Y CANTERAS"
+    },
+    "07": {
+      "nombre": "Extracción de minerales metalíferos",
+      "seccion_ciiu": "B",
+      "sector_economico": "EXPLOTACIÓN DE MINAS Y CANTERAS"
+    },
+    "08": {
+      "nombre": "Extracción de otras minas y canteras",
+      "seccion_ciiu": "B",
+      "sector_economico": "EXPLOTACIÓN DE MINAS Y CANTERAS"
+    },
+    "09": {
+      "nombre": "Actividades de servicios de apoyo para la explotación de minas y canteras",
+      "seccion_ciiu": "B",
+      "sector_economico": "EXPLOTACIÓN DE MINAS Y CANTERAS"
+    },
+    "10": {
+      "nombre": "Elaboración de productos alimenticios",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "11": {
+      "nombre": "Elaboración de bebidas",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "12": {
+      "nombre": "Elaboración de productos de tabaco",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "13": {
+      "nombre": "Fabricación de productos textiles",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "14": {
+      "nombre": "Confección de prendas de vestir",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "15": {
+      "nombre": "Curtido y recurtido de cueros; fabricación de calzado; fabricación de artículos de viaje, maletas, bolsos de mano y artículos similares, y fabricación de artículos de talabartería y guarnicionería; adobo y teñido de pieles",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "16": {
+      "nombre": "Transformación de la madera y fabricación de productos de madera y de corcho, excepto muebles; fabricación de artículos de cestería y espartería",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "17": {
+      "nombre": "Fabricación de papel, cartón y productos de papel y cartón",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "18": {
+      "nombre": "Actividades de impresión y de producción de copias a partir de grabaciones originales",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "19": {
+      "nombre": "Coquización, fabricación de productos de la refinación del petróleo y actividad de mezcla de combustibles",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "20": {
+      "nombre": "Fabricación de sustancias y productos químicos",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "21": {
+      "nombre": "Fabricación de productos farmacéuticos, sustancias químicas medicinales y productos botánicos de uso farmacéutico",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "22": {
+      "nombre": "Fabricación de productos de caucho y de plástico",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "23": {
+      "nombre": "Fabricación de otros productos minerales no metálicos",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "24": {
+      "nombre": "Fabricación de productos metalúrgicos básicos",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "25": {
+      "nombre": "Fabricación de productos elaborados de metal, excepto maquinaria y equipo",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "26": {
+      "nombre": "Fabricación de productos informáticos, electrónicos y ópticos",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "27": {
+      "nombre": "Fabricación de aparatos y equipo eléctrico",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "28": {
+      "nombre": "Fabricación de maquinaria y equipo n.c.p.",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "29": {
+      "nombre": "Fabricación de vehículos automotores, remolques y semirremolques",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "30": {
+      "nombre": "Fabricación de otros tipos de equipo de transporte",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "31": {
+      "nombre": "Fabricación de muebles, colchones y somieres",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "32": {
+      "nombre": "Otras industrias manufactureras",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "33": {
+      "nombre": "Instalación, mantenimiento y reparación especializado de maquinaria y equipo",
+      "seccion_ciiu": "C",
+      "sector_economico": "INDUSTRIAS MANUFACTURERAS"
+    },
+    "35": {
+      "nombre": "Suministro de electricidad, gas, vapor y aire acondicionado",
+      "seccion_ciiu": "D",
+      "sector_economico": "SUMINISTRO DE ELECTRICIDAD, GAS, VAPOR Y AIRE ACONDICIONADO"
+    },
+    "36": {
+      "nombre": "Captación, tratamiento y distribución de agua",
+      "seccion_ciiu": "E",
+      "sector_economico": "DISTRIBUCIÓN DE AGUA; EVACUACIÓN Y TRATAMIENTO DE AGUAS RESIDUALES, GESTIÓN DE DESECHOS Y ACTIVIDADES DE SANEAMIENTO AMBIENTAL"
+    },
+    "37": {
+      "nombre": "Evacuación y tratamiento de aguas residuales",
+      "seccion_ciiu": "E",
+      "sector_economico": "DISTRIBUCIÓN DE AGUA; EVACUACIÓN Y TRATAMIENTO DE AGUAS RESIDUALES, GESTIÓN DE DESECHOS Y ACTIVIDADES DE SANEAMIENTO AMBIENTAL"
+    },
+    "38": {
+      "nombre": "Recolección, tratamiento y disposición de desechos, recuperación de materiales",
+      "seccion_ciiu": "E",
+      "sector_economico": "DISTRIBUCIÓN DE AGUA; EVACUACIÓN Y TRATAMIENTO DE AGUAS RESIDUALES, GESTIÓN DE DESECHOS Y ACTIVIDADES DE SANEAMIENTO AMBIENTAL"
+    },
+    "39": {
+      "nombre": "Actividades de saneamiento ambiental y otros servicios de gestión de desechos",
+      "seccion_ciiu": "E",
+      "sector_economico": "DISTRIBUCIÓN DE AGUA; EVACUACIÓN Y TRATAMIENTO DE AGUAS RESIDUALES, GESTIÓN DE DESECHOS Y ACTIVIDADES DE SANEAMIENTO AMBIENTAL"
+    },
+    "41": {
+      "nombre": "Construcción de edificios",
+      "seccion_ciiu": "F",
+      "sector_economico": "CONSTRUCCIÓN"
+    },
+    "42": {
+      "nombre": "Obras de ingeniería civil",
+      "seccion_ciiu": "F",
+      "sector_economico": "CONSTRUCCIÓN"
+    },
+    "43": {
+      "nombre": "Actividades especializadas para la construcción de edificios y obras de ingeniería civil",
+      "seccion_ciiu": "F",
+      "sector_economico": "CONSTRUCCIÓN"
+    },
+    "45": {
+      "nombre": "Comercio, mantenimiento y reparación de vehículos automotores y motocicletas, sus partes, piezas y accesorios",
+      "seccion_ciiu": "G",
+      "sector_economico": "COMERCIO AL POR MAYOR Y AL POR MENOR; REPARACIÓN DE VEHÍCULOS AUTOMOTORES Y MOTOCICLETAS"
+    },
+    "46": {
+      "nombre": "Comercio al por mayor y en comisión o por contrata, excepto el comercio de vehículos automotores y motocicletas",
+      "seccion_ciiu": "G",
+      "sector_economico": "COMERCIO AL POR MAYOR Y AL POR MENOR; REPARACIÓN DE VEHÍCULOS AUTOMOTORES Y MOTOCICLETAS"
+    },
+    "47": {
+      "nombre": "Comercio al por menor (incluso el comercio al por menor de combustibles), excepto el de vehículos automotores y motocicletas",
+      "seccion_ciiu": "G",
+      "sector_economico": "COMERCIO AL POR MAYOR Y AL POR MENOR; REPARACIÓN DE VEHÍCULOS AUTOMOTORES Y MOTOCICLETAS"
+    },
+    "49": {
+      "nombre": "Transporte terrestre; transporte por tuberías",
+      "seccion_ciiu": "H",
+      "sector_economico": "TRANSPORTE Y ALMACENAMIENTO"
+    },
+    "50": {
+      "nombre": "Transporte acuático",
+      "seccion_ciiu": "H",
+      "sector_economico": "TRANSPORTE Y ALMACENAMIENTO"
+    },
+    "51": {
+      "nombre": "Transporte aéreo",
+      "seccion_ciiu": "H",
+      "sector_economico": "TRANSPORTE Y ALMACENAMIENTO"
+    },
+    "52": {
+      "nombre": "Almacenamiento y actividades complementarias al transporte",
+      "seccion_ciiu": "H",
+      "sector_economico": "TRANSPORTE Y ALMACENAMIENTO"
+    },
+    "53": {
+      "nombre": "Correo y servicios de mensajería",
+      "seccion_ciiu": "H",
+      "sector_economico": "TRANSPORTE Y ALMACENAMIENTO"
+    },
+    "55": {
+      "nombre": "Alojamiento",
+      "seccion_ciiu": "I",
+      "sector_economico": "ALOJAMIENTO Y SERVICIOS DE COMIDA"
+    },
+    "56": {
+      "nombre": "Actividades de servicios de comidas y bebidas",
+      "seccion_ciiu": "I",
+      "sector_economico": "ALOJAMIENTO Y SERVICIOS DE COMIDA"
+    },
+    "58": {
+      "nombre": "Actividades de edición",
+      "seccion_ciiu": "J",
+      "sector_economico": "INFORMACIÓN Y COMUNICACIONES"
+    },
+    "59": {
+      "nombre": "Actividades cinematográficas, de video y producción de programas de televisión, grabación de sonido y edición de música",
+      "seccion_ciiu": "J",
+      "sector_economico": "INFORMACIÓN Y COMUNICACIONES"
+    },
+    "60": {
+      "nombre": "Actividades de programación, transmisión y/o difusión",
+      "seccion_ciiu": "J",
+      "sector_economico": "INFORMACIÓN Y COMUNICACIONES"
+    },
+    "61": {
+      "nombre": "Telecomunicaciones",
+      "seccion_ciiu": "J",
+      "sector_economico": "INFORMACIÓN Y COMUNICACIONES"
+    },
+    "62": {
+      "nombre": "Desarrollo de sistemas informáticos (planificación, análisis, diseño, programación, pruebas), consultoría informática y actividades relacionadas",
+      "seccion_ciiu": "J",
+      "sector_economico": "INFORMACIÓN Y COMUNICACIONES"
+    },
+    "63": {
+      "nombre": "Actividades de servicios de información",
+      "seccion_ciiu": "J",
+      "sector_economico": "INFORMACIÓN Y COMUNICACIONES"
+    },
+    "64": {
+      "nombre": "Actividades de servicios financieros, excepto las de seguros y de pensiones",
+      "seccion_ciiu": "K",
+      "sector_economico": "ACTIVIDADES FINANCIERAS Y DE SEGUROS"
+    },
+    "65": {
+      "nombre": "Seguros (incluso el reaseguro), seguros sociales y fondos de pensiones, excepto la seguridad social",
+      "seccion_ciiu": "K",
+      "sector_economico": "ACTIVIDADES FINANCIERAS Y DE SEGUROS"
+    },
+    "66": {
+      "nombre": "Actividades auxiliares de las actividades de servicios financieros",
+      "seccion_ciiu": "K",
+      "sector_economico": "ACTIVIDADES FINANCIERAS Y DE SEGUROS"
+    },
+    "68": {
+      "nombre": "Actividades inmobiliarias",
+      "seccion_ciiu": "L",
+      "sector_economico": "ACTIVIDADES INMOBILIARIAS"
+    },
+    "69": {
+      "nombre": "Actividades jurídicas y de contabilidad",
+      "seccion_ciiu": "M",
+      "sector_economico": "ACTIVIDADES PROFESIONALES, CIENTÍFICAS Y TÉCNICAS"
+    },
+    "70": {
+      "nombre": "Actividades de administración empresarial; actividades de consultoría de gestión",
+      "seccion_ciiu": "M",
+      "sector_economico": "ACTIVIDADES PROFESIONALES, CIENTÍFICAS Y TÉCNICAS"
+    },
+    "71": {
+      "nombre": "Actividades de arquitectura e ingeniería; ensayos y análisis técnicos",
+      "seccion_ciiu": "M",
+      "sector_economico": "ACTIVIDADES PROFESIONALES, CIENTÍFICAS Y TÉCNICAS"
+    },
+    "72": {
+      "nombre": "Investigación científica y desarrollo",
+      "seccion_ciiu": "M",
+      "sector_economico": "ACTIVIDADES PROFESIONALES, CIENTÍFICAS Y TÉCNICAS"
+    },
+    "73": {
+      "nombre": "Publicidad y estudios de mercado",
+      "seccion_ciiu": "M",
+      "sector_economico": "ACTIVIDADES PROFESIONALES, CIENTÍFICAS Y TÉCNICAS"
+    },
+    "74": {
+      "nombre": "Otras actividades profesionales, científicas y técnicas",
+      "seccion_ciiu": "M",
+      "sector_economico": "ACTIVIDADES PROFESIONALES, CIENTÍFICAS Y TÉCNICAS"
+    },
+    "75": {
+      "nombre": "Actividades veterinarias",
+      "seccion_ciiu": "M",
+      "sector_economico": "ACTIVIDADES PROFESIONALES, CIENTÍFICAS Y TÉCNICAS"
+    },
+    "77": {
+      "nombre": "Actividades de alquiler y arrendamiento",
+      "seccion_ciiu": "N",
+      "sector_economico": "ACTIVIDADES DE SERVICIOS ADMINISTRATIVOS Y DE APOYO"
+    },
+    "78": {
+      "nombre": "Actividades de empleo",
+      "seccion_ciiu": "N",
+      "sector_economico": "ACTIVIDADES DE SERVICIOS ADMINISTRATIVOS Y DE APOYO"
+    },
+    "79": {
+      "nombre": "Actividades de las agencias de viajes, operadores turísticos, servicios de reserva y actividades relacionadas",
+      "seccion_ciiu": "N",
+      "sector_economico": "ACTIVIDADES DE SERVICIOS ADMINISTRATIVOS Y DE APOYO"
+    },
+    "80": {
+      "nombre": "Actividades de seguridad e investigación privada",
+      "seccion_ciiu": "N",
+      "sector_economico": "ACTIVIDADES DE SERVICIOS ADMINISTRATIVOS Y DE APOYO"
+    },
+    "81": {
+      "nombre": "Actividades de servicios a edificios y paisajismo (jardines, zonas verdes)",
+      "seccion_ciiu": "N",
+      "sector_economico": "ACTIVIDADES DE SERVICIOS ADMINISTRATIVOS Y DE APOYO"
+    },
+    "82": {
+      "nombre": "Actividades administrativas y de apoyo de oficina y otras actividades de apoyo a las empresas",
+      "seccion_ciiu": "N",
+      "sector_economico": "ACTIVIDADES DE SERVICIOS ADMINISTRATIVOS Y DE APOYO"
+    },
+    "84": {
+      "nombre": "Administración pública y defensa; planes de seguridad social de afiliación obligatoria",
+      "seccion_ciiu": "O",
+      "sector_economico": "ADMINISTRACIÓN PÚBLICA Y DEFENSA; PLANES DE SEGURIDAD SOCIAL DE AFILIACIÓN OBLIGATORIA"
+    },
+    "85": {
+      "nombre": "Educación",
+      "seccion_ciiu": "P",
+      "sector_economico": "EDUCACIÓN"
+    },
+    "86": {
+      "nombre": "Actividades de atención de la salud humana",
+      "seccion_ciiu": "Q",
+      "sector_economico": "ACTIVIDADES DE ATENCIÓN DE LA SALUD HUMANA Y DE ASISTENCIA SOCIAL"
+    },
+    "87": {
+      "nombre": "Actividades de atención residencial medicalizada",
+      "seccion_ciiu": "Q",
+      "sector_economico": "ACTIVIDADES DE ATENCIÓN DE LA SALUD HUMANA Y DE ASISTENCIA SOCIAL"
+    },
+    "88": {
+      "nombre": "Actividades de asistencia social sin alojamiento",
+      "seccion_ciiu": "Q",
+      "sector_economico": "ACTIVIDADES DE ATENCIÓN DE LA SALUD HUMANA Y DE ASISTENCIA SOCIAL"
+    },
+    "90": {
+      "nombre": "Actividades creativas, artísticas y de entretenimiento",
+      "seccion_ciiu": "R",
+      "sector_economico": "ACTIVIDADES ARTÍSTICAS, DE ENTRETENIMIENTO Y RECREACIÓN"
+    },
+    "91": {
+      "nombre": "Actividades de bibliotecas, archivos, museos y otras actividades culturales",
+      "seccion_ciiu": "R",
+      "sector_economico": "ACTIVIDADES ARTÍSTICAS, DE ENTRETENIMIENTO Y RECREACIÓN"
+    },
+    "92": {
+      "nombre": "Actividades de juegos de azar y apuestas",
+      "seccion_ciiu": "R",
+      "sector_economico": "ACTIVIDADES ARTÍSTICAS, DE ENTRETENIMIENTO Y RECREACIÓN"
+    },
+    "93": {
+      "nombre": "Actividades deportivas y actividades recreativas y de esparcimiento",
+      "seccion_ciiu": "R",
+      "sector_economico": "ACTIVIDADES ARTÍSTICAS, DE ENTRETENIMIENTO Y RECREACIÓN"
+    },
+    "94": {
+      "nombre": "Actividades de asociaciones",
+      "seccion_ciiu": "S",
+      "sector_economico": "OTRAS ACTIVIDADES DE SERVICIOS"
+    },
+    "95": {
+      "nombre": "Mantenimiento y reparación de computadores, efectos personales y enseres domésticos",
+      "seccion_ciiu": "S",
+      "sector_economico": "OTRAS ACTIVIDADES DE SERVICIOS"
+    },
+    "96": {
+      "nombre": "Otras actividades de servicios personales",
+      "seccion_ciiu": "S",
+      "sector_economico": "OTRAS ACTIVIDADES DE SERVICIOS"
+    },
+    "97": {
+      "nombre": "Actividades de los hogares individuales como empleadores de personal doméstico",
+      "seccion_ciiu": "T",
+      "sector_economico": "ACTIVIDADES DE LOS HOGARES INDIVIDUALES EN CALIDAD DE EMPLEADORES; ACTIVIDADES NO DIFERENCIADAS DE LOS HOGARES INDIVIDUALES COMO PRODUCTORES DE BIENES Y SERVICIOS PARA USO PROPIO"
+    },
+    "98": {
+      "nombre": "Actividades no diferenciadas de los hogares individuales como productores de bienes y servicios para uso propio",
+      "seccion_ciiu": "T",
+      "sector_economico": "ACTIVIDADES DE LOS HOGARES INDIVIDUALES EN CALIDAD DE EMPLEADORES; ACTIVIDADES NO DIFERENCIADAS DE LOS HOGARES INDIVIDUALES COMO PRODUCTORES DE BIENES Y SERVICIOS PARA USO PROPIO"
+    },
+    "99": {
+      "nombre": "Actividades de organizaciones y entidades extraterritoriales",
+      "seccion_ciiu": "U",
+      "sector_economico": "ACTIVIDADES DE ORGANIZACIONES Y ENTIDADES EXTRATERRITORIALES"
+    },
+    "00": {
+      "nombre": "Actividad no clasificada",
+      "seccion_ciiu": null,
+      "sector_economico": "No clasificado"
+    }
+  }
+}

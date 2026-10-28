@@ -1,0 +1,59 @@
+name: Actualizar tarifas GEIH
+
+on:
+  schedule:
+    # El DANE publica el mes de la GEIH entre el día 11 y 14 (hora Colombia, UTC-5).
+    - cron: "0 14 15 * *" # día 15, 9:00 a.m. Colombia
+    - cron: "0 14 20 * *" # día 20, 9:00 a.m. Colombia (reintento)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Instalar dependencias
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Descargar microdatos y regenerar tarifas
+        # --catalogo 900 corresponde a la GEIH 2026; cambiar al publicarse un año nuevo.
+        run: |
+          python pipeline/descargar_mes.py \
+            --carpeta "$RUNNER_TEMP/datos_2026" \
+            --anio 2026 \
+            --catalogo 900
+          python pipeline/generar_tarifas.py \
+            --carpeta "$RUNNER_TEMP/datos_2026" \
+            --anio 2026 \
+            --smmlv 1750905 \
+            --referencias pipeline/referencias_geih.json \
+            --salida app/src/lib/server/data/tarifas-2026.json
+
+      - name: Abrir PR si el JSON cambió
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/PROJ-104-actualizar-tarifas
+          title: "chore(data): actualizar tarifas geih"
+          commit-message: "chore(data): actualizar tarifas geih"
+          body: |
+            ## Resumen
+            Actualización automática de `app/src/lib/server/data/tarifas-2026.json`
+            con los últimos microdatos mensuales de la GEIH (DANE).
+
+            ## Fuente
+            Catálogo de microdatos del DANE, GEIH 2026:
+            https://microdatos.dane.gov.co/index.php/catalog/900/get-microdata
+
+            Generado por el workflow `actualizar-tarifas.yml`
+            (pipeline/descargar_mes.py + pipeline/generar_tarifas.py).

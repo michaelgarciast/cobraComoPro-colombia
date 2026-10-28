@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "meta",
+    "sectores_economicos",
+    "actividades_economicas",
+    "grupos_ocupacionales",
+    "ocupaciones",
+    "tarifas"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "generado_en",
+        "moneda",
+        "anio_datos",
+        "periodo_cubierto",
+        "clasificacion_ocupacional",
+        "clasificacion_actividad",
+        "referencia_nombres_ocupacionales",
+        "categorias_tarifa",
+        "parametros"
+      ],
+      "properties": {
+        "version": { "type": "string", "pattern": "^\\d{4}-\\d{2}$" },
+        "generado_en": { "type": "string", "format": "date" },
+        "moneda": { "const": "COP" },
+        "anio_datos": { "type": "integer", "minimum": 2000 },
+        "periodo_cubierto": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["descripcion", "meses_incluidos", "completo", "estado"],
+          "properties": {
+            "descripcion": { "type": "string", "minLength": 4 },
+            "meses_incluidos": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "pattern": "^(0[1-9]|1[0-2])$" }
+            },
+            "completo": { "type": "boolean" },
+            "estado": { "enum": ["provisional", "completo"] }
+          }
+        },
+        "clasificacion_ocupacional": { "type": "string" },
+        "clasificacion_actividad": { "type": "string" },
+        "referencia_nombres_ocupacionales": { "type": "string" },
+        "categorias_tarifa": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["p25", "p50", "p75", "nota"],
+          "properties": {
+            "p25": { "type": "string" },
+            "p50": { "type": "string" },
+            "p75": { "type": "string" },
+            "nota": { "type": "string" }
+          }
+        },
+        "parametros": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "smmlv",
+            "anio_smmlv",
+            "horas_dia",
+            "dias_facturables_mes",
+            "min_n_sin_ponderar",
+            "nota_smmlv"
+          ],
+          "properties": {
+            "smmlv": { "type": "integer", "minimum": 1 },
+            "anio_smmlv": { "type": "integer", "minimum": 2000 },
+            "horas_dia": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 24
+            },
+            "dias_facturables_mes": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 31
+            },
+            "min_n_sin_ponderar": { "type": "integer", "minimum": 1 },
+            "nota_smmlv": { "type": "string" }
+          }
+        }
+      }
+    },
+    "sectores_economicos": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sector" }
+    },
+    "actividades_economicas": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/actividad" }
+    },
+    "grupos_ocupacionales": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/grupo" }
+    },
+    "ocupaciones": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ocupacion" }
+    },
+    "tarifas": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tarifa" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 120
+    },
+    "sector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "codigo_ciiu_seccion", "nombre"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "codigo_ciiu_seccion": {
+          "type": "string",
+          "pattern": "^(00|[A-U])$"
+        },
+        "nombre": { "type": "string", "minLength": 2 }
+      }
+    },
+    "actividad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "codigo_ciiu",
+        "nombre",
+        "seccion_ciiu",
+        "sector_economico_id",
+        "n_registros_cuenta_propia",
+        "n_registros_validos"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "codigo_ciiu": { "type": "string", "pattern": "^\\d{2}$" },
+        "nombre": { "type": "string", "minLength": 2 },
+        "seccion_ciiu": {
+          "type": "string",
+          "pattern": "^(00|[A-U])$"
+        },
+        "sector_economico_id": { "$ref": "#/$defs/id" },
+        "n_registros_cuenta_propia": { "type": "integer", "minimum": 0 },
+        "n_registros_validos": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "grupo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "codigo",
+        "nombre",
+        "fuente_nombre",
+        "n_registros_cuenta_propia"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "codigo": { "type": "string", "pattern": "^(\\d|0000)$" },
+        "nombre": { "type": "string", "minLength": 2 },
+        "fuente_nombre": { "type": "string" },
+        "n_registros_cuenta_propia": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "ocupacion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "codigo_ciuo08_ac",
+        "nombre",
+        "grupo_ciuo_id",
+        "fuente_nombre",
+        "n_registros_cuenta_propia",
+        "n_registros_validos",
+        "estado"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "codigo_ciuo08_ac": { "type": "string", "pattern": "^\\d{4}$" },
+        "nombre": { "type": "string", "minLength": 2 },
+        "grupo_ciuo_id": { "$ref": "#/$defs/id" },
+        "fuente_nombre": { "type": "string", "minLength": 2 },
+        "n_registros_cuenta_propia": { "type": "integer", "minimum": 0 },
+        "n_registros_validos": { "type": "integer", "minimum": 0 },
+        "estado": { "enum": ["referencia", "pendiente"] }
+      }
+    },
+    "rango": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["p25", "p50", "p75"],
+      "properties": {
+        "p25": { "type": "number", "exclusiveMinimum": 0 },
+        "p50": { "type": "number", "exclusiveMinimum": 0 },
+        "p75": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "fuente": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tipo",
+        "periodo",
+        "meses_incluidos",
+        "metodo",
+        "verificado_en"
+      ],
+      "properties": {
+        "tipo": { "const": "geih_cuenta_propia" },
+        "periodo": { "type": "string", "pattern": "^\\d{4}$" },
+        "meses_incluidos": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^(0[1-9]|1[0-2])$" }
+        },
+        "metodo": { "type": "string", "minLength": 10 },
+        "verificado_en": { "type": "string", "format": "date" }
+      }
+    },
+    "tarifa": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "ocupacion_id",
+        "actividad_economica_id",
+        "n_muestra",
+        "hora",
+        "dia",
+        "mes",
+        "fuente",
+        "estado"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "ocupacion_id": { "$ref": "#/$defs/id" },
+        "actividad_economica_id": { "$ref": "#/$defs/id" },
+        "n_muestra": { "type": "integer", "minimum": 0 },
+        "hora": { "oneOf": [{ "$ref": "#/$defs/rango" }, { "type": "null" }] },
+        "dia": { "oneOf": [{ "$ref": "#/$defs/rango" }, { "type": "null" }] },
+        "mes": { "oneOf": [{ "$ref": "#/$defs/rango" }, { "type": "null" }] },
+        "fuente": { "$ref": "#/$defs/fuente" },
+        "estado": {
+          "enum": ["disponible", "muestra_insuficiente", "sin_clasificar"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "estado": { "const": "disponible" } },
+            "required": ["estado"]
+          },
+          "then": {
+            "properties": {
+              "hora": { "$ref": "#/$defs/rango" },
+              "dia": { "$ref": "#/$defs/rango" },
+              "mes": { "$ref": "#/$defs/rango" }
+            }
+          },
+          "else": {
+            "properties": {
+              "hora": { "type": "null" },
+              "dia": { "type": "null" },
+              "mes": { "type": "null" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
