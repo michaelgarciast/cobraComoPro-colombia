@@ -53,9 +53,17 @@ echo "🚀 Iniciando servidor de desarrollo en http://localhost:${PORT}"
 echo "   Presiona Ctrl+C para detener y limpiar."
 echo ""
 
-docker run -it \
-  "${ENV_ARGS[@]}" \
-  --name "$CONTAINER" \
-  -v "$PROJECT_DIR:/app" \
-  -p "${PORT}:${PORT}" \
-  "$IMAGE" bash -c "cd /app && bunx --bun vite --host 0.0.0.0 --port ${PORT}"
+if [ ${#ENV_ARGS[@]} -gt 0 ]; then
+  docker run -it \
+    "${ENV_ARGS[@]}" \
+    --name "$CONTAINER" \
+    -v "$PROJECT_DIR:/app" \
+    -p "${PORT}:${PORT}" \
+    "$IMAGE" bash -c "cd /app && bunx --bun vite --host 0.0.0.0 --port ${PORT}"
+else
+  docker run -it \
+    --name "$CONTAINER" \
+    -v "$PROJECT_DIR:/app" \
+    -p "${PORT}:${PORT}" \
+    "$IMAGE" bash -c "cd /app && bunx --bun vite --host 0.0.0.0 --port ${PORT}"
+fi

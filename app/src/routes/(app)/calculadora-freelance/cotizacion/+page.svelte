@@ -12,6 +12,7 @@
 	} from '$lib/features/calculator-freelance';
 	import { resolveQuoteTemplate } from '$lib/features/calculator-freelance/quote/data/quote-templates';
 	import { createQuoteStore } from '$lib/features/calculator-freelance/quote/stores/quote-store';
+	import { TricolorBar } from '$lib/shared/ui/components';
 
 	let form = $derived($formData);
 	let result = $derived($calculationResult);
@@ -34,7 +35,8 @@
 	<meta name="description" content="Cotización formal generada desde la calculadora freelance." />
 </svelte:head>
 
-<div class="min-h-screen bg-[#101415] py-6 sm:py-10 print:bg-white print:py-0">
+<div class="relative min-h-screen bg-[#101415] py-6 sm:py-10 print:bg-white print:py-0">
+	<TricolorBar class="absolute inset-x-0 top-0 h-1.5 print:hidden" animated />
 	<div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 		{#if result}
 			<div class="mb-6 flex items-center justify-between print:hidden">

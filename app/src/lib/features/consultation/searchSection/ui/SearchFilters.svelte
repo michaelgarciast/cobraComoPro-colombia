@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { FilterOptions, ViewMode } from '../types';
-	import { Card, Input, Button } from '$lib/shared/ui/components';
+	import { Card, Input, Button, TricolorBar } from '$lib/shared/ui/components';
 
 	interface Props {
 		searchTerm: string;
@@ -31,7 +31,14 @@
 	}: Props = $props();
 </script>
 
-<Card variant="default" padding="md" class="mb-8">
+<Card variant="default" padding="md" class="relative mb-8 overflow-hidden rounded-2xl">
+	<TricolorBar class="absolute inset-x-0 top-0 h-1" />
+	<p
+		class="mb-5 flex items-center gap-2 text-[10px] font-semibold tracking-[0.2em] text-white/50 uppercase"
+	>
+		<span class="font-[Montserrat] text-base font-extrabold text-[#ffd200]">01</span>
+		Filtros de búsqueda
+	</p>
 	<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
 		<!-- Search Input -->
 		<div class="lg:col-span-2">
