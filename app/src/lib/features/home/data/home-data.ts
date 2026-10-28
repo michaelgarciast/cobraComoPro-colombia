@@ -1,9 +1,4 @@
-import type {
-	HeroStat,
-	Offering,
-	ProposalFeature,
-	RegionHighlight
-} from '$lib/features/home/types';
+import type { HeroStat, Offering, ProposalFeature } from '$lib/features/home/types';
 
 export const heroStats: HeroStat[] = [
 	{ label: 'Proyectos guiados', value: '2.5K+' },
@@ -43,7 +38,7 @@ export const proposalFeatures: ProposalFeature[] = [
 	{ text: 'Checklist de aportes por contrato', color: 'rose' }
 ];
 
-export const regionHighlights: RegionHighlight[] = [
+export const regionHighlights: string[] = [
 	'Bogotá y Medellín: nodos de economía creativa',
 	'Caribe digital: talento remoto desde Barranquilla y Cartagena',
 	'Eje cafetero: consultorías nearshore con sello local'

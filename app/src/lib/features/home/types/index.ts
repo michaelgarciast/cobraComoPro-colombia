@@ -16,8 +16,6 @@ export interface ProposalFeature {
 	color: 'yellow' | 'sky' | 'rose';
 }
 
-export type RegionHighlight = string;
-
 export interface SectorLaboral {
 	nombre: string;
 	descripcion: string;
