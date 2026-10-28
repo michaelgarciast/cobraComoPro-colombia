@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SectionHeader, Button } from '$lib/shared/ui/components';
+	import { SectionHeader, Button, TricolorBar } from '$lib/shared/ui/components';
 	import { socialSecurityData2026 } from '$lib/features/calculator-aportes/data/social-security-data';
 	import { resolve } from '$app/paths';
 
@@ -19,37 +19,40 @@
 
 	const items = [
 		{
+			step: '01',
 			label: socialSecurityData2026.salud.name,
 			percentage: socialSecurityData2026.salud.percentage,
 			min: saludMin,
 			icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
-			accent: 'text-rose-300',
-			accentBg: 'bg-rose-500/10',
-			accentRing: 'ring-rose-500/20'
+			accent: 'text-[#ffb4aa]',
+			accentBg: 'bg-[#d2010f]/15',
+			accentRing: 'ring-[#d2010f]/30',
+			bar: 'bg-[#d2010f]'
 		},
 		{
+			step: '02',
 			label: socialSecurityData2026.pension.name,
 			percentage: socialSecurityData2026.pension.percentage,
 			min: pensionMin,
 			icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
-			accent: 'text-sky-300',
-			accentBg: 'bg-sky-500/10',
-			accentRing: 'ring-sky-500/20'
+			accent: 'text-[#ced6f0]',
+			accentBg: 'bg-[#1e4fc2]/20',
+			accentRing: 'ring-[#1e4fc2]/40',
+			bar: 'bg-[#1e4fc2]'
 		},
 		{
+			step: '03',
 			label: 'ARL',
 			percentage: `${socialSecurityData2026.arl[0].percentage}% — ${socialSecurityData2026.arl[4].percentage}%`,
 			min: arlMin,
 			icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
-			accent: 'text-amber-300',
-			accentBg: 'bg-amber-500/10',
-			accentRing: 'ring-amber-500/20'
+			accent: 'text-[#ffd200]',
+			accentBg: 'bg-[#ffd200]/10',
+			accentRing: 'ring-[#ffd200]/30',
+			bar: 'bg-[#ffd200]'
 		}
 	];
 </script>
-
-<!-- Section divider top -->
-<div class="h-px bg-linear-to-r from-transparent via-[#ffd200]/15 to-transparent"></div>
 
 <section
 	class="relative overflow-hidden bg-[#101415] px-5 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24"
@@ -59,7 +62,7 @@
 			class="absolute top-0 left-0 h-48 w-48 rounded-full bg-[#ffd200]/10 blur-[140px] sm:h-64 sm:w-64 sm:blur-[160px]"
 		></div>
 		<div
-			class="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-[#ced6f0]/10 blur-[140px] sm:h-96 sm:w-96 sm:blur-[160px]"
+			class="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-[#d2010f]/10 blur-[140px] sm:h-96 sm:w-96 sm:blur-[160px]"
 		></div>
 	</div>
 
@@ -71,18 +74,19 @@
 			align="center"
 		/>
 
-		<div class="mx-auto grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+		<div class="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
 			{#each items as item, i (item.label)}
 				<div
-					class="reveal-up relative rounded-xl border border-white/10 bg-[#1d2022] p-5 shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-transform duration-300 hover:-translate-y-1"
+					class="reveal-up relative overflow-hidden rounded-2xl border border-white/10 bg-[#1d2022] p-6 shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-transform duration-300 hover:-translate-y-1"
 					style="animation-delay: {0.1 + i * 0.1}s"
 				>
-					<div class="flex items-center gap-3">
+					<div class="absolute inset-x-0 top-0 h-1.5 {item.bar}"></div>
+					<div class="flex items-center justify-between gap-3">
 						<div
-							class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg {item.accentBg} {item.accent} ring-1 {item.accentRing}"
+							class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl {item.accentBg} {item.accent} ring-1 {item.accentRing}"
 						>
 							<svg
-								class="h-4 w-4"
+								class="h-5 w-5"
 								viewBox="0 0 24 24"
 								fill="none"
 								stroke="currentColor"
@@ -93,20 +97,23 @@
 								<path d={item.icon} />
 							</svg>
 						</div>
-						<div class="min-w-0">
-							<p class="truncate text-sm font-semibold text-[#e0e3e5]">{item.label}</p>
-							<p class="text-xs text-[#999077]">
-								{typeof item.percentage === 'number'
-									? `${item.percentage}% del IBC`
-									: `${item.percentage} del IBC`}
-							</p>
-						</div>
+						<span class="font-[Montserrat] text-3xl font-extrabold text-white/10">
+							{item.step}
+						</span>
+					</div>
+					<div class="mt-4">
+						<p class="text-sm font-semibold text-[#e0e3e5]">{item.label}</p>
+						<p class="text-xs text-[#999077]">
+							{typeof item.percentage === 'number'
+								? `${item.percentage}% del IBC`
+								: `${item.percentage} del IBC`}
+						</p>
 					</div>
 					<div class="mt-4 border-t border-white/10 pt-3">
 						<p class="text-[11px] font-medium tracking-wider text-[#999077]/70 uppercase">
 							Aporte mínimo
 						</p>
-						<p class="mt-0.5 font-[Montserrat] text-xl font-bold text-white">
+						<p class="mt-0.5 font-[Montserrat] text-xl font-bold {item.accent}">
 							{formatCOP(item.min)}
 						</p>
 					</div>
@@ -114,22 +121,28 @@
 			{/each}
 		</div>
 
+		<!-- Banner total tricolor -->
 		<div
-			class="reveal-up mx-auto max-w-4xl rounded-xl border border-[#ffd200]/20 bg-[#ffd200]/5 p-5 sm:p-6"
-			style="animation-delay: 0.4s"
+			class="reveal-up relative mx-auto max-w-5xl overflow-hidden rounded-2xl border border-[#ffd200]/25 p-6 sm:p-8"
+			style="animation-delay: 0.4s; background: linear-gradient(95deg, rgba(255,210,0,0.10) 0%, rgba(30,79,194,0.10) 55%, rgba(210,1,15,0.10) 100%);"
 		>
-			<div class="flex flex-col items-center justify-between gap-3 sm:flex-row">
+			<TricolorBar class="absolute inset-x-0 top-0 h-1" />
+			<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
 				<div class="text-center sm:text-left">
-					<p class="text-sm font-semibold text-[#e0e3e5]">
-						Pago mínimo mensual obligatorio <span class="text-xs font-normal text-[#999077]"
-							>(Sin ARL)</span
-						>
+					<p class="font-[Montserrat] text-base font-bold text-[#e0e3e5]">
+						Pago mínimo mensual obligatorio
+						<span class="text-xs font-normal text-[#999077]">(sin ARL)</span>
 					</p>
-					<p class="mt-0.5 text-xs text-[#999077]/80">IBC mínimo: {formatCOP(ibcMin)} (1 SMMLV)</p>
+					<p class="mt-1 text-xs text-[#999077]/80">IBC mínimo: {formatCOP(ibcMin)} (1 SMMLV)</p>
 				</div>
-				<span class="font-[Montserrat] text-2xl font-bold text-[#ffd200]"
-					>{formatCOP(totalMinSinArl)}</span
-				>
+				<div class="text-center sm:text-right">
+					<p class="font-[Montserrat] text-3xl font-extrabold text-[#ffd200] sm:text-4xl">
+						{formatCOP(totalMinSinArl)}
+					</p>
+					<p class="mt-1 text-[10px] font-semibold tracking-[0.2em] text-white/40 uppercase">
+						Salud + Pensión
+					</p>
+				</div>
 			</div>
 		</div>
 
@@ -157,6 +170,3 @@
 		</div>
 	</div>
 </section>
-
-<!-- Section divider bottom -->
-<div class="h-px bg-linear-to-r from-transparent via-[#ced6f0]/15 to-transparent"></div>
