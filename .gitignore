@@ -3,3 +3,4 @@
 !.env.example
 .windsurf/
 .DS_Store
+pipeline/datos_*/
