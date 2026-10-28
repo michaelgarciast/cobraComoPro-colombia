@@ -154,20 +154,35 @@ app/src/
 
 ## Datos
 
-Las tarifas provienen de `src/lib/server/data/tarifas-2026.json`, generado con Python a partir de la GEIH del DANE (trabajadores por cuenta propia). El archivo es relacional: `sectores_economicos`, `actividades_economicas` (CIIU Rev. 4), `grupos_ocupacionales`, `ocupaciones` (CIUO-08 A.C.) y `tarifas` (percentiles p25/p50/p75 por hora, día y mes). El loader (`loader.ts`) lo valida con Zod, lo aplana en filas de consulta y lo mantiene en memoria. No hay cron ni IA en el flujo.
+Las tarifas provienen de `src/lib/server/data/tarifas-2026.json`, generado con Python a partir de la GEIH del DANE (trabajadores por cuenta propia). El archivo es relacional: `sectores_economicos`, `actividades_economicas` (CIIU Rev. 4), `grupos_ocupacionales`, `ocupaciones` (CIUO-08 A.C.) y `tarifas` (percentiles p25/p50/p75 por hora, día y mes). El loader (`loader.ts`) lo valida con Zod, lo aplana en filas de consulta y lo mantiene en memoria. La actualización es automática vía GitHub Actions (ver "Actualizar los datos"); no hay IA en el flujo.
 
 - **Datos directos:** combinaciones ocupación × actividad con al menos 30 observaciones (`estado: disponible`).
 - **Estimación de referencia:** por cada ocupación con datos se agrega una fila "Todos los sectores", con los percentiles promediados y ponderados por número de observaciones. Es una aproximación, no un percentil real.
 - **Sin datos:** las combinaciones con `muestra_insuficiente` no se publican.
 - **Etiquetas:** p25 = Baja, p50 = Referencia (mediana), p75 = Alta. No equivalen a niveles junior, medio o senior.
-- **Periodo:** enero–julio 2026, provisional. Día y mes asumen 8 horas diarias y 20 días facturables.
+- **Periodo:** el cubierto por `meta.periodo_cubierto` del JSON; crece mes a mes mientras el DANE publica (provisional hasta cierre de año). Día y mes asumen 8 horas diarias y 20 días facturables.
 - La calculadora freelance usa la fila de referencia (tarifa por hora) de cada ocupación.
 
 ### Actualizar los datos
 
-1. Regenerar `tarifas-2026.json` con el script de Python y los archivos del DANE.
-2. Reemplazar el archivo en `src/lib/server/data/`.
-3. Correr `bun run check` y desplegar. Si el esquema no valida, la app falla al cargar.
+El pipeline vive en `pipeline/` (raíz del repo) y corre solo en GitHub Actions:
+
+- El workflow `.github/workflows/actualizar-tarifas.yml` corre los días **15 y 20 de cada mes** (9 a.m. Colombia) y también manual con **Actions → Actualizar tarifas GEIH → Run workflow**.
+- `descargar_mes.py` baja del [catálogo de microdatos del DANE](https://microdatos.dane.gov.co/index.php/catalog/900/get-microdata) los ZIPs mensuales de la GEIH (el captcha del portal solo valida en el navegador; la descarga es directa) y extrae `Ocupados` y `Características generales`.
+- `generar_tarifas.py` recalcula los percentiles ponderados con todos los meses del año y reescribe `tarifas-2026.json`.
+- Si el JSON cambió, se abre un PR automático desde `chore/PROJ-104-actualizar-tarifas`; al mergear, Vercel despliega. Si el esquema Zod no valida, el build del PR falla y producción queda intacta.
+- Al publicarse un año nuevo de la GEIH hay que actualizar `--anio` y `--catalogo` en el workflow.
+
+Para correrlo a mano:
+
+```bash
+pip install -r pipeline/requirements.txt
+python pipeline/descargar_mes.py --carpeta /tmp/datos_2026 --anio 2026
+python pipeline/generar_tarifas.py --carpeta /tmp/datos_2026 --anio 2026 \
+  --smmlv 1750905 --referencias pipeline/referencias_geih.json \
+  --salida app/src/lib/server/data/tarifas-2026.json
+bun run check   # en app/, verifica que el Zod valide
+```
 
 Rate limiting por IP en el endpoint de consulta: 120 requests/minuto.
 
