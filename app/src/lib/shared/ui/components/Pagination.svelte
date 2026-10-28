@@ -82,7 +82,7 @@
 			{#if showFirstEllipsis}
 				<button
 					onclick={() => goToPage(1)}
-					class="h-10 min-w-[40px] rounded-lg border border-white/10 bg-[#191c1e] px-3 text-[#e0e3e5]/80
+					class="h-10 min-w-10 rounded-lg border border-white/10 bg-[#191c1e] px-3 text-[#e0e3e5]/80
 					       transition-all hover:bg-[#272a2c] hover:text-white"
 				>
 					1
@@ -96,7 +96,7 @@
 			{#each visiblePages as page (page)}
 				<button
 					onclick={() => goToPage(page)}
-					class="h-10 min-w-[40px] rounded-lg border px-3 font-medium transition-all
+					class="h-10 min-w-10 rounded-lg border px-3 font-medium transition-all
 					       {page === currentPage
 						? 'border-[#ffd200] bg-[#ffd200]/15 text-[#ffd200]'
 						: 'border-white/10 bg-[#191c1e] text-[#e0e3e5]/80 hover:bg-[#272a2c] hover:text-white'}"
@@ -113,7 +113,7 @@
 				{/if}
 				<button
 					onclick={() => goToPage(totalPages)}
-					class="h-10 min-w-[40px] rounded-lg border border-white/10 bg-[#191c1e] px-3 text-[#e0e3e5]/80
+					class="h-10 min-w-10 rounded-lg border border-white/10 bg-[#191c1e] px-3 text-[#e0e3e5]/80
 					       transition-all hover:bg-[#272a2c] hover:text-white"
 				>
 					{totalPages}
