@@ -64,7 +64,7 @@
 			{data.categoriaLaboral}
 		</p>
 		<h3
-			class="mb-1 line-clamp-2 min-h-[2.75rem] font-[Montserrat] text-lg leading-snug font-semibold text-white"
+			class="mb-1 line-clamp-2 min-h-11 font-[Montserrat] text-lg leading-snug font-semibold text-white"
 		>
 			{data.especialidadCargo}
 		</h3>
@@ -75,7 +75,7 @@
 		<div class="mb-1 flex items-baseline justify-between">
 			<span class="text-xs text-[#e0e3e5]/70">Tarifa de referencia / {unit}</span>
 		</div>
-		<p class="text-2xl font-bold text-[#22C55E] tabular-nums">{formatCurrency(mid)}</p>
+		<p class="text-2xl font-extrabold text-[#ffd200] tabular-nums">{formatCurrency(mid)}</p>
 
 		<div
 			class="mt-4"
@@ -86,7 +86,7 @@
 		>
 			<div class="relative h-1.5 rounded-full bg-white/10">
 				<div
-					class="absolute inset-y-0 right-0 left-0 rounded-full bg-gradient-to-r from-[#22C55E]/30 via-[#22C55E]/60 to-[#ffd200]/60"
+					class="absolute inset-y-0 right-0 left-0 rounded-full bg-linear-to-r from-[#1e4fc2]/50 via-[#ffd200]/60 to-[#ffd200]/90"
 				></div>
 				<span
 					class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#101415] bg-white"

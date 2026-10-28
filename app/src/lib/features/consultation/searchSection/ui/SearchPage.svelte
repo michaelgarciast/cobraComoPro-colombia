@@ -20,9 +20,9 @@
 </script>
 
 <div class="min-h-screen bg-[#101415]">
-	<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-		<SearchHeader {updatedAt} {dataInfo} />
+	<SearchHeader {updatedAt} {dataInfo} />
 
+	<div class="mx-auto max-w-7xl px-5 pb-12 sm:px-6 sm:pb-16 lg:px-8">
 		<SearchFilters
 			searchTerm={store.searchTerm}
 			selectedSector={store.selectedSector}
