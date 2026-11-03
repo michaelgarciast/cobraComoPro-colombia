@@ -20,7 +20,7 @@
 		profileReady: boolean;
 		level: ExperienceLevelOption | undefined;
 		result: CalculationBreakdown | null;
-		formulaSteps: { op: string; label: string; value: number }[];
+		formulaSteps: { op: string; label: string; hint: string; value: number }[];
 		copied: boolean;
 		onCopy: () => void;
 	} = $props();
@@ -129,6 +129,7 @@
 								<div>
 									<p class="font-mono text-[11px] text-[#ffd200]/70">{step.op}</p>
 									<p class="text-xs text-[#b7aa7a]">{step.label}</p>
+									<p class="text-[11px] leading-snug text-[#b7aa7a]/70">{step.hint}</p>
 								</div>
 								<span class="text-sm font-semibold text-[#fff2d1]">{formatCOP(step.value)}</span>
 							</div>

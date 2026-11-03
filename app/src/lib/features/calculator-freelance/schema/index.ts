@@ -8,7 +8,7 @@ export const CalculatorFormSchema = z.object({
 	monthlySalary: z.number().positive('El sueldo debe ser mayor a 0'),
 	experienceLevel: ExperienceLevelSchema.nullable(),
 	specialty: z.string().nullable(),
-	serviceType: z.string().min(1, 'El tipo de servicio es requerido').max(100),
+	serviceType: z.string().max(100),
 	durationValue: z.number().int().positive('La duración debe ser mayor a 0'),
 	durationUnit: DurationUnitSchema,
 	extraPercentage: z.number().min(0, 'El porcentaje no puede ser negativo').max(500)
