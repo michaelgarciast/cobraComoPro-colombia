@@ -40,14 +40,30 @@
 	let formulaSteps = $derived(
 		result
 			? [
-					{ op: `÷ 192`, label: 'Base/hora', value: result.hourlyBase },
-					{ op: `× 1.7`, label: 'Factor freelance', value: result.withFreelanceFactor },
+					{
+						op: `÷ 192`,
+						label: 'Base/hora',
+						hint: 'Horas laborales de un mes',
+						value: result.hourlyBase
+					},
+					{
+						op: `× 1.7`,
+						label: 'Factor freelance',
+						hint: 'Cubre prestaciones y aportes que como empleado no pagas',
+						value: result.withFreelanceFactor
+					},
 					{
 						op: `× ${level?.multiplier ?? '—'}`,
 						label: 'Nivel elegido',
+						hint: 'Ajuste por tu experiencia',
 						value: result.withExperienceFactor
 					},
-					{ op: `× 1.2`, label: 'Factor riesgo', value: result.withRiskFactor }
+					{
+						op: `× 1.2`,
+						label: 'Factor riesgo',
+						hint: 'Colchón por imprevistos y meses sin proyectos',
+						value: result.withRiskFactor
+					}
 				]
 			: []
 	);
@@ -157,6 +173,31 @@
 			<ProjectSummary {projectReady} {result} {durationLabel} {totalHours} />
 
 			{#if result}
+				<section class="rounded-2xl border border-[#ffd200]/30 bg-[#ffd200]/5 p-5 sm:p-6">
+					<p class="text-[11px] tracking-[0.2em] text-[#ffd200]/70 uppercase">
+						Para recibir {formatCOP(result.netoRecibir)} netos, cobra
+					</p>
+					<p class="font-[Montserrat] text-3xl font-bold text-[#ffd200] sm:text-4xl">
+						{formatCOP(result.totalSugerido)}
+					</p>
+					<dl class="mt-4 space-y-2 text-sm">
+						<div class="flex justify-between">
+							<dt class="text-[#e0e3e5]/70">Total del proyecto</dt>
+							<dd class="font-medium text-white">{formatCOP(result.total)}</dd>
+						</div>
+						<div class="flex justify-between">
+							<dt class="text-[#e0e3e5]/70">Retenciones del cliente (DIAN + ICA)</dt>
+							<dd class="font-medium text-[#ffb4aa]">
+								−{formatCOP(result.retenciones.totalRetenido)}
+							</dd>
+						</div>
+						<div class="flex justify-between border-t border-white/10 pt-2">
+							<dt class="font-medium text-white">Neto que recibes</dt>
+							<dd class="font-bold text-[#22C55E]">{formatCOP(result.netoRecibir)}</dd>
+						</div>
+					</dl>
+				</section>
+
 				<section class="rounded-2xl border border-white/10 bg-[#14181a]/80 p-5 sm:p-6">
 					<div class="mb-4">
 						<p class="text-[11px] tracking-[0.2em] text-[#999077]/60 uppercase">
@@ -246,7 +287,7 @@
 					<span class="font-semibold text-[#ffd200]">{formatCOP(result?.totalSugerido ?? 0)}</span>
 				</div>
 			</div>
-			<p class="/60 pt-1 text-xs leading-relaxed text-white">
+			<p class="pt-1 text-xs leading-relaxed text-white/60">
 				El cliente retiene aproximadamente el {result?.retenciones.porcentajeTotal ?? 0}% del valor
 				total (retención en la fuente + ICA). Si cobras este monto, después de las retenciones
 				recibirás el neto que esperas. De lo contrario, el dinero retenido sale de tu bolsillo.
@@ -279,7 +320,7 @@
 				<span class="font-medium text-white">Tú recibes neto</span>
 				<span class="font-bold text-white">{formatCOP(result?.netoRecibir ?? 0)}</span>
 			</div>
-			<p class="/60 pt-1 text-xs leading-relaxed text-white">
+			<p class="pt-1 text-xs leading-relaxed text-white/60">
 				El cliente retiene estos valores y los paga a la DIAN en tu nombre. Puedes descontarlos en
 				tu declaración de renta anual.
 			</p>

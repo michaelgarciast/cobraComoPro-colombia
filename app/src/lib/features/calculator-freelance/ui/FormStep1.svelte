@@ -42,6 +42,8 @@
 			: 0
 	);
 
+	let suggestedSalary = $derived(marketRef > 0 ? marketRef : (selectedSpecialty?.salaryAvg ?? 0));
+
 	let salaryDiff = $derived(
 		marketRef > 0 && $formData.monthlySalary > 0 ? $formData.monthlySalary - marketRef : 0
 	);
@@ -224,28 +226,29 @@
 			value={formatCOPInput($formData.monthlySalary)}
 			oninput={handleSalaryInput}
 		/>
+		{#if suggestedSalary > 0 && $formData.monthlySalary !== suggestedSalary}
+			<button
+				type="button"
+				onclick={() => formData.setField('monthlySalary', suggestedSalary)}
+				class="mt-2 rounded-lg border border-[#ffd200]/40 bg-[#ffd200]/10 px-3 py-1.5 text-xs font-medium text-[#ffd200] transition-colors hover:bg-[#ffd200]/20"
+			>
+				¿No lo sabes? Usar el promedio del mercado: {formatCOP(suggestedSalary)}
+			</button>
+		{/if}
 		<div class="mt-2 flex items-center justify-between gap-2 text-xs">
 			<div class="flex items-center gap-2">
-				{#if marketRef > 0}
-					<span class="text-[#999077]">Referencia mercado ({$formData.experienceLevel}):</span>
-					<span class="font-medium text-[#e0e3e5]/80">{formatCOP(marketRef)}/mes</span>
-					{#if salaryDiff !== 0 && $formData.monthlySalary > 0}
-						<span class="font-medium {salaryDiff >= 0 ? 'text-[#22C55E]' : 'text-[#ffd200]'}">
-							{salaryDiff >= 0 ? '↑' : '↓'}
-							{formatCOP(Math.abs(salaryDiff))} vs. mercado
-						</span>
-					{/if}
-				{:else}
-					<span class="text-[#999077]/60"
-						>Selecciona tu nivel para ver la referencia del mercado</span
-					>
+				{#if marketRef > 0 && salaryDiff !== 0 && $formData.monthlySalary > 0}
+					<span class="font-medium {salaryDiff >= 0 ? 'text-[#22C55E]' : 'text-[#ffd200]'}">
+						{salaryDiff >= 0 ? '↑' : '↓'}
+						{formatCOP(Math.abs(salaryDiff))} vs. mercado
+					</span>
 				{/if}
 			</div>
 			<a
 				href={resolve('/consultar')}
 				class="shrink-0 text-[#999077] underline decoration-dotted underline-offset-2 transition-colors hover:text-[#ffd200]"
 			>
-				¿No sabes tu sueldo?
+				Consultar salarios
 			</a>
 		</div>
 	</div>
@@ -307,7 +310,9 @@
 	<!-- Tipo de servicio -->
 	<div>
 		<label for="service" class="mb-2 block text-sm font-medium text-[#e0e3e5]/80">
-			Tipo de servicio <span class="text-[#ffb4aa]">*</span>
+			Tipo de servicio <span class="text-xs font-normal text-[#999077]"
+				>(opcional · aparecerá en tu cotización)</span
+			>
 		</label>
 		<div class="mb-3 flex flex-wrap gap-1.5">
 			{#each availableServiceChips as chip (chip)}

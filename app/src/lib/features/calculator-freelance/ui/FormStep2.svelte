@@ -49,11 +49,11 @@
 			id="duration"
 			type="number"
 			min="1"
-			value={$formData.durationValue}
+			value={$formData.durationValue || ''}
 			class="text-center"
 			oninput={(e) => {
-				const v = parseInt((e.target as HTMLInputElement).value) || 1;
-				formData.setField('durationValue', Math.max(1, v));
+				const v = parseInt((e.target as HTMLInputElement).value) || 0;
+				formData.setField('durationValue', Math.max(0, v));
 			}}
 		/>
 		<p class="mt-2 text-xs text-[#999077]">= {durationHint()}</p>
@@ -62,7 +62,9 @@
 	<!-- Porcentaje extra -->
 	<div>
 		<div class="mb-3 flex items-center justify-between">
-			<label for="extra" class="text-sm font-medium text-[#e0e3e5]/80">Porcentaje extra</label>
+			<label for="extra" class="text-sm font-medium text-[#e0e3e5]/80"
+				>Margen para imprevistos</label
+			>
 			<span class="text-xs text-[#999077]">imprevistos · gastos · margen</span>
 		</div>
 
@@ -83,12 +85,12 @@
 				id="extra"
 				type="number"
 				min="0"
-				max="200"
+				max="100"
 				suffix="%"
 				value={$formData.extraPercentage}
 				oninput={(e) => {
 					const v = parseInt((e.target as HTMLInputElement).value) || 0;
-					formData.setField('extraPercentage', Math.max(0, v));
+					formData.setField('extraPercentage', Math.min(100, Math.max(0, v)));
 				}}
 			/>
 		</div>
@@ -96,7 +98,7 @@
 			type="range"
 			min="0"
 			max="100"
-			value={Math.min($formData.extraPercentage, 100)}
+			value={$formData.extraPercentage}
 			oninput={(e) =>
 				formData.setField('extraPercentage', parseInt((e.target as HTMLInputElement).value))}
 			class="mt-3 w-full cursor-pointer accent-[#ffd200]"
